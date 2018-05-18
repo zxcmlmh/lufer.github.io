@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Hexo+GitHub搭建博客(五) Yilia主题优化 | Lufer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行  &amp;lt;%-tag.name%&amp;gt;    删掉/  &amp;lt;%-tag.name%">
+  <meta name="description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行1&amp;lt;a href=&amp;quot;&amp;lt;%= config.root %&amp;gt;&amp;lt">
 <meta name="keywords" content="Github,Hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo+GitHub搭建博客(五) Yilia主题优化">
 <meta property="og:url" content="http://yoursite.com/2018/05/18/Hexo-GitHub搭建博客-五-Yilia主题优化/index.html">
 <meta property="og:site_name" content="Lufer">
-<meta property="og:description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行  &amp;lt;%-tag.name%&amp;gt;    删掉/  &amp;lt;%-tag.name%">
+<meta property="og:description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行1&amp;lt;a href=&amp;quot;&amp;lt;%= config.root %&amp;gt;&amp;lt">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-18T06:57:28.920Z">
+<meta property="og:updated_time" content="2018-05-18T08:14:51.392Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+GitHub搭建博客(五) Yilia主题优化">
-<meta name="twitter:description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行  &amp;lt;%-tag.name%&amp;gt;    删掉/  &amp;lt;%-tag.name%">
+<meta name="twitter:description" content="Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。 分类目录双斜线问题当你点击一个分类目录时，URL会变成 YourSite/Categories/Category// 结尾多了一个斜线。 解决方案： 修改yilia\layout\_partial\post\category.ejs第7行1&amp;lt;a href=&amp;quot;&amp;lt;%= config.root %&amp;gt;&amp;lt">
   
     <link rel="alternative" href="/atom.xml" title="Lufer" type="application/atom+xml">
   
@@ -196,14 +196,8 @@
 <h2 id="分类目录双斜线问题"><a href="#分类目录双斜线问题" class="headerlink" title="分类目录双斜线问题"></a>分类目录双斜线问题</h2><p>当你点击一个分类目录时，URL会变成 YourSite/Categories/Category//</p>
 <p>结尾多了一个斜线。</p>
 <p>解决方案：</p>
-<p>修改yilia\layout\_partial\post\category.ejs第7行</p>
-<blockquote>
-<p><a href="<%= config.root %><%= tag.path %>/" class="article-tag-list-link color<%= tag.name.length % 5 + 1 %>">&lt;%-tag.name%&gt;</a>  </p>
-</blockquote>
-<p>删掉/</p>
-<blockquote>
-<p><a href="<%= config.root %><%= tag.path %>" class="article-tag-list-link color<%= tag.name.length % 5 + 1 %>">&lt;%-tag.name%&gt;</a></p>
-</blockquote>
+<p>修改yilia\layout\_partial\post\category.ejs第7行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%= config.root %&gt;&lt;%= tag.path %&gt;/&quot; class=&quot;article-tag-list-link color&lt;%= tag.name.length % 5 + 1 %&gt;&quot;&gt;&lt;%-tag.name%&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<p>删掉/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%= config.root %&gt;&lt;%= tag.path %&gt;&quot; class=&quot;article-tag-list-link color&lt;%= tag.name.length % 5 + 1 %&gt;&quot;&gt;&lt;%-tag.name%&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
 <h2 id="头像保存位置问题"><a href="#头像保存位置问题" class="headerlink" title="头像保存位置问题"></a>头像保存位置问题</h2><p>头像保存到theme\yilia\sorce\img下，假设为headimg.jpg</p>
 <p>然后在主题的_config.yml下修改“avatar: img/headimg.jpg”</p>
 <p>这里有一个BUG，就是在这里的头像仅能在首页显示，如果需要在所有页面均可显示，则需要修改theme\yilia\layout\_partial\left-col.ejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
@@ -345,6 +339,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/05/18/Hexo-GitHub搭建博客-六-添加评论功能/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Hexo+GitHub搭建博客(六) 添加评论功能
+        
+      </div>
+    </a>
   
   
     <a href="/2018/05/18/Hexo-GitHub搭建博客-四-WordPress迁移/" id="article-nav-older" class="article-nav-link-wrap">
