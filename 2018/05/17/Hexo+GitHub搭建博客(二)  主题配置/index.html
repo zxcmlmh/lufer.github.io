@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Lufer">
 <meta property="og:description" content="以yilia为例 有了自己的网站，怎么能不进行一下个性化呢。  目录   主题安装 主题配置  主题安装Yilia主题的Github地址为：  https://github.com/litten/hexo-theme-yilia  安装主题：  cd Testgit clone https://github.com/litten/hexo-theme-yilia.git themes/yilia">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-17T14:35:52.665Z">
+<meta property="og:updated_time" content="2018-05-18T06:49:57.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+GitHub搭建博客(二)  主题配置">
 <meta name="twitter:description" content="以yilia为例 有了自己的网站，怎么能不进行一下个性化呢。  目录   主题安装 主题配置  主题安装Yilia主题的Github地址为：  https://github.com/litten/hexo-theme-yilia  安装主题：  cd Testgit clone https://github.com/litten/hexo-theme-yilia.git themes/yilia">
@@ -68,10 +68,14 @@
 				
 				<li><a href="/archives">归档</a></li>
 				
+				<li><a href="/about">关于</a></li>
+				
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
     		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">文章列表+标签云</a>
     			
             
     			
@@ -123,6 +127,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -143,13 +149,15 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/categories">分类</a></li>
+					<li style="width: 20%"><a href="/categories">分类</a></li>
 		        
-					<li style="width: 25%"><a href="/tags">标签</a></li>
+					<li style="width: 20%"><a href="/tags">标签</a></li>
 		        
-					<li style="width: 25%"><a href="/archives">归档</a></li>
+					<li style="width: 20%"><a href="/archives">归档</a></li>
+		        
+					<li style="width: 20%"><a href="/about">关于</a></li>
 		        
 				</ul>
 			</nav>
@@ -211,12 +219,6 @@
 </blockquote>
 <p>这时我们再hexo s就可以看到启用了新主题的网站啦。</p>
 <h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><p>主题的配置主要修改themes\yilia下的_config.yml，具体修改请参考作者注释。</p>
-<p>这里说明两个地方，一个是用户头像，头像保存到theme\yilia\sorce\img下，假设为headimg.jpg</p>
-<p>然后在主题的_config.yml下修改“avatar: img/headimg.jpg”</p>
-<p>这里有一个BUG，就是在这里的头像仅能在首页显示，需要修改如下文件theme\yilia\layout\_partial\left-col.ejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<p>修改为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.root+theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-<p>主要修改img那行的src位置。</p>
 <p>这个主题有一个显示所有文章的侧边栏，这个侧边栏依靠一个新的组件，我们需要进行安装</p>
 <blockquote>
 <p>cd test<br><br>npm install hexo-generator-json-content –save</p>
@@ -380,6 +382,33 @@
 
   
   
+    <section id="comments" class="comments">
+      <style>
+        .comments{margin:30px;padding:10px;background:#fff}
+        @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+      </style>
+      <div id="vcomment" class="comment"></div>
+<script src="//cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>
+<script>
+   var notify = 'false' == true ? true : false;
+   var verify = 'false' == true ? true : false;
+   new Valine({
+            av: AV,
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            app_id: "bGxIhpXwu19VkDxgg4WrS2A4-gzGzoHsz",
+            app_key: "8Ar0k7QrwRcRDYLKoOTBOGMH",
+            placeholder: "",
+            avatar: "",
+            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            pageSize: 15
+    });
+</script>
+    </section>
+  
   
 
   
@@ -416,7 +445,7 @@
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
-		innerArchive: false,
+		innerArchive: true,
 		showTags: false
 	}
 </script>
@@ -433,6 +462,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
+      
+      
     
       
     
@@ -444,6 +475,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
+      <li style="width: 100%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">文章列表+标签云</a></li>
+      
         
       
         
@@ -452,6 +485,69 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     </ul>
   </div>
   <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            3、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: false
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
     
 
     

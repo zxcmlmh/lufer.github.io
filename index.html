@@ -63,10 +63,14 @@
 				
 				<li><a href="/archives">归档</a></li>
 				
+				<li><a href="/about">关于</a></li>
+				
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
     		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">文章列表+标签云</a>
     			
             
     			
@@ -118,6 +122,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -138,13 +144,15 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/categories">分类</a></li>
+					<li style="width: 20%"><a href="/categories">分类</a></li>
 		        
-					<li style="width: 25%"><a href="/tags">标签</a></li>
+					<li style="width: 20%"><a href="/tags">标签</a></li>
 		        
-					<li style="width: 25%"><a href="/archives">归档</a></li>
+					<li style="width: 20%"><a href="/archives">归档</a></li>
+		        
+					<li style="width: 20%"><a href="/about">关于</a></li>
 		        
 				</ul>
 			</nav>
@@ -160,6 +168,225 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Hexo-GitHub搭建博客-五-Yilia主题优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/18/Hexo-GitHub搭建博客-五-Yilia主题优化/">Hexo+GitHub搭建博客(五) Yilia主题优化</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/18/Hexo-GitHub搭建博客-五-Yilia主题优化/" class="archive-article-date">
+  	<time datetime="2018-05-18T06:44:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。</p>
+<h2 id="分类目录双斜线问题"><a href="#分类目录双斜线问题" class="headerlink" title="分类目录双斜线问题"></a>分类目录双斜线问题</h2><p>当你点击一个分类目录时，URL会变成 YourSite/Categories/Category//</p>
+<p>结尾多了一个斜线。</p>
+<p>解决方案：</p>
+<p>修改yilia\layout\_partial\post\category.ejs第7行</p>
+<blockquote>
+<p><a href="<%= config.root %><%= tag.path %>/" class="article-tag-list-link color<%= tag.name.length % 5 + 1 %>">&lt;%-tag.name%&gt;</a>  </p>
+</blockquote>
+<p>删掉/</p>
+<blockquote>
+<p><a href="<%= config.root %><%= tag.path %>" class="article-tag-list-link color<%= tag.name.length % 5 + 1 %>">&lt;%-tag.name%&gt;</a></p>
+</blockquote>
+<h2 id="头像保存位置问题"><a href="#头像保存位置问题" class="headerlink" title="头像保存位置问题"></a>头像保存位置问题</h2><p>头像保存到theme\yilia\sorce\img下，假设为headimg.jpg</p>
+<p>然后在主题的_config.yml下修改“avatar: img/headimg.jpg”</p>
+<p>这里有一个BUG，就是在这里的头像仅能在首页显示，如果需要在所有页面均可显示，则需要修改theme\yilia\layout\_partial\left-col.ejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.root+theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p>主要修改img那行的src位置。</p>
+<h2 id="目录页与标签页的建立"><a href="#目录页与标签页的建立" class="headerlink" title="目录页与标签页的建立"></a>目录页与标签页的建立</h2><p>这个主题是不带目录页和标签页的，需要我们自己实现。</p>
+<p>首先修改yilia\layout\page.ejs,把对于categories与tags的判断加上，并分别指向categories-page与tags-page两个模板。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (&apos;categories&apos; == page.type) &#123; %&gt;</span><br><span class="line">    &lt;%- partial(&apos;_partial/categories-page&apos;, &#123;post: page, index: false&#125;) %&gt;</span><br><span class="line">  &lt;% &#125; else if (&apos;tags&apos; == page.type) &#123; %&gt;</span><br><span class="line">    &lt;%- partial(&apos;_partial/tags-page&apos;, &#123;post: page, index: false&#125;) %&gt;</span><br><span class="line">  &lt;% &#125; else &#123; %&gt;</span><br><span class="line">    &lt;%- partial(&apos;_partial/article&apos;, &#123;post: page, index: false&#125;) %&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<p>随后我们建立categories-page模板页，在_partial下新建categories-page.ejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;section class=&quot;archives-wrap&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;archive-year-wrap&quot;&gt;</span><br><span class="line">    &lt;a href=&quot;#&quot; class=&quot;archive-year&quot;&gt;全部分类&lt;/a&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;archives&quot;&gt;</span><br><span class="line">    &lt;article class=&quot;archive-article archive-type-category&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;archive-article-inner&quot;&gt;</span><br><span class="line">        &lt;header class=&quot;archive-article-header&quot;&gt;</span><br><span class="line">          &lt;div class=&quot;article-info&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;article-category tagcloud&quot;&gt;</span><br><span class="line">              &lt;ul class=&quot;article-tag-list&quot;&gt;</span><br><span class="line">                &lt;% site.categories.each(function(tag, i) &#123; %&gt; </span><br><span class="line">                  &lt;li class=&quot;article-tag-list-item&quot;&gt;</span><br><span class="line">                    &lt;a href=&quot;&lt;%= config.root %&gt;&lt;%= tag.path %&gt;/&quot; class=&quot;article-tag-list-link color&lt;%= tag.name.length % 5 + 1 %&gt;&quot;&gt;&lt;%- tag.name %&gt;&lt;/a&gt;</span><br><span class="line">                  &lt;/li&gt;</span><br><span class="line">                &lt;% &#125;) %&gt;</span><br><span class="line">              &lt;/ul&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/header&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/article&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/section&gt;</span><br><span class="line">&lt;% site.categories.each(function (category) &#123; %&gt;</span><br><span class="line">  &lt;section class=&quot;archives-wrap&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;archive-year-wrap&quot;&gt;</span><br><span class="line">      &lt;a href=&quot;&lt;%- url_for(category.path) %&gt;&quot; class=&quot;archive-year&quot;&gt;&lt;%= category.name %&gt;&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;archives&quot;&gt;</span><br><span class="line">      &lt;% var i = 0 %&gt;</span><br><span class="line">      &lt;% site.posts.each(function (post) &#123; %&gt;</span><br><span class="line">        &lt;% var belong = false; %&gt;</span><br><span class="line">        &lt;% post.categories.each(function (c) &#123; %&gt;</span><br><span class="line">          &lt;% if (c.name == category.name) &#123; %&gt;</span><br><span class="line">            &lt;% belong = true; %&gt;</span><br><span class="line">          &lt;% &#125; %&gt;</span><br><span class="line">        &lt;% &#125;) %&gt;</span><br><span class="line">        &lt;% if (belong) &#123; %&gt;</span><br><span class="line">          &lt;% i = i+1 %&gt;</span><br><span class="line">          &lt;%- partial(&apos;_partial/archive-post&apos;, &#123;post: post, even: i % 2 == 0, index: true&#125;) %&gt;</span><br><span class="line">        &lt;% &#125; %&gt;</span><br><span class="line">      &lt;% &#125;) %&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">&lt;% &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+<p>同理建立tags-page.ejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;section class=&quot;archives-wrap&quot;&gt;</span><br><span class="line">	&lt;div class=&quot;archive-year-wrap&quot;&gt;</span><br><span class="line">	  &lt;a href=&quot;#&quot; class=&quot;archive-year&quot;&gt;全部标签&lt;/a&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">	&lt;div class=&quot;archives&quot;&gt;</span><br><span class="line">	  &lt;article class=&quot;archive-article archive-type-category&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;archive-article-inner&quot;&gt;</span><br><span class="line">		  &lt;header class=&quot;archive-article-header&quot;&gt;</span><br><span class="line">			&lt;div class=&quot;article-info&quot;&gt;</span><br><span class="line">			  &lt;div class=&quot;article-category tagcloud&quot;&gt;</span><br><span class="line">				&lt;ul class=&quot;article-tag-list&quot;&gt;</span><br><span class="line">				  &lt;% site.tags.each(function(tag, i) &#123; %&gt; </span><br><span class="line">					&lt;li class=&quot;article-tag-list-item&quot;&gt;</span><br><span class="line">					  &lt;a href=&quot;&lt;%= config.root %&gt;&lt;%= tag.path %&gt;/&quot; class=&quot;article-tag-list-link color&lt;%= tag.name.length % 5 + 1 %&gt;&quot;&gt;&lt;%- tag.name %&gt;&lt;/a&gt;</span><br><span class="line">					&lt;/li&gt;</span><br><span class="line">				  &lt;% &#125;) %&gt;</span><br><span class="line">				&lt;/ul&gt;</span><br><span class="line">			  &lt;/div&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		  &lt;/header&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	  &lt;/article&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">  &lt;% site.tags.each(function (tag) &#123; %&gt;</span><br><span class="line">	&lt;section class=&quot;archives-wrap&quot;&gt;</span><br><span class="line">	  &lt;div class=&quot;archive-year-wrap&quot;&gt;</span><br><span class="line">		&lt;a href=&quot;&lt;%- url_for(tag.path) %&gt;&quot; class=&quot;archive-year&quot;&gt;&lt;%= tag.name %&gt;&lt;/a&gt;</span><br><span class="line">	  &lt;/div&gt;</span><br><span class="line">	  &lt;div class=&quot;archives&quot;&gt;</span><br><span class="line">		&lt;% var i = 0 %&gt;</span><br><span class="line">		&lt;% site.posts.each(function (post) &#123; %&gt;</span><br><span class="line">		  &lt;% var belong = false; %&gt;</span><br><span class="line">		  &lt;% post.tags.each(function (c) &#123; %&gt;</span><br><span class="line">			&lt;% if (c.name == tag.name) &#123; %&gt;</span><br><span class="line">			  &lt;% belong = true; %&gt;</span><br><span class="line">			&lt;% &#125; %&gt;</span><br><span class="line">		  &lt;% &#125;) %&gt;</span><br><span class="line">		  &lt;% if (belong) &#123; %&gt;</span><br><span class="line">			&lt;% i = i+1 %&gt;</span><br><span class="line">			&lt;%- partial(&apos;_partial/archive-post&apos;, &#123;post: post, even: i % 2 == 0, index: true&#125;) %&gt;</span><br><span class="line">		  &lt;% &#125; %&gt;</span><br><span class="line">		&lt;% &#125;) %&gt;</span><br><span class="line">	  &lt;/div&gt;</span><br><span class="line">	&lt;/section&gt;</span><br><span class="line">  &lt;% &#125;) %&gt;</span><br></pre></td></tr></table></figure></p>
+<p>新建categories和tags页面</p>
+<blockquote>
+<p>hexo new page categories<br>hexo new page tags</p>
+</blockquote>
+<p>修改page head</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">index.md:</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2018-05-18 00:50:24</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>同理修改tags不细说。</p>
+<p>修改yilia_config.yml,Menu中加上两个页面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">分类: /categories</span><br><span class="line">标签: /tags</span><br></pre></td></tr></table></figure></p>
+<p>至此完成两个页面的建立。</p>
+<p>不过对于标签页，有自建的smart-menu，支持标签云的检索。</p>
+<p>对于目录页，已经有很多Issue，作者表示将来会加上，只是还没想好做成什么样子而已。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Github</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Github/" class="article-tag-list-link color2">Github</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/18/Hexo-GitHub搭建博客-五-Yilia主题优化/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Hexo-GitHub搭建博客-四-WordPress迁移" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/18/Hexo-GitHub搭建博客-四-WordPress迁移/">Hexo+GitHub搭建博客(四) WordPress迁移</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/18/Hexo-GitHub搭建博客-四-WordPress迁移/" class="archive-article-date">
+  	<time datetime="2018-05-18T06:36:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="WordPress导出"><a href="#WordPress导出" class="headerlink" title="WordPress导出"></a>WordPress导出</h2><blockquote>
+<p>WordPress 仪表盘-&gt;工具-&gt;导出-&gt;所有内容</p>
+</blockquote>
+<p>会导出一个xml文件，假设保存在D:\1.xml</p>
+<h2 id="Hexo导入"><a href="#Hexo导入" class="headerlink" title="Hexo导入"></a>Hexo导入</h2><blockquote>
+<p>npm install hexo-migrator-wordpress –save<br>hexo migrate wordpress D:\1.xml</p>
+</blockquote>
+<p>大功告成</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Github</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Github/" class="article-tag-list-link color2">Github</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/18/Hexo-GitHub搭建博客-四-WordPress迁移/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-Hexo+GitHub搭建博客(三) 文章的撰写与发布" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -333,12 +560,6 @@
 </blockquote>
 <p>这时我们再hexo s就可以看到启用了新主题的网站啦。</p>
 <h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><p>主题的配置主要修改themes\yilia下的_config.yml，具体修改请参考作者注释。</p>
-<p>这里说明两个地方，一个是用户头像，头像保存到theme\yilia\sorce\img下，假设为headimg.jpg</p>
-<p>然后在主题的_config.yml下修改“avatar: img/headimg.jpg”</p>
-<p>这里有一个BUG，就是在这里的头像仅能在首页显示，需要修改如下文件theme\yilia\layout\_partial\left-col.ejs<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<p>修改为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&lt;%=theme.root%&gt;&quot; class=&quot;profilepic&quot;&gt;</span><br><span class="line">	&lt;img src=&quot;&lt;%=theme.root+theme.avatar%&gt;&quot; class=&quot;js-avatar&quot;&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-<p>主要修改img那行的src位置。</p>
 <p>这个主题有一个显示所有文章的侧边栏，这个侧边栏依靠一个新的组件，我们需要进行安装</p>
 <blockquote>
 <p>cd test<br><br>npm install hexo-generator-json-content –save</p>
@@ -974,160 +1195,6 @@
 
 
   
-    <article id="post-e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-b8-89-ef-bc-89-e9-80-9a-e8-bf-87filter-e5-ae-9e-e7-8e-b0-e7-99-bb-e5-bd-95-e9-aa-8c-e8-af-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-b8-89-ef-bc-89-e9-80-9a-e8-bf-87filter-e5-ae-9e-e7-8e-b0-e7-99-bb-e5-bd-95-e9-aa-8c-e8-af-81/">从零开始的JavaWeb（三）通过Filter实现登录验证</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-b8-89-ef-bc-89-e9-80-9a-e8-bf-87filter-e5-ae-9e-e7-8e-b0-e7-99-bb-e5-bd-95-e9-aa-8c-e8-af-81/" class="archive-article-date">
-  	<time datetime="2018-04-20T15:55:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通过Filter验证缓存的session，从而验证当前用户的登录状态。 web.xml中对Filter进行注册<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Filter名字与Class文件映射</span></span><br><span class="line">  loginFilter</span><br><span class="line">  pcadmin.LoginFilter </span><br><span class="line"><span class="comment">//Filter名字与所管辖的网址进行映射</span></span><br><span class="line">  loginFilter</span><br><span class="line">  *</span><br></pre></td></tr></table></figure></p>
-<p>写入session可通过如下操作进行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Sevlet中的request是HTTPRequest，直接可以getSession()</span></span><br><span class="line">HttpSession session=request.getSession();</span><br><span class="line"><span class="comment">//设置session的Key,Value</span></span><br><span class="line">session.setAttribute(<span class="string">"Username"</span>, username);</span><br></pre></td></tr></table></figure></p>
-<p>Filter代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Filter中的是SevletRequest，需要先转换为HttpServletRequest才有getSession方法</span></span><br><span class="line">HttpServletRequest httpRequest=(HttpServletRequest)request;</span><br><span class="line">HttpServletResponse httpResponse=(HttpServletResponse)response;</span><br><span class="line">HttpSession session=httpRequest.getSession();</span><br><span class="line"><span class="comment">//获取当前想要请求的url，getRequestURI可以删掉ip域名，仅获取后面的网址，用getRequestURL可获取全部网址</span></span><br><span class="line">String a=httpRequest.getRequestURI();</span><br><span class="line"><span class="comment">//仅拦截html网页请求，这样可以避免拦截js和css等资源文件</span></span><br><span class="line"><span class="keyword">if</span>(a.contains(<span class="string">".html"</span>))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//session不为空，或者本身就要访问login页面，则按原请求放行</span></span><br><span class="line">	<span class="keyword">if</span>(session.getAttribute(<span class="string">"Username"</span>)!=<span class="keyword">null</span>||a.contains(<span class="string">"login.html"</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		chain.doFilter(request, response);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	<span class="comment">//将客户端重定向到login页面</span></span><br><span class="line">	&#123;</span><br><span class="line">		 httpResponse.sendRedirect(httpRequest.getContextPath()+<span class="string">"/pc/login.html"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="comment">//其他请求放行</span></span><br><span class="line">	chain.doFilter(request, response);</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/JavaWeb/" class="article-tag-list-link color3">JavaWeb</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-b8-89-ef-bc-89-e9-80-9a-e8-bf-87filter-e5-ae-9e-e7-8e-b0-e7-99-bb-e5-bd-95-e9-aa-8c-e8-af-81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-ba-8c-ef-bc-89-e8-bf-9e-e6-8e-a5sql-e6-95-b0-e6-8d-ae-e5-ba-93" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-ba-8c-ef-bc-89-e8-bf-9e-e6-8e-a5sql-e6-95-b0-e6-8d-ae-e5-ba-93/">从零开始的JavaWeb（二）连接SQL数据库</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-ba-8c-ef-bc-89-e8-bf-9e-e6-8e-a5sql-e6-95-b0-e6-8d-ae-e5-ba-93/" class="archive-article-date">
-  	<time datetime="2018-04-20T15:45:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、引入sql的jar包</p>
-<blockquote>
-<p>mysql-connector-java-5.1.45-bin.jar</p>
-</blockquote>
-<p>2、建立连接,注意此处需要catch异常</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Connection connection = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        <span class="comment">//设置SQL的地址和数据库名</span></span><br><span class="line">        String url = <span class="string">"jdbc:mysql://127.0.0.1/DataBaseName"</span>;</span><br><span class="line">        <span class="comment">//设置登录用户名的账号和密码</span></span><br><span class="line">        connection = DriverManager.getConnection(url, <span class="string">"Username"</span>, <span class="string">"Password"</span>);</span><br><span class="line">        <span class="comment">//字符串写SQL语句</span></span><br><span class="line">        String sql=<span class="string">"SQL Sentences"</span>;</span><br><span class="line">        PreparedStatement preparedStatement = connection.prepareStatement(sql);</span><br><span class="line">        <span class="comment">//preparedStatment有两种方法</span></span><br><span class="line">        <span class="comment">//executeUpdate执行Insert和Update操作，返回int型数据，为受影响的行数</span></span><br><span class="line">        <span class="comment">//executeQuery执行各种查询操作，返回ResultSet</span></span><br><span class="line">        <span class="keyword">int</span> re = preparedStatement.executeUpdate();</span><br><span class="line">        <span class="comment">//SELECT LAST\_INSERT\_ID() 可以获取本次连接最后插入的新行的ID</span></span><br><span class="line">        preparedStatement = connection.prepareStatement(<span class="string">"SELECT LAST\_INSERT\_ID()"</span>);</span><br><span class="line">        ResultSet re2 = preparedStatement.executeQuery();</span><br><span class="line">        <span class="comment">//通过ResultSet.next()方法取下一行</span></span><br><span class="line">        <span class="keyword">while</span>(re2.next())&#123;</span><br><span class="line">        <span class="comment">//ResultSet有getString,getInt等方法，根据需要的返回值而定，传参可以是字符串，用于按列名查找，也可以是整数，用于按序号查找</span></span><br><span class="line">        String quizid=re2.getString(<span class="string">"LAST\_INSERT\_ID()"</span>);</span><br><span class="line">        <span class="comment">//关闭连接，否则在大量查询时会被服务器拒绝</span></span><br><span class="line">        connection.close();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(ClassNotFoundException e) &#123;</span><br><span class="line">        System.out.println(<span class="string">"Sorry,can`t find the Driver!"</span>);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        <span class="comment">//数据库连接失败异常处理</span></span><br><span class="line">        e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">        e.printStackTrace();</span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Operation Finished"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/JavaWeb/" class="article-tag-list-link color3">JavaWeb</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/20/e4-bb-8e-e9-9b-b6-e5-bc-80-e5-a7-8b-e7-9a-84javaweb-ef-bc-88-e4-ba-8c-ef-bc-89-e8-bf-9e-e6-8e-a5sql-e6-95-b0-e6-8d-ae-e5-ba-93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1162,7 +1229,7 @@
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
-		innerArchive: false,
+		innerArchive: true,
 		showTags: false
 	}
 </script>
@@ -1179,6 +1246,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
+      
+      
     
       
     
@@ -1190,6 +1259,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
+      <li style="width: 100%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">文章列表+标签云</a></li>
+      
         
       
         
@@ -1198,6 +1269,69 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     </ul>
   </div>
   <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Github</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            3、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: false
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
     
 
     
