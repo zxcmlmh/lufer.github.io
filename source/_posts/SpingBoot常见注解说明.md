@@ -1,7 +1,7 @@
 ---
 title: SpingBoot常见注解说明
 date: 2018-06-07 18:59:30
-Category: Java
+categories: Java
 tags: [Spring Boot,Java]
 toc: true
 ---

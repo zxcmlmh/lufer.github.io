@@ -1,7 +1,7 @@
 ---
 title: Spring Boot自定义异常处理与返回状态
 date: 2018-06-07 18:54:42
-category: Java
+categories: Java
 tags: [Spring Boot,Java]
 ---
 本文目的：集成Spring Boot的异常处理类，进行自定义的全局异常处理，并自定义返回的HTTP状态码。
