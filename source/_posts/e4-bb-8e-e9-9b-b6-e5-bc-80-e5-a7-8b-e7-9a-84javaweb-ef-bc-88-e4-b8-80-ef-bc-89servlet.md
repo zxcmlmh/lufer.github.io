@@ -3,9 +3,9 @@ title: 从零开始的JavaWeb（一）Servlet
 url: 623.html
 id: 623
 categories:
-  - JavaWeb
+  - Code
 date: 2018-04-20 23:34:52
-tags:
+tags: [JavaWeb]
 ---
 
 1、从请求中获取参数

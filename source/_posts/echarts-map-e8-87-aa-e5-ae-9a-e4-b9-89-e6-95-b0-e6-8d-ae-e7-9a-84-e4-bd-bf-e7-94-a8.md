@@ -3,9 +3,9 @@ title: Echarts Map 自定义数据的使用
 url: 609.html
 id: 609
 categories:
-  - 前端
+  - Code
 date: 2018-01-23 19:27:44
-tags:
+tags: [Echarts,前端]
 ---
 
 1、Map中坐标点带自定义数据 在坐标点后添加任意数据，构造形如

@@ -3,10 +3,9 @@ title: Android四大组件----Activity的生命周期
 url: 87.html
 id: 87
 categories:
-  - Android
   - Code
 date: 2016-03-30 15:25:03
-tags:
+tags: [Android]
 ---
 
  

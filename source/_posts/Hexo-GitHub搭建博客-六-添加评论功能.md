@@ -2,7 +2,7 @@
 title: Hexo+GitHub搭建博客(六) 添加评论功能
 date: 2018-05-18 16:14:56
 tags: [Github,Hexo]
-category: Github
+categories: Github
 ---
 
 使用Valine作为评论插件

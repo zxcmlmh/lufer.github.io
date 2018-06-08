@@ -3,10 +3,9 @@ title: Activity的基本使用
 url: 92.html
 id: 92
 categories:
-  - Android
   - Code
 date: 2016-03-30 16:10:38
-tags:
+tags: [Android]
 ---
 
 1.Activity布局的绑定。
