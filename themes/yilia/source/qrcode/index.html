@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>识别二维码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<body>
+		<div>
+			<div>
+				用法说明：
+				<p>1. 点击“参与考勤”</br>2. 进入二维码页面，截一张图</br>3. 在网页上上传你的二维码截图，生成分享链接</br>4. 复制你的分享链接，发给你在教室的朋友</br>5. 你的朋友打开链接，页面上会有你的二维码，让签过到的其他人扫这个二维码，你就可以完成签到</br><font color="red">如果遇到传了图片没链接的情况，请刷新页面并等待页面加载完成后再试</font></p>
+			</div>
+			<div>
+				<h3><font color="green">点击上传二维码</font></h3>
+				<div>
+					<form>
+						<input type="file" onChange="getUrl(this,'file-url')" name="" id="file" value="" />
+					</form>
+				</div>
+			</div>
+			<!--解析二维码-->
+			<h3><font color="red">生成的伪造二维码</font></h3>
+			<span id="sharelink"></span>
+			<button onclick="copy()">请手动复制分享链接</button>
+			<div class="box">
+				<div id="code"></div>
+			</div>
+
+		</div>
+		<script src="js/llqrcode.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/analyticCode.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var link="coder.lufer.cc/qrcode/index.html";
+			$(document).ready(function(){
+				var reg = new RegExp("(^|&)p1=([^&]*)(&|$)", "i");  
+				var r = window.location.search.substr(1).match(reg);
+				var para1=r[2];
+				var reg = new RegExp("(^|&)p2=([^&]*)(&|$)", "i");  
+				var r = window.location.search.substr(1).match(reg);
+				var para2=r[2];
+				if(para1!=null&&para2!=null)
+						createqrcode(para1,para2);	
+			});
+			function getUrl(e,param){
+				analyticCode.getUrl(param,e,function(url1,url2){
+					var str=url1.split("&");
+					createqrcode(str[0],str[1]);
+				});
+			}
+			function createqrcode(para1,para2)
+			{
+				link=link+"?p1="+para1+"&p2="+para2;
+				document.getElementById('sharelink').innerHTML = link;
+				window.setInterval(function(){
+						var time=Math.round(new Date().getTime());
+						var code=para1+"&"+para2+"&"+time;
+						var d=document.getElementById('code');
+						d.innerHTML="";
+						new QRCode(d, code);
+					},1000);
+			}
+			function copy()
+			{
+				var Url2=document.getElementById("sharelink");
+				Url2.select(); // 选择对象
+				document.execCommand("Copy"); // 执行浏览器复制命令
+				alert("复制成功!");
+			}
+		</script>
+	</body>
+</html>
