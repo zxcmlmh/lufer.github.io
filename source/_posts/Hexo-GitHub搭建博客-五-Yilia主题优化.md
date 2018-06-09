@@ -2,7 +2,7 @@
 title: Hexo+GitHub搭建博客(五) Yilia主题优化
 date: 2018-05-18 14:44:14
 tags: [Github,Hexo]
-categories: Github
+categories: Code
 ---
 
 Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的地方。

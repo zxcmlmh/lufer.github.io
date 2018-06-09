@@ -1,7 +1,7 @@
 ---
 title: Hexo+GitHub搭建博客(四) WordPress迁移
 date: 2018-05-18 14:36:57
-categories: Github
+categories: Code
 tags: [Github,Hexo]
 ---
 ## WordPress导出

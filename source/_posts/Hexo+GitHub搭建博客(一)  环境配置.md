@@ -1,7 +1,7 @@
 ---
 title: Hexo+GitHub搭建博客(一)  环境配置
 date: 2018-05-17 20:16:36
-categories: Github
+categories: Code
 tags: [Github,Hexo]
 ---
 
