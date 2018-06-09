@@ -20,21 +20,26 @@
 				</div>
 			</div>
 			<!--解析二维码-->
-			<h3><font color="red">分享链接</font></h3>
-			<span id="sharelink"></span>
-			<button onclick="copy()">请手动复制分享链接</button>
-			<h3><font color="red">生成的伪造二维码</font></h3>
+			<h3><font color="red">分享链接，发给在教室的战友！</font></h3>
+			<input id="sharelink" type="text" value="">
+			<button class="btn" data-clipboard-action="copy" data-clipboard-target="#sharelink">点击复制</button>
+			<h3><font color="red">扫描下方二维码完成签到！</font></h3>
 			<div class="box">
 				<div id="code"></div>
 			</div>
-
+			
 		</div>
+		<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 		<script src="js/llqrcode.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/analyticCode.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var link="coder.lufer.cc/qrcode/index.html";
+			var clipboard=new ClipboardJS('.btn');
+			clipboard.on('success', function(e) {
+				alert("已复制到剪贴板");
+			});
 			$(document).ready(function(){
 				var reg = new RegExp("(^|&)p1=([^&]*)(&|$)", "i");  
 				var r = window.location.search.substr(1).match(reg);
@@ -44,6 +49,7 @@
 				var para2=r[2];
 				if(para1!=null&&para2!=null)
 						createqrcode(para1,para2);	
+				
 			});
 			function getUrl(e,param){
 				analyticCode.getUrl(param,e,function(url1,url2){
@@ -54,7 +60,7 @@
 			function createqrcode(para1,para2)
 			{
 				link=link+"?p1="+para1+"&p2="+para2;
-				document.getElementById('sharelink').innerHTML = link;
+				$("#sharelink").val(link);
 				window.setInterval(function(){
 						var time=Math.round(new Date().getTime());
 						var code=para1+"&"+para2+"&"+time;
