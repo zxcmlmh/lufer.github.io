@@ -1,0 +1,10 @@
+[bakup 67751024] backup
+ 9 files changed, 377 insertions(+), 4 deletions(-)
+ create mode 100644 deploy.txt
+ create mode 100644 gitadd.txt
+ create mode 100644 gitcommit.txt
+ create mode 100644 gitpush.txt
+ create mode 100644 log.txt
+ create mode 100644 push.php
+ create mode 100644 source/_posts/tes1.md
+ create mode 100644 source/_posts/test2.md
