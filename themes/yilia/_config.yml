@@ -69,7 +69,7 @@ top: true
 # Miscellaneous
 baidu_analytics: ''
 google_analytics: ''
-favicon: /favicon.png
+favicon: img/Lufer.png
 
 #你的头像url
 avatar: img/headimg.jpg
@@ -130,9 +130,9 @@ slider:
 #smart_menu:
 #  friends: false
 smart_menu:
-  innerArchive: "文章列表+标签云"
+  innerArchive: "所有文章"
   friends: false
-  aboutme: false
+  aboutme: "关于"
 
 friends:
   友情链接1: http://localhost:4000/
@@ -142,4 +142,4 @@ friends:
   友情链接5: http://localhost:4000/
   友情链接6: http://localhost:4000/
 
-aboutme: 很惭愧<br><br>只做了一点微小的工作<br>谢谢大家
+aboutme: 每个人都生而平凡<br><br>但每个人都可以成就伟大
