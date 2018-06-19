@@ -30,7 +30,9 @@ Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的
 
 然后在主题的_config.yml下修改“avatar: img/headimg.jpg”
 
-这里有一个BUG，就是在这里的头像仅能在首页显示，如果需要在所有页面均可显示，则需要修改theme\yilia\layout\\_partial\left-col.ejs
+这里有一个BUG，就是在这里的头像仅能在首页显示，如果需要在所有页面均可显示，则需要进行修改
+
+PC端修改 theme\yilia\layout\\_partial\left-col.ejs
 ```
 <a href="<%=theme.root%>" class="profilepic">
 	<img src="<%=theme.avatar%>" class="js-avatar">
@@ -44,6 +46,21 @@ Yilia主题还是挺漂亮的，但是还是有一些小BUG或者需要改进的
 </a>
 ```
 主要修改img那行的src位置。
+
+移动端头像需要修改theme\yilia\layout\\_partial\mobile-nav.ejs，9-11行
+```
+			<div class="profilepic">
+				<img src="<%=theme.avatar%>" class="js-avatar">
+			</div>
+```
+修改为
+
+```
+			<div class="profilepic">
+				<img src="<%=theme.root+theme.avatar%>" class="js-avatar">
+			</div>
+```
+
 
 ## 目录页与标签页的建立
 
