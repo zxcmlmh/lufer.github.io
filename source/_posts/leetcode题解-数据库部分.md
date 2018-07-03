@@ -41,6 +41,91 @@ FROM person
 LEFT JOIN address
 ON person.PersonId = address.PersonId
 ```
+# 176. 第二高的薪水
+## 题目
+编写一个 SQL 查询，获取 `Employee` 表中第二高的薪水（Salary） 。
+```
++----+--------+
+| Id | Salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+```
+例如上述 `Employee` 表，SQL查询应该返回 `200` 作为第二高的薪水。如果不存在第二高的薪水，那么查询应返回 null。
+```
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+```
+## 题解
+把薪水按从大到小排序，然后偏移1个取第一个，如果没有就返回空（IFNULL）  
+还要把salary groupby一下来去重
+```sql
+Select IFNULL((SELECT Salary FROM Employee group by Salary order by Salary desc limit 1 offset 1),null) as SecondHighestSalary
+```
+# 177. 第N高的薪水
+## 题目
+编写一个 SQL 查询，获取 `Employee` 表中第 n 高的薪水（Salary）。
+
++----+--------+
+| Id | Salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+
+例如上述 `Employee` 表，n = 2 时，应返回第二高的薪水 `200`。如果不存在第 n 高的薪水，那么查询应返回 `null`。
+
++------------------------+
+| getNthHighestSalary(2) |
++------------------------+
+| 200                    |
++------------------------+
+## 题解
+第N高只需要偏移量设定为N-1即可，定义变量m=N-1进行计算
+```sql
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+declare m int;
+set m=N-1;
+  RETURN (
+      # Write your MySQL query statement below.
+      Select IFNULL((SELECT Salary FROM Employee group by Salary order by Salary desc limit 1 offset m),null)
+  );
+END
+```
+
+# 181. 超过经理收入的员工
+## 题目
+`Employee` 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。
+```
++----+-------+--------+-----------+
+| Id | Name  | Salary | ManagerId |
++----+-------+--------+-----------+
+| 1  | Joe   | 70000  | 3         |
+| 2  | Henry | 80000  | 4         |
+| 3  | Sam   | 60000  | NULL      |
+| 4  | Max   | 90000  | NULL      |
++----+-------+--------+-----------+
+```
+给定 `Employee` 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。
+```
++----------+
+| Employee |
++----------+
+| Joe      |
++----------+
+```
+## 题解
+把Employee表查询两次互相对比，把ID和managerID对应之后比较salary即可
+```sql
+SELECT A.name as Employee FROM employee as A,employee as B where A.ManagerID=B.Id and A.Salary>B.Salary
+```
 
 # 182. 查找重复的电子邮箱
 ## 题目
@@ -71,6 +156,75 @@ ON person.PersonId = address.PersonId
 SELECT Email FROM (select count(*) as count2,Email from Person group by Email) a where count2>1
 ```
 
+
+# 183. 从不订购的客户
+## 题目
+某网站包含两个表，`Customers` 表和 `Orders` 表。编写一个 SQL 查询，找出所有从不订购任何东西的客户。
+
+`Customers` 表：
+```
++----+-------+
+| Id | Name  |
++----+-------+
+| 1  | Joe   |
+| 2  | Henry |
+| 3  | Sam   |
+| 4  | Max   |
++----+-------+
+```
+`Orders` 表：
+```
++----+------------+
+| Id | CustomerId |
++----+------------+
+| 1  | 3          |
+| 2  | 1          |
++----+------------+
+```
+例如给定上述表格，你的查询应返回：
+```
++-----------+
+| Customers |
++-----------+
+| Henry     |
+| Max       |
++-----------+
+```
+## 题解
+直接NOT IN
+```sql
+select name as Customers from Customers where Customers.id NOT IN(select CustomerId from Orders)
+```
+
+# 196. 删除重复的电子邮箱
+## 题目
+编写一个 SQL 查询，来删除 `Person` 表中所有重复的电子邮箱，重复的邮箱里只保留 Id 最小 的那个。
+```
++----+------------------+
+| Id | Email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
+| 3  | john@example.com |
++----+------------------+
+Id 是这个表的主键。
+```
+例如，在运行你的查询语句之后，上面的 `Person` 表应返回以下几行:
+```
++----+------------------+
+| Id | Email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
++----+------------------+
+```
+## 题解
+先把email groupby来获得重复数量和最小ID，然后找数量大于1并且Not IN最小ID列表的全部删除
+```sql
+delete from person where
+Email in (select distinct Email from ( select Email from person group by Email having count(Email)>1) a)
+and Id not in ( select Id from (select min(Id) as Id from person group by Email having count(Email)>1 ) b) 
+```
 # 197. 上升的温度
 ## 题目
 给定一个 `Weather` 表，编写一个 SQL 查询，来查找与之前（昨天的）日期相比温度更高的所有日期的 Id。
@@ -208,6 +362,58 @@ SELECT class FROM (select count(*) as count2,class from (select distinct student
 ```sql
 select * from cinema where description<>'boring' and id%2=1 order by rating DESC
 ```
+# 626. 换座位
+## 题目
+小美是一所中学的信息科技老师，她有一张 `seat` 座位表，平时用来储存学生名字和与他们相对应的座位 id。
+
+其中纵列的 id 是连续递增的
+
+小美想改变相邻俩学生的座位。
+
+你能不能帮她写一个 SQL query 来输出小美想要的结果呢？
+
+示例：
+```
++---------+---------+
+|    id   | student |
++---------+---------+
+|    1    | Abbot   |
+|    2    | Doris   |
+|    3    | Emerson |
+|    4    | Green   |
+|    5    | Jeames  |
++---------+---------+
+```
+假如数据输入的是上表，则输出结果如下：
+```
++---------+---------+
+|    id   | student |
++---------+---------+
+|    1    | Doris   |
+|    2    | Abbot   |
+|    3    | Green   |
+|    4    | Emerson |
+|    5    | Jeames  |
++---------+---------+
+```
+注意：
+
+如果学生人数是奇数，则不需要改变最后一个同学的座位。
+
+## 题解
+我一开始写了个update，然后没输出，update之后select，直接报错，这玩意只能一句query来实现。
+
+三步走，奇数换偶数名字，偶数换奇数名字，多一个的话直接输出，最后排个序即可。
+```sql
+select * from 
+(
+select A.id,B.student from seat as A,seat as B where B.id%2=0 and A.id=B.id-1 and B.id>1
+union
+select B.id,A.student from seat as A,seat as B where B.id%2=0 and A.id=B.id-1 and B.id>1
+union
+select id,student from seat where id%2=1 and id=(select max(id) from seat)
+) b order by id
+``` 
 
 # 627. 交换工资
 ## 题目
