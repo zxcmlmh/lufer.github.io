@@ -3,7 +3,7 @@ title: Linux SS IPV4+IPV6 配置
 url: 469.html
 id: 469
 categories:
-  - Code
+  - Others
 date: 2017-05-31 18:59:48
 tags: [ShadowSocks]
 ---

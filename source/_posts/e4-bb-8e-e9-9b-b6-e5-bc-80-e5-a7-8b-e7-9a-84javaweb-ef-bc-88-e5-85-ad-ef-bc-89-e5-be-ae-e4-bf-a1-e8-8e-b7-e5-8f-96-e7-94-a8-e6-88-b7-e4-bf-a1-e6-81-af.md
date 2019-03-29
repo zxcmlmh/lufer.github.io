@@ -3,7 +3,7 @@ title: 从零开始的JavaWeb（六）微信获取用户信息
 url: 641.html
 id: 641
 categories:
-  - Code
+  - Java
 date: 2018-04-28 22:28:53
 tags: [JavaWeb]
 ---

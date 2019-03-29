@@ -3,7 +3,7 @@ title: C++大作业，异质树的实现
 url: 586.html
 id: 586
 categories:
-  - Code
+  - C++
 date: 2017-12-28 00:59:25
 tags: [C++]
 ---

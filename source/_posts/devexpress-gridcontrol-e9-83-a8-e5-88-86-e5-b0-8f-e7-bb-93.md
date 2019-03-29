@@ -3,7 +3,7 @@ title: DevExpress GridControl部分小结
 url: 412.html
 id: 412
 categories:
-  - Code
+  - C#
 date: 2017-02-05 10:30:47
 tags: [C#]
 ---

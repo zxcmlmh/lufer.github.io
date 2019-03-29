@@ -1,7 +1,7 @@
 ---
 title: Hexo+GitHub搭建博客(三) 文章的撰写与发布
 date: 2018-05-17 22:50:36
-categories: Code
+categories: 前端
 tags: [Github,Hexo]
 ---
 

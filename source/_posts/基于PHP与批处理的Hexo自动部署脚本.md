@@ -1,7 +1,7 @@
 ---
 title: 基于PHP与批处理的Hexo自动部署脚本
 date: 2018-06-13 16:23:05
-categories: Code
+categories: PHP
 tags: [PHP,Bat]
 ---
 # 创建文件

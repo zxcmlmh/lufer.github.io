@@ -1,6 +1,7 @@
 ---
 title: Linux下CSGO KZ服务器手动架设指南
 date: 2018-06-18 13:58:40
+categories: Game
 tags:
 ---
 # 前言

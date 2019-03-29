@@ -3,7 +3,7 @@ title: Android中的HTTP通信
 url: 96.html
 id: 96
 categories:
-  - Code
+  - Android
 date: 2016-03-30 16:25:51
 tags: [Android]
 ---

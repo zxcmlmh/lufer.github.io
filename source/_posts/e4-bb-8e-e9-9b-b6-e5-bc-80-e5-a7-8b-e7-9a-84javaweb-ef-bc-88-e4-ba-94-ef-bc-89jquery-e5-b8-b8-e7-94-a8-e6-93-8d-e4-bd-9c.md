@@ -3,7 +3,7 @@ title: 从零开始的JavaWeb（五）JQuery常用操作
 url: 639.html
 id: 639
 categories:
-  - Code
+  - Java
 date: 2018-04-28 22:23:35
 tags: [JavaWeb]
 ---
