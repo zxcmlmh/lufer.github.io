@@ -3,7 +3,7 @@ title: 从零开始的JavaWeb（一）Servlet
 url: 623.html
 id: 623
 categories:
-  - Code
+  - Java
 date: 2018-04-20 23:34:52
 tags: [JavaWeb]
 ---

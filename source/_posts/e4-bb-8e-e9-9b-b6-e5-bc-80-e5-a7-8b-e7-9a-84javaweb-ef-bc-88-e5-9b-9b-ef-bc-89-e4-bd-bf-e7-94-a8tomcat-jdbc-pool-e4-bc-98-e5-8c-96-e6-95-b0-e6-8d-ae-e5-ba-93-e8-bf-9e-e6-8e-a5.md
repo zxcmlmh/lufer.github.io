@@ -3,7 +3,7 @@ title: 从零开始的JavaWeb（四）使用Tomcat JDBC pool优化数据库连�
 url: 637.html
 id: 637
 categories:
-  - Code
+  - Java
 date: 2018-04-28 21:58:42
 tags: [JavaWeb]
 ---

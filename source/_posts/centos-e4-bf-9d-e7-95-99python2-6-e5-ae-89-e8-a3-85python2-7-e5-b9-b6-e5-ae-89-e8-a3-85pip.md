@@ -3,7 +3,7 @@ title: CentOS  保留Python2.6 安装Python2.7 并安装Pip
 url: 580.html
 id: 580
 categories:
-  - Code
+  - Python
 date: 2017-12-28 00:50:23
 tags: [Python]
 ---

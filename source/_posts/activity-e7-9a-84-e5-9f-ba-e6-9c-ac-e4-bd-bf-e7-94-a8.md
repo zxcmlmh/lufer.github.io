@@ -3,7 +3,7 @@ title: Activity的基本使用
 url: 92.html
 id: 92
 categories:
-  - Code
+  - Android
 date: 2016-03-30 16:10:38
 tags: [Android]
 ---

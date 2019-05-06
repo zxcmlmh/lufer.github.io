@@ -3,7 +3,7 @@ title: Echarts Map 自定义数据的使用
 url: 609.html
 id: 609
 categories:
-  - Code
+  - 前端
 date: 2018-01-23 19:27:44
 tags: [Echarts,前端]
 ---
