@@ -8,12 +8,12 @@ subtitle: Code the World
 description:
 keywords:
 author: Lufer
-language: zh-CN
+language: zh-Hans
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: coder.lufer.cc
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: yilia
+theme: melody
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -101,3 +101,8 @@ jsonContent:
       excerpt: false
       categories: true
       tags: true
+
+algolia:
+  applicationID: 'D3K0O2R6F2'
+  apiKey: '4e808ae377111360493e99d31970584c'
+  indexName: 'BLOG_LUFER'
