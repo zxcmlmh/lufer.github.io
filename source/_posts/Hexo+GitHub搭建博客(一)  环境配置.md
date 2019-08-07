@@ -55,11 +55,11 @@ Git官网为：
 
 打开Github.com,点击右侧New Repository
 
-{% asset_img hexo_github_1_1.png %}
+![e4zAeO.png](https://s2.ax1x.com/2019/08/07/e4zAeO.png)
 
 Repository内部填入与前面Owner部分一样的名字+"github.io",下面选择Public，如下图所示，即完成网站创建。
 
-{% asset_img hexo_github_1_2.png %}
+![e4zCS1.png](https://s2.ax1x.com/2019/08/07/e4zCS1.png)
 
 ## 安装Hexo
 

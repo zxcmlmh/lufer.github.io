@@ -276,7 +276,7 @@ export default {
 
 我们以按照DashBoard下面的该表格为例，实现一个表格页面
 
-{% asset_img tutorial2.jpg %} 
+![tutorial2.jpg](https://i.loli.net/2019/08/07/ChdFbAEi9xTVBRX.jpg)
 
 调用该组件，我们仅需在render中添加一个table标签，然后绑定各项数据源即可，查看示例页的实现，可见其table参数如下
 ```JS
@@ -360,7 +360,7 @@ const columns = [
 ```
 完成，运行效果如图
 
-{% asset_img tutorial3.jpg %} 
+![tutorial3.jpg](https://i.loli.net/2019/08/07/IAWpl6m8Ys7kZzX.jpg)
 
 页面完整代码如下
 ```JS
@@ -437,7 +437,7 @@ export default class demo1 extends Component {
 在页面2，我们将演示如何快速的将一个现有页面完成移植
 我们要实现的目标页面如下图所示
 
-{% asset_img tutorial4.jpg %} 
+![tutorial4.jpg](https://i.loli.net/2019/08/07/zgY51FiN8he4WqO.jpg)
 
 ### 静态文件移植
 相关json文件，js文件，css文件等静态文件，全部放在public目录下
@@ -448,7 +448,7 @@ export default class demo1 extends Component {
 
 JS文件，在index.ejs中进行引入
 
-{% asset_img tutorial6.jpg %} 
+![tutorial6.jpg](https://i.loli.net/2019/08/07/wTRKvFLrd6OqzCG.jpg)
 
 CSS文件，在同级目录下，建立demo2.less文件
 
@@ -537,7 +537,7 @@ CSS文件，在同级目录下，建立demo2.less文件
 
 完成页面移植，效果如下图
 
-{% asset_img tutorial7.jpg %} 
+![tutorial7.jpg](https://i.loli.net/2019/08/07/fboKDguXcMOYFxE.jpg)
 
 当然，这其中还需要做一些元素位置，部分js代码的微调。
 
@@ -580,7 +580,7 @@ CSS文件，在同级目录下，建立demo2.less文件
 
 其运行结果如下图，图标资源没有修改路径，所以没有加载，但功能均正常
 
-{% asset_img tutorial8.jpg %} 
+![tutorial8.jpg](https://i.loli.net/2019/08/07/PchmW98Q4RYGxrb.jpg)
 
 此页面在Dashboard/helloworld下可以看见源码
 

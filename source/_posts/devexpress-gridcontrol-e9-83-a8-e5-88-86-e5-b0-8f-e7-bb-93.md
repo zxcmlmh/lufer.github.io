@@ -26,10 +26,10 @@ myset.AcceptChanges();          //本次更新的数据保存修改
 **列间计算与行间累加** 
 
 列间计算： 设置列的UnboundExpression属性 并将UnboundType设置为Integer  
-{% asset_img sellform1.jpg %}  
+![e4x9r8.jpg](https://s2.ax1x.com/2019/08/07/e4x9r8.jpg)
 
 行间计算： 将需要累和的列的SummaryItem中的SummaryType设置为Sum，随后在DisplayFormat中设置为想要的格式，并确保勾选Show Footer即可  
-{% asset_img sellform2.jpg %}  
+![e4xpKf.jpg](https://s2.ax1x.com/2019/08/07/e4xpKf.jpg) 
 
 获取Footer中的累计值
 >string stt = gridView1.Columns["Isum"].SummaryItem.SummaryValue.ToString();

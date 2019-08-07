@@ -31,7 +31,7 @@ sudo snap install nextcloud
 
 第一次登陆网站会提示创建管理员账号密码，设置成功后即完成初步设置
 
-{% asset_img 1.png %}  
+![e4zjjP.png](https://s2.ax1x.com/2019/08/07/e4zjjP.png)
 
 # 离线下载实现
 
@@ -44,7 +44,7 @@ Aria2一键安装脚本
 
 运行脚本后，你可以安装、升级Aria2。
 
-{% asset_img 2.png %}  
+![e4zXct.png](https://s2.ax1x.com/2019/08/07/e4zXct.png) 
 
 ### 配置Aria2
 
@@ -75,4 +75,4 @@ seed-time=0
 
 随后便可使用ocDownloader进行离线下载
 
-{% asset_img 3.png %}  
+![e4zhX6.png](https://s2.ax1x.com/2019/08/07/e4zhX6.png) 
