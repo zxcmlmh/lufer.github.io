@@ -51,6 +51,8 @@ highlight_theme: light
 # ---------------
 social:
   github fa: https://github.com/luferl
+  steam fa: https://steamcommunity.com/id/luferL
+  film fa: https://space.bilibili.com/4469978
 
 # Algolia search
 # ---------------
@@ -259,9 +261,11 @@ busuanzi:
 
 # Sidebar Settings
 # ---------------
-#links_title: Links
-#links:
-#Name: url
+links_title: Find me in
+links:
+  Github: https://github.com/luferl
+  Bilibili: https://space.bilibili.com/4469978
+  Steam: https://steamcommunity.com/id/luferL
 
 # Follow Me Button
 # follow:
