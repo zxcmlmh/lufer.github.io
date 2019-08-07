@@ -34,4 +34,4 @@ categories: Others
 3. 填写本机IP，HTTP监听端口，在例外规则中填写10.0.2.2
 4. 保存退出，正常工作
 
-![e5SJu6.png](https://s2.ax1x.com/2019/08/07/e5SJu6.png)
+![](https://s2.ax1x.com/2019/08/07/e5SJu6.png)

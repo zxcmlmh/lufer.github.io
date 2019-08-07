@@ -6,18 +6,20 @@ tags: [Hexo]
 ---
 # 插件安装
 在VSCode的插件库中搜索Hexo，安装VSCode-Hexo，安装完成之后重启VSCode  
-{% asset_img 1.png %}  
+![](https://s2.ax1x.com/2019/08/07/eINKA0.png)
 
 # 新建文章
 >首先需要在博客目录中打开VScode  
-{% asset_img vscode.png %} 
-
+![](https://s2.ax1x.com/2019/08/07/eINaAx.png)   
 按下Ctrl+Shift+P，呼出终端  
-{% asset_img 2.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINn7q.png)  
 输入hexo new  
-{% asset_img 3.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINmBn.png)   
 输入布局种类，可以选post（文章），page（页面）,draft(草稿)  
-{% asset_img 4.png %}   
+
+![](https://s2.ax1x.com/2019/08/07/eINVXj.png)  
 1. Post
 post就是通常的文章，会被自动归档和处理
 2. Page
@@ -26,26 +28,36 @@ page是一种页面，例如标签页啊，分类页啊，关于作者啊这种�
 草稿不会被加到目录中，也不能通过链接访问，用来临时存放文章或者放一些不公开的文章。
 
 要写文章选Post就好了,然后输入title，即文章标题   
-{% asset_img 5.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINens.png)  
 回车之后控制台输出  
-{% asset_img 6.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINMNV.png)   
 文章生成，可在source/_posts下找到对应的md文件。
 
 # 发布文章
 发布有两个步骤，生成和部署。
 按下Ctrl+Shift+P，呼出终端，输入Hexo generate  
-{% asset_img 7.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINQhT.png)  
 选择参数，无需填写，直接回车  
-{% asset_img 8.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eIN19U.png) 
 启动生成，控制台输出如下信息  
-{% asset_img 9.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eIN33F.png)   
 生成成功
-{% asset_img 10.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eIN8c4.png) 
 按下Ctrl+Shift+P，呼出终端，输入Hexo deploy  
-{% asset_img 11.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINGjJ.png)  
 选择参数，无需填写，直接回车  
-{% asset_img 12.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINYu9.png) 
 启动生成，控制台输出如下信息  
-{% asset_img 13.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINtBR.png)  
 生成成功  
-{% asset_img 14.png %}  
+
+![](https://s2.ax1x.com/2019/08/07/eINNH1.png) 
