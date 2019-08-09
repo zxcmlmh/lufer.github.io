@@ -49,6 +49,7 @@ page是一种页面，例如标签页啊，分类页啊，关于作者啊这种�
 生成成功
 
 ![](https://s2.ax1x.com/2019/08/07/eIN8c4.png) 
+
 按下Ctrl+Shift+P，呼出终端，输入Hexo deploy  
 
 ![](https://s2.ax1x.com/2019/08/07/eINGjJ.png)  

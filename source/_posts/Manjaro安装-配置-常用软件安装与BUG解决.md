@@ -18,26 +18,31 @@ Manjaro官方提供了三种版本——XFCE，KDE，GNOME，其实这些版本�
 下载[Rufus](https://rufus.ie/)，并选择ISO，U盘，点击开始会提示是否使用DD模式，选DD。
 
 刻录完成后重启，选BootDevice，引导成功则进入初始界面，选择时区，语言等，选择Boot
-
-![](https://s2.ax1x.com/2019/08/07/e4zNfs.png) 
+![](https://s2.ax1x.com/2019/08/07/e4zw60.png)
 
 启动后会有一个体验版本的Manjaro，让你在未安装时即可使用Manjaro，体验一番
 
 点击Install，开始安装
 
-![](https://s2.ax1x.com/2019/08/07/e4zapn.png)  
-
+![](https://s2.ax1x.com/2019/08/07/e4ztYj.png)
+ 
 设置键盘
 
-![](https://s2.ax1x.com/2019/08/07/e4zw60.png)
+![](https://s2.ax1x.com/2019/08/07/e4zYkQ.png)
 
 设置分区，这里要注意，如果是从Windows空闲磁盘中划出空间安装，则分区不能超过4个，否则将会无法继续安装。如果少于4个，选择替换分区安装。
+
+![](https://s2.ax1x.com/2019/08/07/e4zdlq.png)
 
 如果不要之前的系统，需要抹除磁盘，直接替换C盘是无法识别原有文件的。
 
 随后设置用户名密码，就可以安装了。
 
+![](https://s2.ax1x.com/2019/08/07/e4zNfs.png)
+
 最好断网安装，不然可能会卡在90%+的地方！！！
+
+![](https://s2.ax1x.com/2019/08/07/e4zapn.png)
 
 # 初始化配置
 
