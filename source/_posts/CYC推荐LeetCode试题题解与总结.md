@@ -333,6 +333,48 @@ class Solution {
     }
 }
 ```
+### 3. 按照字符出现次数对字符串排序
+
+https://leetcode-cn.com/problems/sort-characters-by-frequency/
+
+#### 思路
+用map统计频率，因为全部都需要，所以可以通过手动实现Comparator来维护一个大顶堆，然后遍历堆重复字符还原字符串。
+
+#### 代码
+```Java
+class Solution {
+    public String frequencySort(String s) {
+        Map<Character,Integer> map=new HashMap<>();
+        for(int i=0;i<s.length();i++)
+        {
+            char c=s.charAt(i);
+            map.put(c,map.getOrDefault(c,0)+1);
+        }
+        PriorityQueue<Character> pq=new PriorityQueue<Character>(new Comparator<Character>(){
+            public int compare(Character a,Character b)
+            {
+                return map.get(b)-map.get(a);
+            }
+        });
+        for(Character key : map.keySet())
+        {
+            pq.add(key);
+        }
+        char[] res=new char[s.length()];
+        int j=0;
+        while(!pq.isEmpty())
+        {
+            char ch=pq.remove();
+            int times=map.get(ch);
+            for(int i=0;i<times;i++)
+            {
+                res[j++]=ch;
+            }
+        }
+        return String.valueOf(res);
+    }
+}
+```
 
 - [双指针](Leetcode%20题解%20-%20双指针.md)
 - [排序](Leetcode%20题解%20-%20排序.md)
