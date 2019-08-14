@@ -1024,9 +1024,850 @@ class Solution {
 ## 六、搜索
 ### 1. 最短单词路径
 
+https://leetcode-cn.com/problems/word-ladder/
 
+#### 思路
+说实话，看题解思路看懂了，自己做还是没头绪。  
+1. 对给定的 wordList 做预处理，找出所有的通用状态。将通用状态记录在字典中，键是通用状态，值是所有具有通用状态的单词。
+2. 将包含 beginWord 和 1 的元组放入队列中，1 代表节点的层次。我们需要返回 endWord 的层次也就是从 beginWord 出发的最短距离。
+3. 为了防止出现环，使用访问数组记录。
+4. 当队列中有元素的时候，取出第一个元素，记为 current_word。
+5. 找到 current_word 的所有通用状态，并检查这些通用状态是否存在其它单词的映射，这一步通过检查 all_combo_dict 来实现。
+6. 从 all_combo_dict 获得的所有单词，都和 current_word 共有一个通用状态，所以都和 current_word 相连，因此将他们加入到队列中。
+7. 对于新获得的所有单词，向队列中加入元素 (word, level + 1) 其中 level 是 current_word 的层次。
+8. 最终当你到达期望的单词，对应的层次就是最短变换序列的长度。
+
+#### 代码
+```Java
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+    // Since all words are of same length.
+    int L = beginWord.length();
+    // Dictionary to hold combination of words that can be formed,
+    // from any given word. By changing one letter at a time.
+    HashMap<String, ArrayList<String>> allComboDict = new HashMap<String, ArrayList<String>>();
+
+    wordList.forEach(
+        word -> {
+          for (int i = 0; i < L; i++) {
+            // Key is the generic word
+            // Value is a list of words which have the same intermediate generic word.
+            String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+            ArrayList<String> transformations =
+                allComboDict.getOrDefault(newWord, new ArrayList<String>());
+            transformations.add(word);
+            allComboDict.put(newWord, transformations);
+          }
+        });
+
+    // Queue for BFS
+    Queue<Pair<String, Integer>> Q = new LinkedList<Pair<String, Integer>>();
+    Q.add(new Pair(beginWord, 1));
+
+    // Visited to make sure we don't repeat processing same word.
+    HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+    visited.put(beginWord, true);
+
+    while (!Q.isEmpty()) {
+      Pair<String, Integer> node = Q.remove();
+      String word = node.getKey();
+      int level = node.getValue();
+      for (int i = 0; i < L; i++) {
+
+        // Intermediate words for current word
+        String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+
+        // Next states are all the words which share the same intermediate state.
+        for (String adjacentWord : allComboDict.getOrDefault(newWord, new ArrayList<String>())) {
+          // If at any point if we find what we are looking for
+          // i.e. the end word - we can return with the answer.
+          if (adjacentWord.equals(endWord)) {
+            return level + 1;
+          }
+          // Otherwise, add it to the BFS Queue. Also mark it visited
+          if (!visited.containsKey(adjacentWord)) {
+            visited.put(adjacentWord, true);
+            Q.add(new Pair(adjacentWord, level + 1));
+          }
+        }
+      }
+    }
+
+    return 0;
+  }
+}
+```
 ## 七、动态规划
-## 八、数学
+### 1. 爬楼梯
+
+https://leetcode-cn.com/problems/climbing-stairs/
+
+#### 思路
+如果用`dp[i]`代表到第i级台阶的跳法，由于一次可以跳一级或者两级，所以`dp[i]=dp[i-1]+dp[i-2]`
+#### 代码
+```Java
+class Solution {
+    public int climbStairs(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        int pre2 = 1, pre1 = 2;
+        for (int i = 2; i < n; i++) {
+            int cur = pre1 + pre2;
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return pre1;
+    }
+}
+```
+### 2. 强盗抢劫
+
+https://leetcode-cn.com/problems/house-robber/
+
+#### 思路
+如果用`dp[i]`代表在当前房屋所能获取的最大收益，那么对于房屋i，一共有两种选择，即偷和不偷。如果偷的话，获得的收益就是`dp[i-2]+nums[i]`,如果不偷，那么收益就是`dp[i-1]`，两者取大者，就是当前房屋的最大收益，随后遍历即可。
+#### 代码
+```Java
+class Solution {
+    public int rob(int[] nums) {
+        int pre2 = 0, pre1 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int cur = Math.max(pre2 + nums[i], pre1);
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return pre1;
+    }
+}
+```
+### 3. 强盗在环形街区抢劫
+
+https://leetcode-cn.com/problems/house-robber-ii/
+
+#### 思路
+与非环抢劫的区别就是要单独处理首尾，第一个与最后一个只能选一个抢。
+#### 代码
+```Java
+class Solution {
+    public int rob(int[] nums) {
+         if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        return Math.max(rob(nums,0,nums.length-1),rob(nums,1,nums.length));
+    }
+    public int rob(int[] nums,int start,int end) {
+        int pre2 = 0, pre1 = 0;
+        for (int i = start; i < end; i++) {
+            int cur = Math.max(pre2 + nums[i], pre1);
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return pre1;
+    }
+}
+```
+### 4. 矩阵的最小路径和
+
+https://leetcode-cn.com/problems/minimum-path-sum/
+
+#### 思路
+对于矩阵每一行进行一次遍历，每行的每个格子都只有从上走下来和从左走过来两种选择，所以`dp[i][j]=min(dp[i][j-1],dp[i-1][j])+grid[i][j]`。
+#### 代码
+```Java
+//普通版本
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int[][] dp=new int[grid.length][grid[0].length];
+        dp[0][0]=grid[0][0];
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(i==0&&j==0)
+                    continue;
+                if(j==0)
+                    dp[i][j]=dp[i-1][j]+grid[i][j];
+                else
+                    if(i==0)
+                        dp[i][j]=dp[i][j-1]+grid[i][j];
+                    else
+                        dp[i][j]=Math.min(dp[i][j-1],dp[i-1][j])+grid[i][j];
+            }
+        }
+        return dp[grid.length-1][grid[0].length-1];
+    }
+}
+//空间优化版本，一维dp数组
+class Solution {
+    public int minPathSum(int[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int m = grid.length, n = grid[0].length;
+        int[] dp = new int[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j == 0) {
+                    dp[j] = dp[j];        // 只能从上侧走到该位置
+                } else if (i == 0) {
+                    dp[j] = dp[j - 1];    // 只能从左侧走到该位置
+                } else {
+                    dp[j] = Math.min(dp[j - 1], dp[j]);
+                }
+                dp[j] += grid[i][j];
+            }
+        }
+        return dp[n - 1];
+    }
+}
+```
+### 5. 矩阵的总路径数
+
+https://leetcode-cn.com/problems/unique-paths/
+
+#### 思路
+对于每个`dp[i][j]`，到达该格子有从左和从上两个方式到达，最顶上和最左边的边界只有一种方式到达。
+#### 代码
+```Java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp=new int[m][n];
+        for(int i=0;i<m;i++)
+            for(int j=0;j<n;j++)
+            {
+                if(i==0||j==0)
+                    dp[i][j]=1;
+                else
+                    dp[i][j]=dp[i-1][j]+dp[i][j-1];
+            }
+        return dp[m-1][n-1];
+    }
+}
+```
+### 6. 数组区间和
+
+https://leetcode-cn.com/problems/range-sum-query-immutable/
+
+#### 思路
+因为会多次调用，所以每次都累加是不合适的。遍历数组一遍，保存每次到i的累和，然后返回两个边界的累和差值即可。
+#### 代码
+```Java
+class NumArray {
+
+    private int[] sums;
+
+    public NumArray(int[] nums) {
+        sums = new int[nums.length + 1];
+        for (int i = 1; i <= nums.length; i++) {
+            sums[i] = sums[i - 1] + nums[i - 1];
+        }
+    }
+
+    public int sumRange(int i, int j) {
+        return sums[j + 1] - sums[i];
+    }
+}
+```
+### 7. 数组中等差递增子区间的个数
+
+https://leetcode-cn.com/problems/arithmetic-slices/
+
+#### 思路
+用`dp[i]`代表以`A[i]`为结尾的等差数列的数量，那么只有两种情况：
+1. 当前的A[i]与前面的数据项构不成等差数列，则此处为0。
+2. 当前的A[i]与前面的数据能构成等差数列，此时有`A[i]-A[i-1]=A[i-1]-A[i-2]`,那么此时的等差数列种数为`dp[i-1]+1`
+
+#### 代码
+```Java
+class Solution {
+    public int numberOfArithmeticSlices(int[] A) {
+        if (A == null || A.length == 0) {
+            return 0;
+        }
+        int n = A.length;
+        int[] dp = new int[n];
+        for (int i = 2; i < n; i++) {
+            if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+                dp[i] = dp[i - 1] + 1;
+            }
+        }
+        int total = 0;
+        for (int cnt : dp) {
+            total += cnt;
+        }
+        return total;
+    }
+}
+```
+### 8. 分割整数的最大乘积
+
+https://leetcode-cn.com/problems/integer-break/
+
+#### 思路
+如果用`dp[i]`代表正整数i拆分后的最大乘积，那么他有三种选择：
+1. dp[i]自身
+2. 从`1~dp[i]`遍历，然后获得j*dp[i-j]
+3. 从`1~dp[i]`遍历，然后获得j*(i-j)
+
+取三者最大值
+#### 代码
+```Java
+class Solution {
+    public int integerBreak(int n) {
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j <= i - 1; j++) {
+                dp[i] = Math.max(dp[i], Math.max(j * dp[i - j], j * (i - j)));
+            }
+        }
+        return dp[n];
+    }
+}
+```
+### 9. 按平方数来分割整数
+
+https://leetcode-cn.com/problems/perfect-squares/
+
+#### 思路
+两个思路，一个是采用DP的方式，一个是采用数学定理的方式。
+1. DP  
+定义一个函数f(n)表示我们要求的解。f(n)的求解过程为：
+f(n) = 1 + min{
+  f(n-1^2), f(n-2^2), f(n-3^2), f(n-4^2), ... , f(n-k^2) //(k为满足k^2<=n的最大的k)
+}
+2. 数学定理  
+四平方定理：任何一个正整数都可以表示成不超过四个整数的平方之和。   
+推论：满足四数平方和定理的数n（四个整数的情况），必定满足 n=4^a(8b+7)
+#### 代码
+```Java
+//DP版本
+class Solution {
+     public int numSquares(int n) {
+        int [] res = new int[n+1];
+        for (int i = 1; i <= n; i++){
+            int min = Integer.MAX_VALUE;
+            for (int j = 1; j*j <= i; j++){
+                min = Math.min(min, res[i-j*j]);
+            }
+            res[i] = min + 1;
+        }
+        return res[n];
+    }
+}
+//数学定理版
+// 由定理可知，结果只有 “1、2、3、4” 四种可能。依次判断下列情况：
+// （1）ans = 4 ，判断是否满足推论；（在此过程中，以 4 的倍数缩小 n ，并不影响最后结果）
+// （2）ans = 1 ，判断缩小后的 n 是否为平方数；
+// （3）ans = 2 ，判断缩小后的 n 是否可以由两个平方数构成；
+// （4）ans = 3， 以上都不满足，则结果为 3。
+class Solution {
+     public int numSquares(int n) {
+        while(n%4==0)
+            n/=4;
+         if(n%8==7)
+             return 4;
+         for(int i=0;i*i<n;i++)
+         {
+             int j=(int)Math.sqrt(n-i*i);
+             if(j*j+i*i==n)
+                 if(i!=0&&j!=0)
+                     return 2;
+                else
+                    return 1;
+         }
+         return 3;
+    }
+}
+```
+### 10. 分割整数构成字母字符串
+
+https://leetcode-cn.com/problems/decode-ways/
+
+#### 思路
+本题与跳台阶本质上相同，如果我们用`dp[i]`代表当前位可以解码的方式，那么对于第i位有两种选择。  
+1. 第i位单独解码，此时`dp[i]=dp[i-1]`
+2. 第i位与第i-1位共同解码，此时`dp[i]=dp[i-2]`
+
+综上，所以`dp[i]=dp[i-1]+dp[i-2]`。  
+但是要注意，0不能单独解码，所以如果s[i-1]是0，那么dp[i-1]也是0。  
+如果s[i-2]是0，则不能加上前一位进行解码，即dp[i-2]是0。  
+同时由于解码数字不会超过26，所以如果最近两位解码结果超过26，那么dp[i-2]也是0。 
+#### 代码
+```Java
+class Solution {
+    public int numDecodings(String s) {
+        if(s.length()==0||(s.length()==1&&s.charAt(0)=='0'))
+            return 0;
+        if(s.length()==1)
+            return 1;
+        int[] dp=new int[s.length()+1];
+        dp[0]=1;
+        dp[1]=s.charAt(0) == '0' ? 0 : 1;
+        for(int i=2;i<=s.length();i++)
+        {
+            int onestep=s.charAt(i-1)=='0'?0:dp[i-1];
+            int twostep=Integer.valueOf(s.substring(i - 2, i));
+            if(s.charAt(i-2)=='0')
+                twostep=0;
+            else
+                twostep=twostep>26?0:dp[i-2];
+            dp[i]=onestep+twostep;
+        }
+        return dp[s.length()];
+    }
+}
+```
+### 11. 最长递增子序列
+
+https://leetcode-cn.com/problems/longest-increasing-subsequence/
+
+#### 思路
+如果我们用`dp[i]`代表以第i个数字结尾的最长递增序列的长度，则我们从`0~i`遍历j，对于每一个比`nums[i]`小的`nums[j]`,都要比较`dp[i]=Max(dp[i],dp[j]+1)`。此处注意`dp[i]`的默认值是1，最后取dp数组最大值即可。
+#### 代码
+```Java
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums==null||nums.length==0)
+            return 0;
+        int[] dp=new int[nums.length];
+        dp[0]=1;
+        int max=1;
+        for(int i=1;i<nums.length;i++)
+        {
+            dp[i]=1;
+            for(int j=0;j<i;j++)
+            {
+                if(nums[i]>nums[j])
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+            }
+            if(max<dp[i])
+                max=dp[i];
+        }
+        return max;
+    }
+}
+```
+### 12. 一组整数对能够构成的最长链
+
+https://leetcode-cn.com/problems/maximum-length-of-pair-chain/
+
+#### 思路
+与上一题基本一样，本题只是需要先将数对按起点排序，然后遍历找到可以与当前数对形成数链的数对，比较dp
+#### 代码
+```Java
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        if(pairs==null||pairs.length==0)
+            return 0;
+        Arrays.sort(pairs,(a,b)->(a[0]-b[0]));
+        int[] dp=new int[pairs.length];
+        dp[0]=1;
+        int max=1;
+        for(int i=1;i<pairs.length;i++)
+        {
+            dp[i]=1;
+            for(int j=0;j<i;j++)
+            {
+                if(pairs[j][1]<pairs[i][0])
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+            }
+            if(max<dp[i])
+                max=dp[i];
+        }
+        return max;
+    }
+}
+```
+### 13. 最长摆动子序列
+
+https://leetcode-cn.com/problems/wiggle-subsequence/
+
+#### 思路
+用两个变量up和down分别计算向上摆动和向下摆动的数量，从头遍历数组，如果数组向上了，那么当前的up就是上一位的down+1，如果数组向下了，那么当前的down就是上一位的up+1。
+#### 代码
+```Java
+class Solution {
+    public int wiggleMaxLength(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int up = 1, down = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                up = down + 1;
+            } else if (nums[i] < nums[i - 1]) {
+                down = up + 1;
+            }
+        }
+        return Math.max(up, down);
+    }
+}
+```
+### 14. 划分数组为和相等的两部分
+
+https://leetcode-cn.com/problems/partition-equal-subset-sum/
+
+#### 思路
+对于背包问题，我们可以用`dp[i][j]`来表示从`0~i`中是否存在满足价值为j的组合。  
+而是否满足主要有两种选择：
+1. 如果不选择当前`nums[i]`的价值，则依赖于`dp[i-1][j]`，两者判断状态相同。  
+2. 如果选择当前`nums[i]`的价值，则依赖于`dp[i-1][j-nums[i]]`,两者判断状态相同。
+
+如果有一种情况满足需求，则`dp[i][j]`可以实现。
+#### 代码
+```Java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum=0;
+        for(int i=0;i<nums.length;i++)
+            sum+=nums[i];
+        if(sum%2!=0)
+            return false;
+        sum/=2;
+        boolean[] dp = new boolean[sum+1];
+        dp[0] = true;
+        for(int i=0;i<nums.length;i++)
+        {
+            for(int j=sum;j>=nums[i];j--)
+            {
+                dp[j]=dp[j]||dp[j-nums[i]];
+            }
+        }
+        return dp[sum];
+    }
+}
+```
+### 15. 改变一组数的正负号使得它们的和为一给定数
+
+https://leetcode-cn.com/problems/target-sum/
+
+#### 思路
+引用CYC推理
+```
+将数组看成两部分，P 和 N，其中 P 使用正号，N 使用负号，有以下推导：
+                  sum(P) - sum(N) = target
+sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+                       2 * sum(P) = target + sum(nums)
+因此只要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。
+```
+#### 代码
+```Java
+class Solution {
+    public int findTargetSumWays(int[] nums, int S) {
+        int sum = 0;
+        for(int i=0;i<nums.length;i++)
+            sum+=nums[i];
+        if (sum < S || (sum + S) % 2 == 1) {
+            return 0;
+        }
+        int W = (sum + S) / 2;
+        int[] dp = new int[W + 1];
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int i = W; i >= num; i--) {
+                dp[i] = dp[i] + dp[i - num];
+            }
+        }
+        return dp[W];
+    }
+}
+```
+### 16. 01 字符构成最多的字符串
+
+https://leetcode-cn.com/problemset/all/?search=474
+
+#### 思路
+多维费用问题，我们用`dp[i][j]`表示使用i个0和j个1能表示的字符串的最大数量。  
+则`dp[i][j]=Max(dp[i][j],dp[i-zero][j-one]+1)`,其中zero代表当前0的数量，1代表当前1的数量。
+#### 代码
+```Java
+class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        if (strs.length == 0) {
+			return 0;
+		}
+		int[][] dp =new int[m+1][n+1];
+		for(String s :strs) {
+			int zeros  = 0,ones = 0;
+			for(char c:s.toCharArray()) {
+				if (c == '0') {
+					zeros++;
+				}else {
+					ones++;
+				}
+			}
+			for (int i = m; i >=zeros; i--) {
+				for (int j = n; j >= ones; j--) {
+					dp[i][j] = Math.max(dp[i][j], 1+dp[i-zeros][j-ones]);
+				}
+			}
+		}
+		return dp[m][n];
+    }
+}
+```
+### 17. 找零钱的最少硬币数
+
+https://leetcode-cn.com/problems/coin-change/
+
+#### 思路
+背包大小就是所给的amout，占据背包容量的就是硬币面额。   
+`完全背包只需要将 0-1 背包的逆序遍历 dp 数组改为正序遍历即可。`
+然后取最小数量，对于每个`dp[i][j]`,最小数量有三种情况：
+1. 当前硬币就是容量大小，即`coins[i]==j`，那么使用这枚硬币即可完成任务，必然获得最小值1。
+2. 不使用当前硬币时，无法满足要求(即`dp[i-1][j]==0`)，但是使用当前硬币可以满足要求(即`dp[i][j-coins[i]]!=0`)，dp[i][j]为`dp[i][j-coins[i]]+1`。
+3. 使用当前硬币可以完成要求，不使用也可以完成要求，则要两者比较取最小值。
+#### 代码
+```Java
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0 || coins == null || coins.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];
+        for(int i=0;i<coins.length;i++)
+        {
+            for(int j=coins[i];j<=amount;j++)
+            {
+                if(j==coins[i])
+                    dp[j]=1;
+                else
+                    if(dp[j]==0&&dp[j-coins[i]]!=0)
+                        dp[j]=dp[j-coins[i]]+1;
+                else
+                    if(dp[j-coins[i]]!=0)
+                        dp[j]=Math.min(dp[j],dp[j-coins[i]]+1);
+            }
+        }
+        return dp[amount] == 0 ? -1 : dp[amount];
+    }
+}
+```
+### 18. 找零钱的硬币数组合  
+
+https://leetcode-cn.com/problems/coin-change-2/submissions/
+
+#### 思路
+与上题类似，只不过本题需要求可能获得的组合总数，对于每一个`dp[i][j]`，其状态转移方程为`dp[i][j]=dp[i-1][j]+dp[i][j-coins[i]]`。
+#### 代码
+```Java
+class Solution {
+    public int change(int amount, int[] coins) {
+        int[] dp=new int[amount+1];
+        dp[0]=1;
+        for(int i=0;i<coins.length;i++)
+        {
+            int coin=coins[i];
+            for(int j=coin;j<=amount;j++)
+            {
+                dp[j]+=dp[j-coin];
+            }
+        }
+        return dp[amount];
+    }
+}
+```
+### 19. 字符串按单词列表分割
+
+https://leetcode-cn.com/problems/word-break/
+
+#### 思路
+字典单词是可以重复使用的，故本题为一个完全背包问题，用字典单词来填充背包，所要对比的价值就是字符串。  
+对于有序的背包问题，将物品的迭代放在最里层，背包的迭代放在外层。
+#### 代码
+```Java
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        for (int i = 1; i <= n; i++) {
+            for (String word : wordDict) {   // 对物品的迭代应该放在最里层
+                int len = word.length();
+                if (len <= i && word.equals(s.substring(i - len, i))) {
+                    dp[i] = dp[i] || dp[i - len];
+                }
+            }
+        }
+        return dp[n];
+    }
+}
+```
+### 20. 组合总和
+
+https://leetcode-cn.com/problems/combination-sum-iv/
+
+#### 思路
+依然是有序的完全背包问题。
+#### 代码
+```Java
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        Arrays.sort(nums);
+        int n=nums.length;
+        int[] dp=new int[target+1];
+        dp[0]=1;
+        for(int i=1;i<=target;i++)
+        {
+            for(int j=0;j<nums.length&&i>=nums[j];j++)
+            {
+                dp[i]+=dp[i-nums[j]];
+            }
+        }
+        return dp[target];
+    }
+}
+```
+#### 背包问题总结
+对于背包问题，主要有两种，即`0-1背包`or`完全背包`，这其中又可分为`元素有序`与`元素无序`两种。
+对于无序问题，则对于元素的遍历在外层，对于背包的遍历在内层。我们以`V[]`来代表元素数组，`target`来代表目标价值，则两层循环可以表示为
+```Java
+for(int i=0;i<nums.length;i++)
+    for(int j=target;j>=V[i];j--)
+```
+对于完全背包，则需要将内层循环的顺序反序
+```Java
+for(int i=0;i<nums.length;i++)
+    for(int j=V[i];j<=target;j++)
+```
+而对于有序问题，需要将两层循环换位，可知循环条件需为`V[i]<=j<=target`,所以完全背包的双层循环可以表示为：、
+```Java
+for(int i=1;i<=target;i++)
+    for(int j=0;j<V.length&&j>=V[i];j++)
+```
+### 21. 需要冷却期的股票交易
+
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/comments/
+
+#### 思路
+sell[i]表示截至第i天，最后一个操作是卖时的最大收益；  
+buy[i]表示截至第i天，最后一个操作是买时的最大收益；  
+cool[i]表示截至第i天，最后一个操作是冷冻期时的最大收益；  
+递推公式：
+```  
+sell[i] = max(buy[i-1]+prices[i], sell[i-1]) (第一项表示第i天卖出，第二项表示第i天冷冻)  
+buy[i] = max(cool[i-1]-prices[i], buy[i-1])  (第一项表示第i天买进，第二项表示第i天冷冻)  
+cool[i] = max(sell[i-1], cool[i-1])          (第一项表示第i天卖出，从而变为冷冻期，第二项表示第i天冷冻)  
+```
+此外还要注意数组长度只有1个的时候是不买的，利润为0。其他情况buy[0]一定是prices[0]的相反数。
+#### 代码
+```Java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int[] sell=new int[prices.length];
+        int[] buy=new int[prices.length];
+        int[] cool=new int[prices.length];
+        if(prices==null||prices.length<2)
+            return 0;
+        buy[0]=-prices[0];
+        for(int i=1;i<prices.length;i++)
+        {
+            sell[i]=Math.max(buy[i-1]+prices[i],sell[i-1]);
+            buy[i]=Math.max(cool[i-1]-prices[i],buy[i-1]);
+            cool[i]=Math.max(sell[i-1], cool[i-1]);
+        }
+        return sell[prices.length-1];
+    }
+}
+```
+### 22. 需要交易费用的股票交易
+
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+
+#### 思路
+和上题差不多，只是本次在每次卖出时需要加手续费，以及没有冷却期
+#### 代码
+```Java
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        int[] sell=new int[prices.length];
+        int[] buy=new int[prices.length];
+        if(prices==null||prices.length<2)
+            return 0;
+        buy[0]=-prices[0];
+        for(int i=1;i<prices.length;i++)
+        {
+            sell[i]=Math.max(buy[i-1]+prices[i]-fee,sell[i-1]);
+            buy[i]=Math.max(sell[i-1]-prices[i],buy[i-1]);
+        }
+        return sell[prices.length-1];
+    }
+}
+```
+### 23. 只能进行两次的股票交易
+
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/
+
+#### 思路
+对于任意一天考虑四个变量:  
+fstBuy: 在该天第一次买入股票可获得的最大收益   
+fstSell: 在该天第一次卖出股票可获得的最大收益  
+secBuy: 在该天第二次买入股票可获得的最大收益  
+secSell: 在该天第二次卖出股票可获得的最大收益  
+分别对四个变量进行相应的更新, 最后secSell就是最大  
+#### 代码
+```Java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int fstBuy = Integer.MIN_VALUE, fstSell = 0;
+        int secBuy = Integer.MIN_VALUE, secSell = 0;
+        for(int i=0;i<prices.length;i++)
+        {
+            int p=prices[i];
+            fstBuy = Math.max(fstBuy, -p);
+            fstSell = Math.max(fstSell, fstBuy + p);
+            secBuy = Math.max(secBuy, fstSell - p);
+            secSell = Math.max(secSell, secBuy + p); 
+        }
+        return secSell;
+    }
+}
+```
+### 24. 只能进行 k 次的股票交易
+
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/
+
+#### 思路
+对上一题进行推广，对每一个买卖次数进行遍历即可。
+但是由于K不固定，直接DP会MLE，所以对于K大于数组长度一半的情况下，即每天都可以考虑买入卖出的情况下，用贪心即可，既节省空间，又节省时间。
+#### 代码
+```Java
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        if(k < 1) return 0;
+        if(k >= prices.length/2) return greedy(prices);
+        int[][] t = new int[k][2];
+        for(int i = 0; i < k; i++)
+            t[i][0] = Integer.MIN_VALUE;
+        for(int i=0;i<prices.length;i++)
+        {
+            int p=prices[i];
+            t[0][0] = Math.max(t[0][0], -p);
+            t[0][1] = Math.max(t[0][1], t[0][0] + p);
+            for(int j=1;j<k;j++)
+            {
+                t[j][0]=Math.max(t[j][0],t[j-1][1]-p);
+                t[j][1]=Math.max(t[j][1],t[j][0]+p);
+            }
+        }
+        return t[k-1][1];
+    }
+    private int greedy(int[] prices) {
+        int max = 0;
+        for(int i = 1; i < prices.length; ++i) {
+            if(prices[i] > prices[i-1])
+                max += prices[i] - prices[i-1];
+        }
+        return max;
+    }
+}
+```
+## 八、数学 
 # 第二部分 数据结构相关
 ## 一、链表
 ## 二、树
