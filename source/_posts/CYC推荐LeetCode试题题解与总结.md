@@ -298,7 +298,7 @@ class Solution {
 ```
 ### 2. 出现频率最多的 k 个元素
 
-https://leetcode-cn.com/problems/top-k-frequent-elements/comments/
+https://leetcode-cn.com/problems/top-k-frequent-elements/
 
 #### 思路
 利用桶排序，每个桶存储每个元素的出现频率，然后维护一个小顶堆,手动实现comparator，通过获取频率来比较，就可以获得第K大,但是获取到的是反序的，再reverse一下。
@@ -1343,6 +1343,7 @@ f(n) = 1 + min{
 2. 数学定理  
 四平方定理：任何一个正整数都可以表示成不超过四个整数的平方之和。   
 推论：满足四数平方和定理的数n（四个整数的情况），必定满足 n=4^a(8b+7)
+
 #### 代码
 ```Java
 //DP版本
@@ -1622,6 +1623,7 @@ https://leetcode-cn.com/problems/coin-change/
 1. 当前硬币就是容量大小，即`coins[i]==j`，那么使用这枚硬币即可完成任务，必然获得最小值1。
 2. 不使用当前硬币时，无法满足要求(即`dp[i-1][j]==0`)，但是使用当前硬币可以满足要求(即`dp[i][j-coins[i]]!=0`)，dp[i][j]为`dp[i][j-coins[i]]+1`。
 3. 使用当前硬币可以完成要求，不使用也可以完成要求，则要两者比较取最小值。
+
 #### 代码
 ```Java
 class Solution {
@@ -1742,7 +1744,7 @@ for(int i=1;i<=target;i++)
 ```
 ### 21. 需要冷却期的股票交易
 
-https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/comments/
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 #### 思路
 sell[i]表示截至第i天，最后一个操作是卖时的最大收益；  
@@ -1867,11 +1869,2058 @@ class Solution {
     }
 }
 ```
+### 25. 删除两个字符串的字符使它们相等
+
+https://leetcode-cn.com/problems/delete-operation-for-two-strings/
+
+#### 思路
+实际上还是求最长公共子序列，然后用两个字符串长度和减去就是最少删除步数。
+#### 代码
+```Java
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        return m + n - 2 * dp[m][n];
+    }
+}
+```
+### 26. 编辑距离
+
+https://leetcode-cn.com/problems/edit-distance/
+
+#### 思路
+如果我们用`dp[i][j]`代表从`word1[0~i]`到`word2[0~j`所需的步数。那么如果要到达`dp[i][j]`的状态，一共可由三种状态转移而来:
+1. `从dp[i-1][j-1]`转移而来，如果`从dp[i-1][j-1]=k`，那么如果`word1[i]=word2[j]`，那么仍然只需k步，否则需要替换一个字符，K+1步。
+2. `从dp[i][j-1]`转移而来，如果`从dp[i][j-1]=k`，那么我们需要插入一个`word2[j]`即可达到要求,故需要K+1步。
+3. `从dp[i-1][j]`转移而来，如果`从dp[i-1][j-1]=k`，那么我们需要删掉一个`word1[i]`即可达到要求，故需要K+1步。
+
+最后需要注意，将dp数组初始化时上边界和左边界都置为i，因为对于任意一个字符串为空的情况下，将另一个字符串转换过来或转换为另一个字符串，都需要进行字符串长度步数的操作。
+#### 代码
+```Java
+class Solution {
+    public int minDistance(String word1, String word2) {
+        if (word1 == null || word2 == null) {
+            return 0;
+        }
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] = i;
+        }
+        for (int i = 1; i <= n; i++) {
+            dp[0][i] = i;
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
+```
+### 27. 复制粘贴字符
+
+https://leetcode-cn.com/problems/2-keys-keyboard/
+
+#### 思路
+对于任意一个数，可以按照是否为质数来区分。
+1. 如果他是质数，那就不能通过复制得到，只能每次粘贴1来打到，所以需要n步。
+2. 如果不是质数，就可以表示为两个数的乘积A*B，即构建长度为A的序列，然后复制B次(或者相反)，所以步数为A+B。
+3. 向下分解，如果AB中有不是质数的，例如B，依然可以表示为m*n，向下一直分解至质数。
+
+故实际上就是将n分解为m个质数的乘积，且这m个质数的和最小。
+
+如果用DP的方式，那么对于`dp[i]`，可以转移过来的状态只有当其可以分为A*B时，其`dp[i]=dp[A]+dp[B]`。
+如果用递归的方式，需要从小到大找因数分解。
+#### 代码
+```Java
+//DP版本
+class Solution {
+    public int minSteps(int n) {
+        int[] dp = new int[n + 1];
+        int h = (int) Math.sqrt(n);
+        for (int i = 2; i <= n; i++) {
+            dp[i] = i;
+            for (int j = 2; j <= h; j++) {
+                if (i % j == 0) {
+                    dp[i] = dp[j] + dp[i / j];
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+}
+//递归版本
+class Solution {
+    public int minSteps(int n) {
+        if (n == 1) return 0;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) return i + minSteps(n / i);
+        }
+        return n;
+    }
+}
+```
 ## 八、数学 
+### 1. 生成素数序列
+
+https://leetcode-cn.com/problems/count-primes/
+
+#### 思路
+埃拉托斯特尼筛法(sieve of Eratosthenes)
+```
+埃拉托斯特尼筛法，简称埃氏筛或爱氏筛，是一种由希腊数学家埃拉托斯特尼所提出的一种简单检定素数的算法。要得到自然数n以内的全部素数，必须把不大于根号n的所有素数的倍数剔除，剩下的就是素数。
+```
+#### 代码
+```Java
+class Solution {
+    public int countPrimes(int n) {
+         boolean[] notPrimes = new boolean[n + 1];
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (notPrimes[i]) {
+                continue;
+            }
+            count++;
+            for (long j = (long) (i) * i; j < n; j += i) {
+                notPrimes[(int) j] = true;
+            }
+        }
+        return count;
+    }
+}
+```
+### 2. 7进制
+
+https://leetcode-cn.com/problems/base-7/
+
+#### 思路
+与二进制一样，只需%7然后进位即可。
+#### 代码
+```Java
+class Solution {
+    public String convertToBase7(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean isNegative = num < 0;
+        if (isNegative) {
+            num = -num;
+        }
+        while (num > 0) {
+            sb.append(num % 7);
+            num /= 7;
+        }
+        String ret = sb.reverse().toString();
+        return isNegative ? "-" + ret : ret;
+    }
+}
+//Java 中 static String toString(int num, int radix) 可以将一个整数转换为 radix 进制表示的字符串。
+
+public String convertToBase7(int num) {
+    return Integer.toString(num, 7);
+}
+```
+### 3. 16 进制
+
+https://leetcode-cn.com/problems/convert-a-number-to-hexadecimal/
+
+#### 思路
+使用0x0b1111获取num的低4位。  
+算数位移，其中正数右移左边补0，负数右移左边补1。   
+位移运算并不能保证num==0，需要使用32位int保证（对应16进制小于等于8位）。  
+#### 代码
+```Java
+class Solution {
+    public String toHex(int num) {
+        char[] map = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        if (num == 0) return "0";
+        StringBuilder sb = new StringBuilder();
+        while (num != 0) {
+            sb.append(map[num & 0b1111]);
+            num >>>= 4;
+        }
+        return sb.reverse().toString();
+    }
+}
+```
+### 4. 26 进制
+
+https://leetcode-cn.com/problems/excel-sheet-column-title/
+
+#### 思路
+类似7进制，但是数据是从1开始，要先减1。
+#### 代码
+```Java
+class Solution {
+    public String convertToTitle(int n) {
+        if (n <= 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            n--;
+            sb.append((char) (n % 26 + 'A'));
+            n =n / 26;
+        }
+        return sb.reverse().toString();
+    }
+}
+```
+### 5. 统计阶乘尾部有多少个 0
+
+https://leetcode-cn.com/problems/factorial-trailing-zeroes/
+
+#### 思路
+有一个10尾部就有一个0，而10必然可以分解为2*5，2的数量明显多于5的数量，因此只要统计有多少个5即可。
+#### 代码
+```Java
+class Solution {
+    public int trailingZeroes(int n) {
+        return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
+    }
+}
+```
+### 6. 二进制加法
+
+https://leetcode-cn.com/problems/add-binary/
+
+#### 思路
+从后向前遍历，用一个变量代表当前位的值，分别加两个字符串的该位置，然后%2就是当前位加完之后的数，/2就是需要进位的的数。
+#### 代码
+```Java
+class Solution {
+    public String addBinary(String a, String b) {
+        int i = a.length() - 1, j = b.length() - 1, carry = 0;
+        StringBuilder str = new StringBuilder();
+        while (carry == 1 || i >= 0 || j >= 0) {
+            if (i >= 0 && a.charAt(i--) == '1') {
+                carry++;
+            }
+            if (j >= 0 && b.charAt(j--) == '1') {
+                carry++;
+            }
+            str.append(carry % 2);
+            carry /= 2;
+        }
+        return str.reverse().toString();
+    }
+}
+```
+### 7. 字符串加法
+
+https://leetcode-cn.com/problems/add-strings/
+
+#### 思路
+通上题，把2进位改成10进位即可。
+#### 代码
+```Java
+class Solution {
+    public String addStrings(String num1, String num2) {
+        StringBuilder str = new StringBuilder();
+        int carry = 0, i = num1.length() - 1, j = num2.length() - 1;
+        while (carry == 1 || i >= 0 || j >= 0) {
+            int x = i < 0 ? 0 : num1.charAt(i--) - '0';
+            int y = j < 0 ? 0 : num2.charAt(j--) - '0';
+            str.append((x + y + carry) % 10);
+            carry = (x + y + carry) / 10;
+        }
+        return str.reverse().toString();
+    }
+}
+```
+### 8. 改变数组元素使所有的数组元素都相等
+
+https://leetcode-cn.com/problems/minimum-moves-to-equal-array-elements-ii/
+
+#### 思路
+在我们将数组排序之后，移动距离最小的方式是所有元素都移动到中位数。
+#### 代码
+```Java
+class Solution {
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int i=0,j=nums.length-1;
+        int res=0;
+        while(i<j)
+        {
+            res+=nums[j--]-nums[i++];
+        } 
+        return res;
+    }
+}
+```
+### 9. 数组中出现次数多于 n / 2 的元素
+
+https://leetcode-cn.com/problems/majority-element/
+
+#### 思路
+有两种解决方式，一种是简单的，将数组排序，排序之后的中位数一定是超过半数的元素。   
+另一种是利用数学思想，这里用到了摩尔投票算法(Moore majority vote algorithm)。   
+摩尔投票算法：
+```
+摩尔投票法的基本思想很简单，在每一轮投票过程中，从数组中找出一对不同的元素，将其从数组中删除。这样不断的删除直到无法再进行投票，如果数组为空，则没有任何元素出现的次数超过该数组长度的一半。如果只存在一种元素，那么这个元素则可能为目标元素。
+```
+在这道题中，我们从数组头部开始遍历，用一个数来做计数器。
+取一个标记数，从下一个数开始遍历，如果相同，让计数器+1，来统计一下先前有多少个一样的标记数。  
+如果不同，让计数器-1，代表我们从数组中删除了一对这样的数。  
+如果计数器到0了，说明先前遍历的部分已经让我们删光了，我们要取一个新的标记数。
+最后剩下的标记数，一定是所需的目标元素。
+>而且用摩尔投票法可以解决一般性的频率最高数的问题，而无需一定要大于n/2。
+#### 代码
+```Java
+class Solution {
+    public int majorityElement(int[] nums) {
+        if(nums==null||nums.length==0)
+            return 0;
+        int flag=nums[0],count=1;
+        for(int i=1;i<nums.length;i++)
+        {
+            if(flag==nums[i])
+                count++;
+            else
+            {
+                count--;
+                if(count==0)
+                {
+                    flag=nums[i];
+                    count=1;
+                }
+            }
+        }
+        return flag;
+    }
+}
+```
+### 10. 平方数
+
+https://leetcode-cn.com/problems/valid-perfect-square/
+
+#### 思路
+数学定理：
+```
+完全平方数是一系列奇数之和
+1 = 1
+4 = 1 + 3
+9 = 1 + 3 + 5
+16 = 1 + 3 + 5 + 7
+25 = 1 + 3 + 5 + 7 + 9
+36 = 1 + 3 + 5 + 7 + 9 + 11
+....
+1+3+...+(2n-1) = (2n-1 + 1)n/2 = n*n
+```
+#### 代码
+```Java
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        for(int i=1;num>=0;i+=2)
+        {
+            if(num==0)
+                return true;
+            num-=i;
+        }
+        return false;
+    }
+}
+```
+### 11. 3 的 n 次方
+
+https://leetcode-cn.com/problems/power-of-three/
+
+#### 思路
+通用方法是不断地/3,看会不会到1。  
+数学思想的方法：
+```
+3的幂次的质因子只有3，题目整数范围内的3的最大幂次是1162261467。
+如果N是3的幂次，那么N一定是1162261467的因子，如果不是，那么也就不是因子。
+```
+#### 代码
+```Java
+//通用方法
+class Solution {
+    public boolean isPowerOfThree(int n) {
+        if(n<=0)
+            return false;
+        if(n==1)
+            return true;
+        while(n%3==0)
+        {
+            if(n/3==1)
+                return true;
+            n/=3;
+        }
+        return false;
+    }
+}
+//数学思想
+class Solution {
+    public boolean isPowerOfThree(int n) {
+        return n > 0 && (1162261467 % n == 0);
+    }
+}
+```
+### 12. 乘积数组
+
+https://leetcode-cn.com/problems/product-of-array-except-self/
+
+#### 思路
+因为不能用除法，所以不能求总乘积再除。
+
+故选用一个数组，从左向右遍历一次，output[i]保存output[i]左侧所有数的乘积。  
+从右向左遍历一次，output[i]再乘上右侧所有数的乘积。
+
+两次遍历之后，output就存下了所需的内容。
+#### 代码
+```Java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        if(nums==null||nums.length==0)
+            return null;
+        int[] output=new int[nums.length];
+        int left=1,right=1;
+        for(int i=0;i<nums.length;i++)
+        {
+            output[i]=1;
+        }
+        for(int i=0;i<nums.length;i++)
+        {
+            output[i]=left;
+            left*=nums[i];
+        }
+        for(int i=nums.length-1;i>=0;i--)
+        {
+            output[i]*=right;
+            right*=nums[i];
+        }
+        return output;
+    }
+}
+```
+### 13. 找出数组中的乘积最大的三个数
+
+https://leetcode-cn.com/problems/maximum-product-of-three-numbers/
+
+#### 思路
+先排序，然后最大值只会有两种情况：
+1. 最大的三个正数乘积。
+2. 最大的一个正数和最小的两个负数乘积。
+
+#### 代码
+```Java
+class Solution {
+    public int maximumProduct(int[] nums) {
+        Arrays.sort(nums);
+        int n=nums.length;
+        return Math.max(nums[n-1]*nums[n-2]*nums[n-3],nums[0]*nums[1]*nums[n-1]);
+    }
+}
+```
 # 第二部分 数据结构相关
 ## 一、链表
+### 1. 找出两个链表的交点
+
+https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
+
+#### 思路
+两个单链表一定有共同的尾部，所以差异只是在前面，只要找到前面差的长度，然后补全差异之后同时向后走就可以找到交点。
+
+CYC用A的链表接上B，B的链表接上A，这样就不用手动寻找长度差异了。
+#### 代码
+```Java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int Alength=0;
+        int Blength=0;
+        ListNode temp=null;
+        temp=headA;
+        while(temp!=null)
+        {
+            Alength++;
+            temp=temp.next;
+        }
+        temp=headB;
+        while(temp!=null)
+        {
+            Blength++;
+            temp=temp.next;
+        }
+        int diff=Alength-Blength;
+        while(diff>0)
+        {
+            headA=headA.next;
+            diff--;
+        }
+        while(diff<0)
+        {
+            headB=headB.next;
+            diff++;
+        }
+        while(headA!=headB)
+        {
+            headA=headA.next;
+            headB=headB.next;
+        }
+        return headA;
+    }
+    
+}
+//CYC
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    ListNode l1 = headA, l2 = headB;
+    while (l1 != l2) {
+        l1 = (l1 == null) ? headB : l1.next;
+        l2 = (l2 == null) ? headA : l2.next;
+    }
+    return l1;
+}
+```
+### 2. 链表反转
+
+https://leetcode-cn.com/problems/reverse-linked-list/
+
+#### 思路
+头部插入
+#### 代码
+```Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode tail=null;
+        while(head!=null)
+        {
+            ListNode temp=head;
+            head=head.next;
+            temp.next=tail;
+            tail=temp;
+        }
+        return tail;
+    }
+}
+```
+### 3. 归并两个有序的链表
+
+https://leetcode-cn.com/problems/merge-two-sorted-lists/
+
+#### 思路
+类似归并
+#### 代码
+```Java
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode head=new ListNode(0);
+        ListNode newlink=head;
+        while(l1!=null||l2!=null)
+        {
+            if(l1==null)
+            {
+                newlink.next=l2;
+                return head.next; 
+            }
+            else
+                if(l2==null)
+                {
+                    newlink.next=l1;
+                    return head.next;
+                }
+            else
+            {
+                if(l1.val>l2.val)
+                {
+                    newlink.next=l2;
+                    newlink=newlink.next;
+                    l2=l2.next;
+                }
+                else
+                {
+                    newlink.next=l1;
+                    newlink=newlink.next;
+                    l1=l1.next;
+                }
+            }
+        }
+        return head.next;
+    }
+}
+```
+### 4. 从有序链表中删除重复节点
+
+https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/
+
+#### 思路
+一次遍历
+#### 代码
+```Java
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode res=head;
+        while(res!=null&&res.next!=null)
+        {
+            if(res.val==res.next.val)
+                res.next=res.next.next;
+            else
+                res=res.next;
+        }
+        return head;
+    }
+}
+```
+### 5. 删除链表的倒数第 n 个节点
+
+https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+
+#### 思路
+为了不进行两次遍历，可以用快慢指针，让快指针先走N步，在快指针到结尾时慢指针即是要删除的节点。  
+如果快指针走到了尾部，说明要删除的是头结点，直接返回head.next即可。
+#### 代码
+```Java
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null||head.next==null)
+            return null;
+        ListNode fast=head;
+        for(int i=0;i<n;i++)
+        {
+            fast=fast.next;
+        }
+        ListNode slow=head;
+        if(fast==null)
+            return head.next;
+        while(fast.next!=null)
+        {
+            fast=fast.next;
+            slow=slow.next;
+        }
+        slow.next=slow.next.next;
+        return head;
+    }
+}
+```
+### 6. 交换链表中的相邻结点
+
+https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+
+#### 思路
+两两交换，交换之后跳过一个。  
+为了交换需要之前前一个节点的指针，故建立一个先导节点。
+#### 代码
+```Java
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode beforehead=new ListNode(0);
+        beforehead.next=head;
+        ListNode temp=null;
+        int count=0;
+        ListNode p=beforehead;
+        while(p.next!=null&&p.next.next!=null)
+        {
+            if(count==1)
+            {
+                count=0;
+                p=p.next.next;
+            }
+            else
+            {
+                count++;
+                temp=p.next.next;
+                p.next.next=p.next.next.next;
+                temp.next=p.next;
+                p.next=temp;
+            }
+        }
+        return beforehead.next;
+    }
+}
+```
+### 7. 链表求和
+
+https://leetcode-cn.com/problems/add-two-numbers-ii/
+
+#### 思路
+用栈来反转链表，然后倒序计算构建新链表。
+#### 代码
+```Java
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack<Integer> l1Stack = buildStack(l1);
+        Stack<Integer> l2Stack = buildStack(l2);
+        ListNode head = new ListNode(-1);
+        int carry = 0;
+        while (!l1Stack.isEmpty() || !l2Stack.isEmpty() || carry != 0) {
+            int x = l1Stack.isEmpty() ? 0 : l1Stack.pop();
+            int y = l2Stack.isEmpty() ? 0 : l2Stack.pop();
+            int sum = x + y + carry;
+            ListNode node = new ListNode(sum % 10);
+            node.next = head.next;
+            head.next = node;
+            carry = sum / 10;
+        }
+        return head.next;
+    }
+
+    private Stack<Integer> buildStack(ListNode l) {
+        Stack<Integer> stack = new Stack<>();
+        while (l != null) {
+            stack.push(l.val);
+            l = l.next;
+        }
+        return stack;
+    }
+}
+```
+### 8. 回文链表
+
+https://leetcode-cn.com/problems/palindrome-linked-list/
+
+#### 思路
+快慢指针，2倍速前进，获得中点，截断反转，同步判断。
+#### 代码
+```Java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+         if (head == null || head.next == null) {
+            return true;
+        }
+        ListNode fast=head;
+        ListNode slow=head;
+        while(fast.next!=null&&fast.next.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        slow=reverse(slow.next);
+        while(slow!=null)
+        {
+            if(head.val!=slow.val)
+                return false;
+            head=head.next;
+            slow=slow.next;
+        }
+        return true;
+    }
+    private ListNode reverse(ListNode head) {
+        ListNode newHead = null;
+        while (head != null) {
+            ListNode nextNode = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = nextNode;
+        }
+        return newHead;
+    }
+}
+```
+### 9. 分隔链表
+
+https://leetcode-cn.com/problems/split-linked-list-in-parts/
+
+### 思路
+先遍历求一次链表长度N，然后因为要分隔K段，所以每段长度为N/k,多余的节点数为N%K,把这个N%K个节点给前N%K段每段的长度+1即可。
+### 代码
+```Java
+class Solution {
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        int N = 0;
+        ListNode cur = root;
+        while (cur != null) {
+            N++;
+            cur = cur.next;
+        }
+        int mod = N % k;
+        int size = N / k;
+        ListNode[] ret = new ListNode[k];
+        cur = root;
+        for (int i = 0; cur != null && i < k; i++) {
+            ret[i] = cur;
+            int curSize = size + (mod-- > 0 ? 1 : 0);
+            for (int j = 0; j < curSize - 1; j++) {
+                cur = cur.next;
+            }
+            ListNode next = cur.next;
+            cur.next = null;
+            cur = next;
+        }
+        return ret;
+    }
+}
+```
+### 10. 链表元素按奇偶聚集
+
+https://leetcode-cn.com/problems/odd-even-linked-list/
+
+#### 思路
+奇数节点的next是偶数节点指针的next，偶数节点的next是奇数节点指针的next。
+#### 代码
+```Java
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head==null||head.next==null||head.next.next==null)
+            return head;
+        ListNode singlehead=head;
+        ListNode midhead=head.next;
+        ListNode doublehead=head.next;
+        while (singlehead.next != null && doublehead.next != null) {
+            singlehead.next = doublehead.next;
+            singlehead =singlehead.next;
+            doublehead.next = singlehead.next;
+            doublehead = doublehead.next;
+        }
+        singlehead.next=midhead;
+        return head;
+    }
+}
+```
 ## 二、树
+### 1. 树的高度
+
+https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/submissions/
+
+#### 思路
+递归求解
+#### 代码
+```Java
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) 
+            return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+}
+```
+### 2. 平衡树
+
+https://leetcode-cn.com/problems/balanced-binary-tree/
+
+#### 思路
+递归查找左右子树高度，比较判断高度差。
+#### 代码
+```Java
+class Solution {
+    public boolean balance=true;
+    public boolean isBalanced(TreeNode root) {
+        maxdepth(root);
+        return balance;
+    }
+    int maxdepth(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int left=maxdepth(root.left);
+        int right=maxdepth(root.right);
+        if((left-right)>1||(left-right)<-1)
+            balance=false;
+        return Math.max(left,right)+1;
+    }
+}
+```
+### 3. 两节点的最长路径
+
+https://leetcode-cn.com/problems/diameter-of-binary-tree/
+
+#### 思路
+最长长度一定是某个节点的左右子树长度之和，故只需查找左右子树高度，然后相加找最大值。
+#### 代码
+```Java
+class Solution {
+    int max=0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxdepth(root);
+        return max;
+    }
+    int maxdepth(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int left=maxdepth(root.left);
+        int right=maxdepth(root.right);
+        max=Math.max(max,left+right);
+        return Math.max(left,right)+1;
+    }
+}
+```
+### 4. 翻转树
+
+https://leetcode-cn.com/problems/invert-binary-tree/
+
+#### 思路
+交换左右子树即可。
+#### 代码
+```Java
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) 
+            return null;
+        // 后面的操作会改变 left 指针，因此先保存下来
+        TreeNode left = root.left;  
+        root.left = invertTree(root.right);
+        root.right = invertTree(left);
+        return root;
+    }
+}
+```
+### 5. 归并两棵树
+
+https://leetcode-cn.com/problems/merge-two-binary-trees/
+
+#### 思路
+递归同时遍历两棵树，相同位置节点值相加,如果有一边已经为空，则直接返回节点。
+#### 代码
+```Java
+class Solution {
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        if(t1==null)
+            return t2;
+        if(t2==null)
+            return t1;
+        t1.val=t1.val+t2.val;
+        t1.left=mergeTrees(t1.left,t2.left);
+        t1.right=mergeTrees(t1.right,t2.right);
+        return t1;
+    }
+}
+```
+### 6. 判断路径和是否等于一个数
+
+https://leetcode-cn.com/problems/path-sum/
+
+#### 思路
+左右递归遍历，有一路为真即可，遍历时每层剪掉当前值，看是否为0。
+#### 代码
+```Java
+class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) 
+           return false;
+        if (root.left == null && root.right == null && root.val == sum) 
+            return true;
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+}
+```
+### 7. 统计路径和等于一个数的路径数量
+
+https://leetcode-cn.com/problems/path-sum-iii/
+
+#### 思路
+双重递归，一方面递归所有节点，另一方面递归从当前节点出发，是否有路径满足需求。
+#### 代码
+```Java
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if(root==null)
+            return 0;
+        return find(root,sum)+pathSum(root.left,sum)+pathSum(root.right,sum);
+    }
+    public int find(TreeNode root,int sum)
+    {
+        if(root==null)
+            return 0;
+        sum-=root.val;
+        int count=0;
+        if(sum==0)
+            count++;
+        count+=find(root.left,sum)+find(root.right,sum);
+        return count;
+    }
+}
+```
+### 8. 子树
+
+https://leetcode-cn.com/problems/subtree-of-another-tree/
+
+#### 思路
+双重递归，一次递归所有节点，另一次递归所有从当前节点出发的子树是否和t一样。
+#### 代码
+```Java
+class Solution {
+    public boolean issame=false;
+    public boolean isSubtree(TreeNode s, TreeNode t) {
+        if(s==null&&t==null)
+            return true;
+        if(s==null&&t!=null)
+            return false;
+        if(s!=null&&t==null)
+            return true;
+        return compare(s,t)||isSubtree(s.left,t)||isSubtree(s.right,t);
+    }
+    public boolean compare(TreeNode s,TreeNode t)
+    {
+        if(s==null&&t==null)
+            return true;
+        if(s==null||t==null)
+            return false;
+        if(s.val!=t.val)
+            return false;
+        return compare(s.left,t.left)&&compare(s.right,t.right);
+    }
+}
+```
+### 9. 树的对称
+
+https://leetcode-cn.com/problems/symmetric-tree/
+
+#### 思路
+左右子树对称判断是否相等
+#### 代码
+```Java
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null)
+            return true;
+        return issame(root.left,root.right);
+    }
+    public boolean issame(TreeNode left,TreeNode right)
+    {
+        if(left==null&&right==null)
+            return true;
+        if(left==null||right==null)
+            return false;
+        if(left.val!=right.val)
+            return false;
+        return issame(left.left,right.right)&&issame(left.right,right.left);
+    }
+}
+```
+### 10. 最小路径
+
+https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+
+#### 思路
+向两侧遍历左子树和右子树的深度，取最小值。  
+当遍历到有子节点为空时，两侧皆空为叶子结点，返回0，一侧为空则不符合要求，还需遍历另一侧。
+#### 代码
+```Java
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) 
+            return 0;
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+        if (left == 0 || right == 0) 
+            return left + right + 1;
+        return Math.min(left, right) + 1;
+    }
+}
+```
+### 11. 统计左叶子节点的和
+
+https://leetcode-cn.com/problems/sum-of-left-leaves/
+
+#### 思路
+用一个辅助函数判断当前节点是否为叶子节点，然后遍历这棵树，对每个节点的左子节点进行一次判断，如果是叶子节点就进行累加。
+#### 代码
+```Java
+class Solution {
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) 
+            return 0;
+        if (isLeaf(root.left)) 
+            return root.left.val + sumOfLeftLeaves(root.right);
+        return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+
+    private boolean isLeaf(TreeNode node){
+        if (node == null) 
+            return false;
+        return node.left == null && node.right == null;
+    }
+}
+```
+### 12. 相同节点值的最大路径长度
+
+https://leetcode-cn.com/problems/longest-univalue-path/comments/
+
+#### 思路
+对于每个节点，分别遍历左子树与当前节点值相等的长度，右子树与当前节点值相等的长度，然后累和取得当前同值路径长度，再取最大值。
+#### 代码
+```Java
+class Solution {
+    public int res=0;
+    public int longestUnivaluePath(TreeNode root) {
+        findmax(root);
+        return res;
+    }
+    public int findmax(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int leftlength=findmax(root.left)+1;
+        int rightlength=findmax(root.right)+1;
+        if(root.left==null||root.left.val!=root.val)
+            leftlength=0;
+        if(root.right==null||root.right.val!=root.val)
+            rightlength=0;
+        res=Math.max(res,leftlength+rightlength);
+        return Math.max(leftlength,rightlength);
+    }
+}
+```
+### 13. 间隔遍历
+
+https://leetcode-cn.com/problems/house-robber-iii/
+
+#### 思路
+对于当前节点，一共有两种打劫的选择：
+1. 打劫当前节点，则收益为当前节点+当前节点的左子节点的左右子节点+当前节点的右节点的左右子节点。
+2. 不打劫当前节点，则收益为当前节点的左子节点收益+右子节点收益。
+
+#### 代码
+```Java
+class Solution {
+    public int rob(TreeNode root) {
+        if(root==null)
+            return 0;
+        int option1=root.val;
+        if(root.left!=null)
+            option1+=rob(root.left.left)+rob(root.left.right);
+        if(root.right!=null)
+            option1+=rob(root.right.left)+rob(root.right.right);
+        int option2=rob(root.left)+rob(root.right);
+        return Math.max(option1,option2);
+    }
+}
+```
+### 14. 找出二叉树中第二小的节点
+
+https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/
+
+#### 思路
+因为二叉树的中任何一个节点的值一定不大于其子节点，所以我们从根节点开始左右遍历，分别找到第一个不相同的值，然后比较两侧大小即可。
+#### 代码
+```Java
+class Solution {
+    public int min=-1;
+    public int findSecondMinimumValue(TreeNode root) {
+        if(root==null)
+            return min;
+        if(root.left!=null)
+        {
+            if(root.left.val!=root.val)
+            {
+                if(min==-1)
+                    min=root.left.val;
+                else
+                    min=Math.min(min,root.left.val);
+            }
+            else
+                findSecondMinimumValue(root.left);
+                
+        }
+        if(root.right!=null)
+        {
+            if(root.right.val!=root.val)
+            {
+                if(min==-1)
+                    min=root.right.val;
+                else
+                    min=Math.min(min,root.right.val);
+            }
+            else
+                findSecondMinimumValue(root.right);
+        }
+        return min;
+    }
+}
+```
+### 15. 一棵树每层节点的平均数
+
+https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/
+
+#### 思路
+用Double的List存每层的平均值，用Int的List存每层的节点个数，然后遍历计算。
+#### 代码
+```Java
+class Solution {
+    List<Double> res=new ArrayList<Double>();
+    List<Integer> count=new ArrayList<Integer>();
+    public List<Double> averageOfLevels(TreeNode root) {
+        cal(root,0);
+        return res;
+    }
+    public void cal(TreeNode root,int depth)
+    {
+        if(root==null)
+            return ;
+        if(res.size()<=depth)
+        {
+            res.add((double)root.val);
+            count.add(1);
+        }
+        else
+        {
+            int curcount=count.get(depth);
+            double curvalue=res.get(depth);
+            res.set(depth,(curvalue*curcount+root.val)/(curcount+1));
+            count.set(depth,curcount+1); 
+        }
+        cal(root.left,depth+1);
+        cal(root.right,depth+1);
+    }
+}
+```
+### 16. 得到左下角的节点
+
+https://leetcode-cn.com/problems/find-bottom-left-tree-value/
+
+#### 思路
+用辅助List，存先序遍历每个深度的第一个节点即可。
+#### 代码
+```Java
+class Solution {
+    List<Integer> res=new ArrayList<>();
+    public int findBottomLeftValue(TreeNode root) {
+        assist(root,0);
+        return res.get(res.size()-1);
+    }
+    public void assist(TreeNode root,int depth)
+    {
+        if(root==null)
+            return;
+        if(res.size()<=depth)
+        {
+            res.add(root.val);
+        }
+        assist(root.left,depth+1);
+        assist(root.right,depth+1);
+    }
+}
+```
+### 17. 非递归实现二叉树的三种遍历
+前序遍历：  
+https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
+
+后序遍历：  
+https://leetcode-cn.com/problems/binary-tree-postorder-traversal/
+
+中序遍历：  
+https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+
+#### 思路
+用迭代就需要用辅助栈控制遍历顺序。  
+前序遍历是`root->left->right`。  
+后序遍历是`left->right->root`,其倒序是`root->right->left`。可以反向构造。
+中序遍历是`left->root->right`,需要先把左子树全入栈。
+#### 代码
+```Java
+//前序遍历
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node == null) 
+                continue;
+            res.add(node.val);
+            stack.push(node.right);
+            stack.push(node.left);
+        }
+        return res;
+    }
+}
+//后序遍历
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node == null) 
+                continue;
+            res.addFirst(node.val);
+            stack.push(node.left);
+            stack.push(node.right);
+        }
+        return res;
+    }
+}
+//中序遍历
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        while (cur != null || !stack.isEmpty()) {
+            if (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            } else {
+                cur = stack.pop();
+                list.add(cur.val);
+                cur = cur.right;
+            }
+        }
+        return list;
+    }
+}
+```
+### 18. 修剪二叉查找树
+
+https://leetcode-cn.com/problems/trim-a-binary-search-tree/submissions/
+
+#### 思路
+如果当前节点符合区间，左右向下递归。    
+如果当前节点小于区间，用当前节点右子树代替当前节点，然后递归。  
+如果当前节点大于区间，用当前节点左子树代替当前节点，然后递归。  
+#### 代码
+```Java
+class Solution {
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if(root==null)
+            return null;
+        if(root.val>=L&&root.val<=R)
+        {
+            root.left=trimBST(root.left,L,R);
+            root.right=trimBST(root.right,L,R);
+        }
+        else
+        {
+            if(root.val<L)
+            {
+                root=trimBST(root.right,L,R);
+            }
+            else
+            {
+                root=trimBST(root.left,L,R);
+            }
+        }
+        return root;
+    }
+}
+```
+### 19. 寻找二叉查找树的第 k 个元素
+
+https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/
+
+#### 思路
+由二叉搜索树性质可知，对其进行中序遍历就可以还原其大小顺序，所以只需进行中序遍历，第K个元素就是第K小的。
+#### 代码
+```Java
+class Solution {
+    int count=0;
+    int res=0;
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) 
+            return res;
+        kthSmallest(root.left, k);
+        count++;
+        if (count == k) {
+            res = root.val;
+            return res;
+        }
+        kthSmallest(root.right, k);
+        return res;
+    }
+}
+```
+### 20. 把二叉查找树每个节点的值都加上比它大的节点的值
+
+https://leetcode-cn.com/problems/convert-bst-to-greater-tree/
+
+#### 思路
+因为二叉查找树的大小顺序为`left<root<right`,所以按照`right->root->left`的顺序来遍历，并累加上所有遍历过的值即可。
+#### 代码
+```Java
+class Solution {
+    int sum=0;
+    public TreeNode convertBST(TreeNode root) {
+        if(root==null)
+            return null;
+        convertBST(root.right);
+        sum+=root.val;
+        root.val=sum;
+        convertBST(root.left);
+        return root;
+    }
+}
+```
+### 21. 二叉查找树的最近公共祖先
+
+https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+
+#### 思路
+由二叉搜索树的特性可知，如果p,q都小于root，说明他们都在左子树，如果都大于root，说明都在右子树。
+当`p<=root.val<=q`的时候，说明p，q分布在两侧，则Root是其最近的公共祖先。
+#### 代码
+```Java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null)
+            return null;
+        if(p.val>q.val)
+        {
+            TreeNode temp=p;
+            p=q;
+            q=temp;
+        }
+        if(p.val<=root.val&&q.val>=root.val)
+            return root;
+        if(q.val<root.val)
+            return lowestCommonAncestor(root.left,p,q);
+        return lowestCommonAncestor(root.right,p,q);
+    
+    }
+}
+```
+### 22. 二叉树的最近公共祖先
+
+https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/ 
+
+#### 思路
+对于任意P，Q如果我们递归进行寻找，直到找到P或者Q或者空，就该返回当前节点了，那么在返回之前，我们会遇到三种情况：
+1. 左子树递归为空，右子树递归为空，说明两侧都没有，返回null。
+2. 左子树递归不为空，右子树递归不为空，说明两侧一边一个节点，那么当前节点就是最近公共祖先，返回当前节点。
+3. 有一边为空，说明两个节点都在另一边，递归该侧。
+
+#### 代码
+```Java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null||root==q||root==p)
+            return root;
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+        TreeNode right=lowestCommonAncestor(root.right,p,q);
+        if(left==null&&right==null)
+            return null;
+        if(left!=null&&right!=null)
+            return root;
+        if(left==null)
+            return right;
+        return left;
+    }
+}
+```
+### 23. 从有序数组中构造二叉查找树
+
+https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/
+
+#### 思路
+因为数组有序，故可以进行二分，用中值做根节点，左半部分构建左子树，右半部分构建右子树。
+#### 代码
+```Java
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums==null)
+            return null;
+        return build(nums,0,nums.length-1);
+    }
+    TreeNode build(int[] nums,int left,int right)
+    {
+        if(left>right)
+            return null;
+        int mid=left+(right-left)/2;
+        TreeNode root=new TreeNode(nums[mid]);
+        root.left=build(nums,left,mid-1);
+        root.right=build(nums,mid+1,right);
+        return root;
+    }
+}
+```
+### 24. 根据有序链表构造平衡的二叉查找树
+
+https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/
+
+#### 思路
+因为单链表有序，所以递归思想是：从单链表中部截断，取中间节点为root，两侧两段单链表分别构成左右子树，进行递归。
+#### 代码
+```Java
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head == null) 
+            return null;
+        if(head.next == null) 
+            return new TreeNode(head.val);
+        ListNode slow=head;
+        ListNode fast=head;
+        ListNode beforeslow=null;
+        while(fast!=null&&fast.next!=null)
+        {
+            beforeslow=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }        
+        TreeNode root=new TreeNode(slow.val);
+        beforeslow.next=null;
+        root.left=sortedListToBST(head);
+        root.right=sortedListToBST(slow.next);
+        return root;
+    }
+}
+```
+### 25. 在二叉查找树中寻找两个节点，使它们的和为一个给定值
+
+https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/
+
+#### 思路
+遍历二叉树，用辅助List保存所有节点值，因为是二叉搜索树，所以使用中序遍历可以获得有序List。
+然后查找List即可。
+#### 代码
+```Java
+class Solution {
+    List<Integer> nodes=new ArrayList<>();
+    public boolean findTarget(TreeNode root, int k) {
+        Traversal(root);
+        for(int i=0,j=nodes.size()-1;i<j;)
+        {
+            int sum=nodes.get(i)+nodes.get(j);
+            if(sum==k)
+                return true;
+            if(sum<k)
+                i++;
+            else
+                j--;
+        }
+        return false;
+    }
+    public void Traversal(TreeNode root)
+    {
+        if(root==null)
+            return ;
+        Traversal(root.left);
+        nodes.add(root.val);
+        Traversal(root.right);
+    }
+}
+```
+### 26. 在二叉查找树中查找两个节点之差的最小绝对值
+
+https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/
+
+#### 思路
+1. 构造辅助List存放所有节点，然后遍历相邻两位的差值，取最小值。
+2. 利用二叉查找树的中序遍历为有序的性质，计算中序遍历中临近的两个节点之差的绝对值，取最小值。
+
+#### 代码
+```Java
+//辅助List
+class Solution {
+    List<Integer> nodes=new ArrayList<>();
+    public int getMinimumDifference(TreeNode root) {
+        Traversal(root);
+        if(nodes.size()<2)
+            return 0;
+        int min=Math.abs(nodes.get(0)-nodes.get(1));
+        for(int i=1;i<nodes.size();i++)
+        {
+            min=Math.min(min,Math.abs(nodes.get(i)-nodes.get(i-1)));
+        }
+        return min;
+    }
+    public void Traversal(TreeNode root)
+    {
+        if(root==null)
+            return ;
+        Traversal(root.left);
+        nodes.add(root.val);
+        Traversal(root.right);
+    }
+}
+//直接计算
+class Solution {
+    private int minDiff = Integer.MAX_VALUE;
+    private TreeNode preNode = null;
+    public int getMinimumDifference(TreeNode root) {
+        inOrder(root);
+        return minDiff;
+    }
+    private void inOrder(TreeNode node) {
+        if (node == null) 
+            return;
+        inOrder(node.left);
+        if (preNode != null) 
+            minDiff = Math.min(minDiff, node.val - preNode.val);
+        preNode = node;
+        inOrder(node.right);
+    }
+}
+```
+### 27. 寻找二叉查找树中出现次数最多的值
+
+https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/
+
+#### 思路
+对二叉搜索树用中序遍历一定是有序的，故直接中序遍历，然后统计长度。
+#### 代码
+```Java
+class Solution {
+    int curcount=0;
+    int count=0;
+    TreeNode prenode=null;
+    List<Integer> maxlist=new ArrayList<>();
+    public int[] findMode(TreeNode root) {
+        Traversal(root);
+        int[] res=new int[maxlist.size()];
+        for(int i=0;i<maxlist.size();i++)
+            res[i]=maxlist.get(i);
+        return res;
+    }
+    public void Traversal(TreeNode root)
+    {
+        if(root==null)
+            return ;
+        Traversal(root.left);
+        if(prenode!=null)
+        {
+            if(prenode.val==root.val)
+                curcount++;
+            else
+            {
+                curcount=0;
+            }
+        }
+        if(curcount>count)
+        {
+            maxlist.clear();
+            maxlist.add(root.val);
+            count=curcount;
+        }
+        else
+            if(curcount==count)
+                maxlist.add(root.val);
+        prenode=root;
+        Traversal(root.right);
+    }
+}
+```
+### 28. 实现一个 Trie
+
+https://leetcode-cn.com/problems/implement-trie-prefix-tree/
+
+#### 思路
+Trie(字典树)是一种在字符串查找，前缀匹配等方面应用广泛的算法，它在查找字符串时只与被查询的字符串长度有关，所以它在查找时只有O(1)的时间复杂度，但随之而来的较大的空间复杂度。  
+Trie的主要结构如下图所示：
+![](https://pic002.cnblogs.com/images/2012/363302/2012091115401883.jpg)  
+根节点不带有任何字母，然后每个节点向下都可以有26个分支(对于小写字母字典树而言，如果需要扩大范围，分支数量也会扩大)。分别对应了26个字母的选择，然后每个分支还会有26个字母，从而构建了一个从任何字母出发，可以到达任意字母的链路，从而可以用于表示任意单词。
+#### 代码
+```Java
+class Trie {
+    private TrieNode root;
+    //定义字典类的数据结构
+    private class TrieNode {
+        char val;
+        TrieNode[] children;
+        //初始化节点，为当前节点赋值，并生成大小为27的数组，前26个用于存放子节点，第27个来代表是否为叶子节点。
+        public TrieNode(char val) {
+            this.val = val;
+            children = new TrieNode[27];
+        }
+    }
+    /**
+     * Initialize your data structure here.
+     */
+    //用'0'来代表当前为叶子节点。
+    public Trie() {
+        root = new TrieNode('0');
+    }
+    /**
+     * Inserts a word into the trie.
+     */
+    public void insert(String word) {
+        int length = word.length();
+        TrieNode node = root;
+        //构造一个以字符串长度为深度的树
+        for (int i = 0; i < length; i++) {
+            char c = word.charAt(i);
+            int position = c - 'a';
+            //如果当前还不存在该节点，构造该节点
+            if (node.children[position] == null) {
+                node.children[position] = new TrieNode(c);
+            }
+            //指针向下层移动
+            node = node.children[position];
+        }
+        //设置为叶子结点
+        node.children[26] = new TrieNode('0');
+    }
+
+    /**
+     * Returns if the word is in the trie.
+     */
+    public boolean search(String word) {
+        int length = word.length();
+        TrieNode node = root;
+
+        for (int i = 0; i < length; i++) {
+            char c = word.charAt(i);
+            int position = c - 'a';
+            //搜索到一半树中止了，false
+            if (node.children[position] == null) {
+                return false;
+            } else {
+                //向下层遍历
+                node = node.children[position];
+            }
+        }
+        //看是否是叶子节点
+        if (node.children[26] != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns if there is any word in the trie that starts with the given prefix.
+     */
+    public boolean startsWith(String prefix) {
+        int length = prefix.length();
+        TrieNode node = root;
+
+        for (int i = 0; i < length; i++) {
+            char c = prefix.charAt(i);
+            int position = c - 'a';
+
+            if (node.children[position] == null) {
+                return false;
+            } else {
+                node = node.children[position];
+            }
+        }
+        return true;
+    }
+
+    
+}
+```
+### 29. 实现一个 Trie，用来求前缀和
+
+https://leetcode-cn.com/problems/map-sum-pairs/
+
+#### 思路
+与上题类似，本质是构造一个字典树，本次对于每个节点都构造一个变量存放当前的sum值，父节点在遍历时与先前值进行累加，即可得到以当前父节点为前缀的总和。  
+在插入时先检索是否有完全匹配的路径，有的话需要先剪掉当前值再累和，从而实现覆盖。
+#### 代码
+```Java
+class MapSum {
+    private TrieNode root;
+    //定义字典类的数据结构
+    private class TrieNode {
+        char val;
+        int cursum;
+        TrieNode[] children;
+        //初始化节点，为当前节点赋值，并生成大小为27的数组，前26个用于存放子节点，第27个来代表是否为叶子节点。
+        public TrieNode(char val,int sum) {
+            this.val = val;
+            this.cursum=sum;
+            children = new TrieNode[27];
+        }
+    }
+    /** Initialize your data structure here. */
+    public MapSum() {
+        root = new TrieNode('0',0);
+    }
+    
+    public void insert(String key, int val) {
+        int curval=search(key);        
+        int length = key.length();
+        TrieNode node = root;
+        //构造一个以字符串长度为深度的树
+        for (int i = 0; i < length; i++) {
+            char c = key.charAt(i);
+            int position = c - 'a';
+            //如果当前还不存在该节点，构造该节点
+            if (node.children[position] == null) {
+                node.children[position] = new TrieNode(c,val);
+            }
+            else
+                node.children[position].cursum+=val-curval;
+            //指针向下层移动
+            node = node.children[position];
+        }
+        //设置为叶子结点
+        node.children[26] = new TrieNode('0',0);
+    }
+    
+    public int sum(String prefix) {
+        int length = prefix.length();
+        TrieNode node = root;
+        for (int i = 0; i < length; i++) {
+            char c = prefix.charAt(i);
+            int position = c - 'a';
+
+            if (node.children[position] == null) {
+                return 0;
+            } else {
+                node = node.children[position];
+            }
+        }
+        return node.cursum;
+    }
+    public int search(String word) {
+        int length = word.length();
+        TrieNode node = root;
+        for (int i = 0; i < length; i++) {
+            char c = word.charAt(i);
+            int position = c - 'a';
+            //搜索到一半树中止了，false
+            if (node.children[position] == null) {
+                return 0;
+            } else {
+                //向下层遍历
+                node = node.children[position];
+            }
+        }
+        //看是否是叶子节点
+        if (node.children[26] != null) {
+            return node.cursum;
+        } else {
+            return 0;
+        }
+    }
+}
+```
 ## 三、栈和队列
+### 1. 用栈实现队列
+
+https://leetcode-cn.com/problems/implement-queue-using-stacks/
+
+#### 思路
+队列的特性是先进先出，而栈是先进后出，所以在出栈时需要先颠倒原栈顺序。
+#### 代码
+```Java
+class MyQueue {
+    Stack<Integer> que=new Stack<>();
+    Stack<Integer> sup=new Stack<>();
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        
+    }
+    
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        sup.push(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        reverse();
+        return que.pop();
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        reverse();
+        return que.peek();
+    }
+    
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return que.isEmpty()&&sup.isEmpty();
+    }
+    void reverse()
+    {
+        if (que.isEmpty()) {
+             while(!sup.isEmpty())
+            {
+                que.push(sup.pop());
+            }
+        }
+    }
+}
+```
+### 2. 用队列实现栈
+
+https://leetcode-cn.com/problems/implement-stack-using-queues/
+
+#### 思路
+新插入元素之后，将除了新元素之外的所有元素都出队列再入队列，即可以维护顺序。  
+`就是这些函数名不太好记`
+#### 代码
+```Java
+class MyStack {
+    Queue<Integer> que=new LinkedList<>();
+    /** Initialize your data structure here. */
+    public MyStack() {
+        
+    }
+    
+    /** Push element x onto stack. */
+    public void push(int x) {
+        int cursize=que.size();
+        que.add(x);
+        for(int i=0;i<cursize;i++)
+        {
+            que.add(que.poll());
+        }
+    }
+    
+    /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        return que.remove();
+    }
+    
+    /** Get the top element. */
+    public int top() {
+        return que.peek();
+    }
+    
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return que.isEmpty();
+    }
+}
+```
+### 3. 最小值栈
+
+https://leetcode-cn.com/problems/min-stack/
+
+#### 思路
+维护一个最小值栈，然后每次push的时候同步push当前最小值，pop的时候也同步pop即可。
+#### 代码
+```Java
+class MinStack {
+    private Stack<Integer> dataStack=new Stack<>();
+    private Stack<Integer> minStack=new Stack<>();
+    private int min;
+    public MinStack() {
+        min = Integer.MAX_VALUE;
+    }
+
+    public void push(int x) {
+        dataStack.add(x);
+        min = Math.min(min, x);
+        minStack.add(min);
+    }
+
+    public void pop() {
+        dataStack.pop();
+        minStack.pop();
+        min = minStack.isEmpty() ? Integer.MAX_VALUE : minStack.peek();
+    }
+
+    public int top() {
+        return dataStack.peek();
+    }
+
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+```
+### 4. 用栈实现括号匹配
+
+https://leetcode-cn.com/problems/valid-parentheses/
+
+#### 思路
+左括号push入栈，右括号则将元素pop出栈进行比较，能够配对则成功，不能则失败。
+#### 代码
+```Java
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> st=new Stack<>();
+        for(int i=0;i<s.length();i++)
+        {
+            char ch=s.charAt(i);
+            if(ch=='('||ch=='['||ch=='{')
+            {
+                st.push(ch);
+            }
+            else
+            {
+                if(ch==')'||ch==']'||ch=='}')
+                {
+                    if(st.isEmpty())
+                        return false;
+                    char cur=st.pop();
+                    if(ch==')'&&cur!='(')
+                        return false;
+                    if(ch==']'&&cur!='[')
+                        return false;
+                    if(ch=='}'&&cur!='{')
+                        return false;
+                }
+            }
+        }
+        if(st.isEmpty())
+            return true;
+        return false;
+    }
+}
+```
+### 5. 数组中元素与下一个比它大的元素之间的距离
+
+https://leetcode-cn.com/problems/daily-temperatures/
+
+#### 思路
+维护一个递减栈，在遍历数组的同时进行维护，如果当前遍历的元素:
+1. 小于栈顶元素，那么就入栈，从而保证了栈内元素在目前为止没有在各自的位置后面找到比他们大的数。
+2. 大于栈顶元素，那么就开始出栈，意味着当前所遍历的元素，对于所有因为小于他而出栈的元素而言，都是第一次遇到的比他们大的数。两者下标相减，就可以获得天数差值,最后将当前元素入栈。
+3. 最后的元素位置应该用0代替，遍历之后还未出栈的元素，说明没有比他大的元素，也要用0代替，但是数组初始化为0，不用再多赋值。
+
+#### 代码
+```Java
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        int[] res=new int[T.length];
+        Stack<Integer> supStack=new Stack<>();
+        for(int i=0;i<T.length;i++)
+        {
+            if(supStack.isEmpty()||T[i]<=T[supStack.peek()])
+               supStack.push(i);
+            else
+            {
+                while(!supStack.isEmpty()&&T[i]>T[supStack.peek()])
+                {
+                    int index=supStack.pop();
+                    res[index]=i-index;
+                }
+                supStack.push(i);
+            }
+        }
+        return res;
+    }
+}
+```
+### 6. 循环数组中比当前元素大的下一个元素
+
+https://leetcode-cn.com/problems/next-greater-element-ii/
+
+#### 思路
+和上题类似，只是本题需要将待检测数组重复一遍用来实现循环比较，并且在数组中不再保存下标差而是实际值。
+#### 代码
+```Java
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int[] res=new int[nums.length];
+        Arrays.fill(res,-1);
+        Stack<Integer> supStack=new Stack<>();
+        for(int i=0;i<nums.length*2;i++)
+        {
+            int realindex=i%nums.length;
+            
+            if(supStack.isEmpty()||nums[realindex]<nums[supStack.peek()])
+               supStack.push(realindex);
+            else
+            {
+                while(!supStack.isEmpty()&&nums[realindex]>nums[supStack.peek()])
+                {
+                    int index=supStack.pop();
+                    res[index]=nums[realindex];
+                }
+                supStack.push(realindex);
+            }
+        }
+        return res;
+    }
+}
+```
 ## 四、哈希表
 ## 五、字符串
 ## 六、数组与矩阵
