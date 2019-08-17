@@ -3922,7 +3922,286 @@ class Solution {
 }
 ```
 ## 四、哈希表
+### 1. 数组中两个数的和为给定值
+
+https://leetcode-cn.com/problems/two-sum/
+
+#### 思路
+可以先对数组进行排序，然后使用双指针方法或者二分查找方法。这样做的时间复杂度为 O(NlogN)，空间复杂度为 O(1)。
+
+用 HashMap 存储数组元素和索引的映射，在访问到 nums[i] 时，判断 HashMap 中是否存在 target - nums[i]，如果存在说明 target - nums[i] 所在的索引和 i 就是要找的两个数。该方法的时间复杂度为 O(N)，空间复杂度为 O(N)，使用空间来换取时间。
+
+#### 代码
+```Java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer,Integer> index=new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(index.containsKey(target-nums[i]))
+                return new int[]{i,index.get(target-nums[i])};
+            else
+                index.put(nums[i],i);
+        }
+        return null;
+    }
+}
+```
+### 2. 判断数组是否含有重复元素
+
+https://leetcode-cn.com/problems/contains-duplicate/
+
+#### 思路
+利用HashSet不保存重复元素的特性，每个元素都保存一次，最后看Set的大小。
+#### 代码
+```Java
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> res=new HashSet<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            res.add(nums[i]);
+        }
+        return res.size()==nums.length?false:true;
+    }
+}
+```
+### 3. 最长和谐序列
+
+https://leetcode-cn.com/problems/longest-harmonious-subsequence/
+
+#### 思路
+先遍历一遍数组，用HashMap保存各个数字的出现频率，然后再遍历一次，获取相邻两数的频次和，找最大值。
+#### 代码
+```Java
+class Solution {
+    public int findLHS(int[] nums) {
+        Map<Integer,Integer> res=new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            res.put(nums[i],res.getOrDefault(nums[i],0)+1);
+        }
+        int max=0;
+        for(int keys : res.keySet())
+        {
+            if(res.containsKey(keys+1))
+                max=Math.max(max,res.get(keys)+res.get(keys+1));
+        }
+        return max;
+    }
+}
+```
+### 4. 最长连续序列
+
+https://leetcode-cn.com/problems/longest-consecutive-sequence/
+
+#### 思路
+对于O(n)的复杂度，我们遍历一次数组，然后用辅助的Hash表进行存储，对于任意遍历到的元素，会有两种情况：
+1. 表中已经存在，因为题目要求的序列元素是不重复的，所以无需处理。
+2. 表中不存在当前元素，需要查找该元素左右相邻数的最长连续区间长度，然后现在的最长连续区间长度就是left+right+1，随后更新两边端点的长度值以及要求的最大值即可。
+
+#### 代码
+```Java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        HashMap<Integer,Integer> len=new HashMap<>();
+        int res=0;
+        for(int num : nums)
+        {
+            if(!len.containsKey(num))
+            {
+                int left=len.getOrDefault(num-1,0);
+                int right=len.getOrDefault(num+1,0);
+                int curlength=left+right+1;
+                if(res<curlength)
+                    res=curlength;
+                len.put(num-left,curlength);
+                len.put(num+right,curlength);
+                len.put(num,curlength);
+            }
+        }
+        return res;
+    }
+}
+```
 ## 五、字符串
+### 1. 两个字符串包含的字符是否完全相同
+
+https://leetcode-cn.com/problems/valid-anagram
+
+#### 思路
+用一个字符数组，遍历两个字符串，统计各数字出现的频次，如果频次对不上则false。
+#### 代码
+```Java
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int[] dic=new int[26];
+        for(int i=0;i<s.length();i++)
+        {
+            dic[s.charAt(i)-'a']++;
+        }
+        for(int i=0;i<t.length();i++)
+        {
+            dic[t.charAt(i)-'a']--;
+        }
+        for(int i=0;i<26;i++)
+            if(dic[i]!=0)
+                return false;
+        return true;
+    }
+}
+```
+### 2. 计算一组字符集合可以组成的回文字符串的最大长度
+
+https://leetcode-cn.com/problems/longest-palindrome
+
+#### 思路
+遍历一次字符串统计各字符个数，偶数个的直接加，奇数个的-1再加，并且在最后加上一个多余的奇数个字符放在最中间。
+#### 代码
+```Java
+class Solution {
+    public int longestPalindrome(String s) {
+        int[] dic=new int[26*2];
+        for(int i=0;i<s.length();i++)
+        {
+            char ch=s.charAt(i);
+            if(ch<'a')
+                dic[ch-'A']++;
+            else
+                dic[ch-'a'+26]++;
+        }
+        int res=0;
+        int hassingle=0;
+        for(int i=0;i<dic.length;i++)
+        {
+            if(dic[i]%2==0&&dic[i]!=0)
+                res+=dic[i];
+            if(dic[i]%2==1)
+            {
+                hassingle=1;
+                res+=dic[i]-1;
+            }
+        }
+        return res+hassingle;
+    }
+}
+```
+### 3. 字符串同构
+
+https://leetcode-cn.com/problems/isomorphic-strings/
+
+#### 思路
+对于每个字符记录其上一次出现的位置，然后对比两个字符串位置是否一样，不一样就false。  
+但是保存的时候位置要+1，不然就和0重复了。
+#### 代码
+```Java
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        int[] sdic=new int[128];
+        int[] tdic=new int[128];
+        if(s.length()!=t.length())
+            return false;
+        for(int i=0;i<s.length();i++)
+        {
+            char sc=s.charAt(i);
+            char tc=t.charAt(i);
+            if(sdic[sc]!=tdic[tc])
+                return false;
+            sdic[sc]=i+1;
+            tdic[tc]=i+1;
+        }
+        return true;
+    }
+}
+```
+### 4. 回文子字符串个数
+
+https://leetcode-cn.com/problems/palindromic-substrings/
+
+#### 思路
+遍历字符串，从每个字符开始尝试向两边扩展。
+#### 代码
+```Java
+class Solution {
+    int res=0;
+    public int countSubstrings(String s) {
+        for(int i=0;i<s.length();i++)
+        {
+            sup(s,i,i);
+            sup(s,i,i+1);
+        }
+        return res;
+    }
+    public void sup(String s,int start,int end)
+    {
+        while(start>=0&&end<s.length()&&s.charAt(start)==s.charAt(end))
+        {
+            start--;
+            end++;
+            res++;
+        }
+    }
+}
+```
+### 5. 判断一个整数是否是回文数
+
+https://leetcode-cn.com/problems/palindrome-number/
+
+#### 思路
+为了不使用字符串，我们可以取出数字的后半段然后反转进行比较。  
+我们将数字/10取出1位，然后*10再加下一位，这样就可以把数字的尾部反转，直到反转数>=剩余数，说明已经到达中点或者已经过了中点，此时对两部分数字进行比较即可。  
+如果是回文数，比较时会有两种情况：
+1. 两侧正好相等。
+2. 因为原数是的位数是奇数，所有反转数会比剩余数多一位，此时只要/10然后比较即可。
+
+#### 代码
+```Java
+class Solution {
+    public boolean isPalindrome(int x) {
+        if(x==0)
+            return true;
+        if(x<0||x%10==0)
+            return false;
+        int left=x;
+        int right=0;
+        while(right<left)
+        {
+            right=right*10+left%10;
+            left/=10;
+        }
+        return left==right||left==right/10;
+        
+    }
+}
+```
+### 6. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数
+
+https://leetcode-cn.com/problems/count-binary-substrings/
+
+#### 思路
+遍历保存当前连续的0或1的个数为precount，然后遍历紧邻的相反数字的个数为curcount，那么只要precount>=curcount，那么curcount每增加1，回文子串就会增加1,这样遍历下来，就会获得回文子串的数量，当数字反转时，重置状态。
+#### 代码
+```Java
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int res=0;
+        int curcount=1,precount=0;
+        for(int i=1;i<s.length();i++)
+        {
+            if(s.charAt(i)==s.charAt(i-1))
+                curcount++;
+            else
+            {
+                precount=curcount;
+                curcount=1;
+            }
+            if(curcount<=precount)
+                res++;
+        }
+        return res;
+    }
+}
+```
 ## 六、数组与矩阵
 ## 七、图
 ## 八、位运算
