@@ -4203,5 +4203,340 @@ class Solution {
 }
 ```
 ## 六、数组与矩阵
+
+### 1. 把数组中的 0 移到末尾
+
+https://leetcode-cn.com/problems/move-zeroes/
+
+#### 思路
+简单位移，剩余部分填充0。
+#### 代码
+```Java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int index=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]!=0)
+                nums[index++]=nums[i];
+        }
+        for(int i=index;i<nums.length;i++)
+        {
+            nums[i]=0;
+        }
+    }
+}
+```
+### 2. 改变矩阵维度
+
+https://leetcode-cn.com/problems/reshape-the-matrix/
+
+#### 思路
+手动控制目标数组进位。
+#### 代码
+```Java
+class Solution {
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        int[][] res=new int[r][c];
+        int row=0,col=0;
+        if(r*c!=nums.length*nums[0].length)
+            return nums;
+        for(int i=0;i<nums.length;i++)
+        {
+            for(int j=0;j<nums[0].length;j++)
+            {
+                res[row][col++]=nums[i][j];
+                if(col==c)
+                {
+                    row++;
+                    col=0;
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+### 3. 找出数组中最长的连续 1
+
+https://leetcode-cn.com/problems/max-consecutive-ones/
+
+#### 思路
+单次便利查找连续的1
+#### 代码
+```Java
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max=0;
+        int curcount=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]==1)
+                curcount++;
+            if(curcount>max)
+                max=curcount;
+            if(nums[i]!=1)
+                curcount=0;
+        }
+        return max;
+    }
+}
+```
+### 4. 有序矩阵查找
+
+https://leetcode-cn.com/problems/search-a-2d-matrix-ii/
+
+#### 思路
+左下角的元素是这一行中最小的元素，同时又是这一列中最大的元素。比较左下角元素和目标：
+1. 若左下角元素等于目标，则找到
+2. 若左下角元素大于目标，则目标不可能存在于当前矩阵的最后一行，问题规模可以减小为在去掉最后一行的子矩阵中寻找目标
+3. 若左下角元素小于目标，则目标不可能存在于当前矩阵的第一列，问题规模可以减小为在去掉第一列的子矩阵中寻找目标
+4. 若最后矩阵减小为空，则说明不存在
+
+#### 代码
+```Java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix==null||matrix.length==0||matrix[0].length==0)
+            return false;
+        int m=matrix.length;
+        int n=matrix[0].length;
+        for(int i=0,j=n-1;i<m&&j>=0;)
+        {
+            if(target==matrix[i][j])
+                return true;
+            if(target<matrix[i][j])
+                j--;
+            else
+                i++;
+        }
+        return false;
+    }
+}
+```
+### 5. 有序矩阵的 Kth Element
+
+https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/
+
+#### 思路
+没看懂二分，很尴尬，用K个指针实现了最笨的版本，执行用时:73 ms, 在所有 Java 提交中击败了14.78%的用户。
+#### 代码
+```Java
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        int count=0;
+        int[] p=new int[matrix.length];
+        while(true)
+        {
+            int curcol=0;
+            int min=Integer.MAX_VALUE;
+            for(int i=0;i<matrix.length;i++)
+            {
+                if(p[i]>=matrix[0].length)
+                    continue;
+                if(min>matrix[i][p[i]])
+                {
+                    min=matrix[i][p[i]];
+                    curcol=i;
+                }
+            }
+            count++;
+            if(count==k)
+                return min;
+            p[curcol]++;
+        }
+    }
+}
+```
+### 6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数
+
+https://leetcode-cn.com/problems/set-mismatch/
+
+#### 思路
+遍历一次并替换，将当前元素与应该在的正确位置的元素进行替换，结束替换应该有两个条件。
+1. 当前元素位置正确，向下一位移动。
+2. 当前元素与目标位置元素相同，向下一位移动，否则会死循环。
+
+#### 代码
+```Java
+public int[] findErrorNums(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        while (nums[i] != i + 1 && nums[nums[i] - 1] != nums[i]) {
+            swap(nums, i, nums[i] - 1);
+        }
+    }
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] != i + 1) {
+            return new int[]{nums[i], i + 1};
+        }
+    }
+    return null;
+}
+
+private void swap(int[] nums, int i, int j) {
+    int tmp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tmp;
+}
+```
+### 7. 找出数组中重复的数，数组值在 [1, n] 之间
+
+https://leetcode-cn.com/problems/find-the-duplicate-number/
+
+#### 思路
+将数组看成链表，val是结点值也是下个节点的地址。因此这个问题就可以转换成判断链表有环，且找出入口节点---使用快慢指针，一个时间复杂度为O(N)的算法。
+
+1. 对于链表问题，使用快慢指针可以判断是否有环。
+
+2. 本题可以使用数组配合下标，抽象成链表问题。但是难点是要定位环的入口位置。  
+举个例子：nums = [2,5, 9 ,6,9,3,8, 9 ,7,1]，构造成链表就是：2->[9]->1->5->3->6->8->7->[9]，也就是在[9]处循环。
+3. 快慢指针问题，会在环内的[9]->1->5->3->6->8->7->[9]任何一个节点追上，不一定是在[9]处相碰，事实上会在7处碰上。
+4. 必须另起一个for循环定位环入口位置[9]。假设从头节点开始，走M步可以访问到循环的入口位置，那么当快慢指针相遇时，慢指针走了N步，则快指针就走了2N步，假设从入口位置到相遇位置还要走P步，那么克制，慢指针如果再走(N-P)步，就可以到达入口节点，而N-P=M，故如果此时用一个指针从0开始与慢指针一起走，两个指针会在循环入口处相遇。
+
+#### 代码
+```Java
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = nums[0], fast = nums[nums[0]];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        fast = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+}
+```
+### 8. 数组相邻差值的个数
+
+https://leetcode-cn.com/problems/beautiful-arrangement-ii/
+
+#### 思路
+在区间`[0,k]`内，偶数下标填充`[1,2,3,...]`奇数下标填充`[k+1,k,k-1,...]`，剩下的按顺序填充。
+#### 代码
+```Java
+class Solution {
+    public int[] constructArray(int n, int k) {
+        int[] res=new int[n];
+        int sin=1,dou=k+1;
+        for(int i=0;i<=k;i++)
+        {
+            if(i%2==0)
+                res[i]=sin++;
+            else
+                res[i]=dou--;
+        }
+        for(int i=k+1;i<n;i++)
+            res[i]=i+1;
+        return res;
+    }
+}
+```
+### 9. 数组的度
+
+https://leetcode-cn.com/problems/degree-of-an-array/
+
+#### 思路
+用Map来保存每个数的出现频次与左右边界，最后遍历查找频次最高且左右边界距离最近的。
+#### 代码
+```Java
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        Map<Integer,int[]> res=new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(!res.containsKey(nums[i]))
+            {
+                res.put(nums[i],new int[]{1,i,i});
+            }
+            else
+            {
+                int[] temp=res.get(nums[i]);
+                temp[0]++;
+                temp[2]=i;
+                res.put(nums[i],temp);
+            }
+        }
+        int max=0,left=0,right=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            int[] temp=res.get(nums[i]);
+            if(max<temp[0])
+            {
+                max=temp[0];
+                left=temp[1];
+                right=temp[2];
+            }
+            if(max==temp[0])
+            {
+                if((right-left)>(temp[2]-temp[1]))
+                {
+                    left=temp[1];
+                    right=temp[2];
+                }
+            }
+        }
+        return right-left+1;
+    }
+}
+//数组版
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+     
+       int max = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+        }
+        int[] mapSize = new int[max + 1];
+        int[] mapMin = new int[max + 1];
+        int[] mapMax = new int[max + 1];
+        int maxSize = 1;
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (mapSize[num] == 0) {
+                mapMin[num] = i;
+                mapMax[num] = i;
+            } else {
+                mapMax[num] = i;
+            }
+            maxSize = Math.max(maxSize, ++mapSize[num]);
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int num = 0; num <= max; num++) {
+            if (maxSize == mapSize[num]) {
+                ans = Math.min(ans, mapMax[num] - mapMin[num] + 1);
+            }
+        }
+        return ans;
+    }
+}
+```
+### 10. 对角元素相等的矩阵
+
+https://leetcode-cn.com/problems/toeplitz-matrix/
+
+#### 思路
+只需比较当前行除最后一个元素外的其他元素与下一行除第一个元素外的其他元素是否对应想等即可。
+#### 代码
+```Java
+class Solution {
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        int m=matrix.length;
+        int n=matrix[0].length;
+        for(int i=0;i<m-1;i++)
+        {
+            for(int j=0;j<n-1;j++)
+                if(matrix[i][j]!=matrix[i+1][j+1])
+                    return false;
+        }
+        return true;
+    }
+}
+```
 ## 七、图
+
 ## 八、位运算
