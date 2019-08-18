@@ -4537,6 +4537,386 @@ class Solution {
     }
 }
 ```
-## 七、图
+### 11. 嵌套数组
 
+https://leetcode-cn.com/problems/array-nesting/
+
+#### 思路
+题意可以理解为在数组中寻找最大环路，那么就从头开始遍历数组，对于每个访问到的数字都打上标记，这样一来可以在环形访问时发现形成环，二来可以在后续遍历时停止访问，因为如果先前遍历时已经访问过，那么这个数字的环路解已经被考虑过了。
+#### 代码
+```Java
+class Solution {
+    public int arrayNesting(int[] nums) {
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int cnt = 0;
+            for (int j = i; nums[j] != -1; ) {
+                cnt++;
+                int t = nums[j];
+                nums[j] = -1; // 标记该位置已经被访问
+                j = t;
+
+            }
+            max = Math.max(max, cnt);
+        }
+        return max;
+    }
+}
+```
+### 12. 分隔数组
+
+https://leetcode-cn.com/problems/max-chunks-to-make-sorted/
+
+#### 思路
+在任意切分点，如果想要切分，必然需要当前块元素都小于下一块的元素。  
+那么对于如何寻找切分点，只要寻找当前块的最大值，当最大值等于遍历下标时，即满足了条件。
+#### 代码
+```Java
+class Solution {
+    public int maxChunksToSorted(int[] arr) {
+        int max=-1;
+        int res=0;
+        for(int i=0;i<arr.length;i++)
+        {
+            max=Math.max(max,arr[i]);
+            if(max==i)
+            {
+                res++;
+            }
+        }
+        return res;
+    }
+}
+```
+## 七、图
+### 1. 判断是否为二分图
+
+https://leetcode-cn.com/problems/is-graph-bipartite/
+
+#### 思路
+用辅助数组来标记每个节点染色情况，然后从头开始遍历所有节点，从当前节点出发，若已染色则无需遍历，若未染色则染A色，然后遍历所有可达节点进行查询，若节点未染色则染反色，若已染色则判断是否为反色。
+#### 代码
+```Java
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        int[] res=new int[graph.length];
+        for(int i=0;i<graph.length;i++)
+        {
+            if (res[i] == 0 && !sup(i, 1, res, graph)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean sup(int i,int flag,int[] res,int[][] graph)
+    {
+        if(res[i]!=0)
+            return res[i]==flag;
+        res[i]=flag;
+        for(int j=0;j<graph[i].length;j++)
+        {
+            if(!sup(graph[i][j],-flag,res,graph))
+                    return false;
+        }
+        return true;
+    }
+}
+```
 ## 八、位运算
+```
+Java 中的位操作
+
+static int Integer.bitCount();           // 统计 1 的数量
+static int Integer.highestOneBit();      // 获得最高位
+static String toBinaryString(int i);     // 转换为二进制表示的字符串
+```
+### 1. 统计两个数的二进制表示有多少位不同
+
+https://leetcode-cn.com/problems/hamming-distance/
+
+#### 思路
+对两个数进行异或操作，位级表示不同的那一位为 1，统计有多少个 1 即可。
+#### 代码
+```Java
+class Solution {
+    public int hammingDistance(int x, int y) {
+        int temp=x^y;
+        int count=0;
+        while(temp!=0)
+        {
+           if((temp&1)==1)
+               count++;
+            temp=temp>>1;
+        }
+        return count;
+    }
+}
+```
+### 2. 数组中唯一一个不重复的元素
+
+https://leetcode-cn.com/problems/single-number/
+
+#### 思路
+遍历异或，相同的异或是0。
+#### 代码
+```Java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int res=nums[0];
+        for(int i=1;i<nums.length;i++)
+        {
+            res^=nums[i];
+        }
+        return res;
+    }
+}
+```
+### 3. 找出数组中缺失的那个数
+
+https://leetcode-cn.com/problems/missing-number/
+
+#### 思路
+如果在数组的基础上再加上0~n,就变成了找数组中不重复的元素。
+#### 代码
+```Java
+class Solution {
+    public int missingNumber(int[] nums) {
+        int res=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            res^=i^nums[i];
+        }
+        return res^nums.length;
+    }
+}
+```
+### 4. 只出现一次的元素
+
+#### 思路
+假设有一个数为x,那么则有如下规律：  
+```
+0 ^ x = x,
+x ^ x = 0；
+x & ~x = 0,
+x & ~0 =x;
+```
+对于
+```Java
+a = (a ^ num) & ~b;
+b = (b ^ num) & ~a;
+```
+1. 初始状态：`a=0,b=0`;  
+2. x第一次出现后，`a=(a^x)&~b=(0^x)&~0=x`,`b=(b^x)&~a=(0^x)&~x=0`。  
+3. x第二次出现：`a=(a^x)&~b=(x^x)&~0=0`; `b=(b^x)&~a=(0^x)&~0=x`;  
+4. x第三次出现：`a=(a^x)&~b=(0^x)&~x=0`; `b=(b^x)&~a=(x^x)&~0=0`;所以出现三次同一个数，a和b最终都变回了0.  
+5. 只出现一次的数，按照上面x第一次出现的规律可知`a=x,b=0`;因此最后返回a.
+
+#### 代码
+```Java
+class Solution {
+    public int singleNumber(int[] nums) {
+        int a=0,b=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            a=(a^nums[i])&~b;
+            b=(b^nums[i])&~a;
+        }
+        return a;
+    }
+}
+```
+### 5. 数组中不重复的两个元素
+
+https://leetcode-cn.com/problems/single-number-iii/
+
+#### 思路
+先全部异或一次,得到的结果就是这两个只出现一次的两个数的异或值， 考察其的某个非0位(比如最高非0位), 那么只出现一次的两个数中, 在这个位上一个为0, 一个为1, 由此可以将数组中的元素分成两部分,重新遍历, 求两个异或值。
+#### 代码
+```Java
+class Solution {
+    public int[] singleNumber(int[] nums) {
+        int res=0;
+        for(int i=0;i<nums.length;i++)
+            res=res^nums[i];
+        res=res&(~res+1);
+        int left=0,right=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            if((nums[i]&res)==0)
+                left^=nums[i];
+            else
+                right^=nums[i];
+        }
+        return new int[]{left,right};
+    }
+}
+```
+### 6. 翻转一个数的比特位
+
+#### 思路
+移位进位
+#### 代码
+```Java
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int res=0;
+        for(int i=0;i<32;i++)
+        {
+            res<<=1;
+            res+=n&1;
+            n>>>=1;
+        }
+        return res;
+    }
+}
+```
+#### 额外内容
+Integer.reverse()源码：
+```Java
+public static int reverse(int i) {
+        // HD, Figure 7-1
+        i = (i & 0x55555555) << 1 | (i >>> 1) & 0x55555555;//第一步
+        i = (i & 0x33333333) << 2 | (i >>> 2) & 0x33333333;//第二步
+        i = (i & 0x0f0f0f0f) << 4 | (i >>> 4) & 0x0f0f0f0f;//第三步
+        i = (i << 24) | ((i & 0xff00) << 8) |((i >>> 8) & 0xff00) | (i >>> 24);//第四步
+        return i;
+}
+```
+### 7. 判断一个数是不是 2 的 n 次方
+
+https://leetcode-cn.com/problems/power-of-two/
+
+#### 思路
+2的幂次的二进制一定是10000.....，如果-1的话就变成了1111111....
+#### 代码
+```Java
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return (n>0)&&(n&(n-1))==0;
+    }
+}
+```
+### 8. 判断一个数是不是 4 的 n 次方
+
+https://leetcode-cn.com/problems/power-of-four/
+
+#### 代码
+```Java
+class Solution {
+    public boolean isPowerOfFour(int num) {
+        int res=0;
+        if(num<=0)
+            return false;
+        res=num&(num-1);
+        if((res==0)&&(num%3==1))
+            return true;
+        return false;
+    }
+}
+```
+### 9. 判断一个数的位级表示是否不会出现连续的 0 和 1
+
+https://leetcode-cn.com/problems/binary-number-with-alternating-bits/
+
+#### 思路
+如果一个数是满足条件的，那么一定是1010101......，如果将其右移一位，再和原数异或，就会得到11111111，把这个数+1就会得到100000并比原数多一位，再&的话就会得到0。
+#### 代码
+```Java
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        int res=n^(n>>1);
+        return (res&(res+1))==0;
+    }
+}
+```
+### 10. 求一个数的补码
+
+https://leetcode-cn.com/problems/number-complement/
+
+#### 思路
+加入这个数转换二进制一共有K位，那么就可以构造一个K位的111111....,然后两个数进行异或，就可以得到取反的数。
+#### 代码
+```Java
+class Solution {
+    public int findComplement(int num) {
+        int n=num;
+        int res=0;
+        while(num>0)
+        {
+            num>>=1;
+            //注意移位优先级低于算数运算符，要套括号
+            res=(res<<1)+1;
+        }
+        return res^n;
+    }
+}
+```
+### 11. 实现整数的加法
+
+https://leetcode-cn.com/problems/sum-of-two-integers/
+
+#### 思路
+对于任意数`a,b`,`a^b`是其各位相加而不进行进位的结果，而`a&b`得到了各位是否应该进位的情况。  
+所以`a&b<<1`就得到了各个位所需要的进位，再与`a^b`相加就完成了一轮进位，但是相加后可能还需要进位，所以一直递归调用，知道无需进位。
+#### 代码
+```Java
+class Solution {
+    public int getSum(int a, int b) {
+        return b==0?a:getSum(a^b,(a&b)<<1);
+    }
+}
+```
+### 12. 字符串数组最大乘积
+
+https://leetcode-cn.com/problems/maximum-product-of-word-lengths/
+
+#### 思路
+对于每一个字符串，我们用一个数二进制的26个位置来代表，如果出现了对应的字母就`|1<<(char-'a')`来构造一个对应位置的1。  
+这样再遍历两个字符串，如果两个数的标志数组&的结果是0，说明没有共同的位，然后再找最大值。
+#### 代码
+```Java
+class Solution {
+    public int maxProduct(String[] words) {
+        int[] res=new int[words.length];
+        for(int i=0;i<words.length;i++)
+        {
+            String s=words[i];
+            for(int j=0;j<s.length();j++)
+            {
+                res[i] |=1<<(s.charAt(j)-'a');
+            }
+        }
+        int max=0;
+        for(int i=0;i<words.length;i++)
+        {
+            for(int j=i+1;j<words.length;j++)
+            {
+                if((res[i]&res[j])==0)
+                    max=Math.max(max,words[i].length()*words[j].length());
+            }
+        }
+        return max;
+    }
+}
+```
+### 13. 统计从 0 ~ n 每个数的二进制表示中 1 的个数
+
+https://leetcode-cn.com/problems/counting-bits/
+
+#### 思路
+`i&(i-1)`可以去掉i最右边的一个1（如果有），因此`i&(i-1)`是比i小的，而且`i&(i-1)`的1的个数已经在前面算过了，所以i的1的个数就是`i&(i-1)`的1的个数加上1。   
+所以动态转移方程为：`dp[i]=dp[i&(i-1)]+1`。  
+#### 代码
+```Java
+class Solution {
+    public int[] countBits(int num) {
+        int[] res=new int[num+1];
+        for(int i=1;i<=num;i++)
+        {
+            res[i]=res[i&(i-1)]+1;
+        }
+        return res;
+    }
+}
+```
