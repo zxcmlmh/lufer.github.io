@@ -1097,6 +1097,234 @@ class Solution {
   }
 }
 ```
+### 2. 查找最大的连通面积
+
+https://leetcode-cn.com/problems/max-area-of-island/
+
+#### 思路
+遍历所有节点，从当前节点出发上下左右开始寻找所有连同的1，来寻找最大值。已经查找过得点可以置为0，以免再次查找。
+#### 代码
+```Java
+class Solution {
+    private int m, n;
+    private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int maxAreaOfIsland(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        m = grid.length;
+        n = grid[0].length;
+        int maxArea = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                maxArea = Math.max(maxArea, dfs(grid, i, j));
+            }
+        }
+        return maxArea;
+    }
+
+    private int dfs(int[][] grid, int r, int c) {
+        if (r < 0 || r >= m || c < 0 || c >= n || grid[r][c] == 0) {
+            return 0;
+        }
+        grid[r][c] = 0;
+        int area = 1;
+        for (int[] d : direction) {
+            area += dfs(grid, r + d[0], c + d[1]);
+        }
+        return area;
+    }
+}
+```
+### 3. 矩阵中的连通分量数目
+
+https://leetcode-cn.com/problems/number-of-islands/
+
+#### 思路
+与上题基本一样。
+#### 代码
+```Java
+class Solution {
+    private int m, n;
+    private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        m = grid.length;
+        n = grid[0].length;
+        int islandsNum = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] != '0') {
+                    dfs(grid, i, j);
+                    islandsNum++;
+                }
+            }
+        }
+        return islandsNum;
+    }
+    private void dfs(char[][] grid, int i, int j) {
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        for (int[] d : direction) {
+            dfs(grid, i + d[0], j + d[1]);
+        }
+    }
+}
+```
+### 4. 好友关系的连通分量数目
+
+https://leetcode-cn.com/problems/friend-circles/
+
+#### 思路
+由于两个人互为好友，这个图一定是对角线对称的，我们可以从每个人出发遍历其朋友圈进行DFS，对于通过DFS遍历查找过得人，可以用一个标记数组来标记。
+#### 代码
+```Java
+class Solution {
+    public int findCircleNum(int[][] M) {
+        boolean[] visited = new boolean[M.length];
+        int ret = 0;
+        for(int i = 0; i < M.length; ++i) {
+            if(!visited[i]) {
+                dfs(M, visited, i);
+                ret++;
+            }
+        }
+        return ret;
+    }
+    private void dfs(int[][] m, boolean[] visited, int i) {
+        for(int j = 0; j < m.length; ++j) {
+            if(m[i][j] == 1 && !visited[j]) {
+                visited[j] = true;
+                dfs(m, visited, j);
+            }
+        }
+    }
+}
+```
+### 5. 填充封闭区域
+
+https://leetcode-cn.com/problems/surrounded-regions/
+
+#### 思路
+先遍历上下左右边界，把所有连通的`O`用`N`来代替，然后遍历整个数组，把`N`换位`O`，把`O`换为`X`即可。
+#### 代码
+```Java
+class Solution {
+    private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private int m, n;
+    public void solve(char[][] board) {
+         if (board == null || board.length == 0) {
+            return ;
+        }
+        m = board.length;
+        n = board[0].length;
+        for(int i=0;i<m;i++)
+        {
+            dfs(board,i,0);
+            dfs(board,i,n-1);
+        }
+        for(int i=0;i<n;i++)
+        {
+            dfs(board,0,i);
+            dfs(board,m-1,i);
+        }
+        for (int i = 0; i < m; i++) 
+        {
+            for (int j = 0; j < n; j++) 
+            {
+                if (board[i][j] == 'N') 
+                {
+                    board[i][j] = 'O';
+                }
+                else
+                {
+                    if (board[i][j] == 'O') 
+                    {
+                        board[i][j] = 'X';
+                    }
+                }
+            }
+        }
+    }
+    private void dfs(char[][] board, int i, int j) {
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'O') {
+            return;
+        }
+        board[i][j] = 'N';
+        for (int[] d : direction) {
+            dfs(board, i + d[0], j + d[1]);
+        }
+    }
+}
+```
+### 6. 能到达的太平洋和大西洋的区域
+
+https://leetcode-cn.com/problems/pacific-atlantic-water-flow/
+
+#### 思路
+从上下左右边界出发，寻找递增路线从而找到每个大洋可以触及的节点，如果两个大洋都能触及，则满足要求。
+#### 代码
+```Java
+class Solution {
+    private int m, n;
+    private int[][] matrix;
+    private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        List<List<Integer>> res=new ArrayList<>();
+        List<int[]> ret = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return res;
+        }
+        m = matrix.length;
+        n = matrix[0].length;
+        this.matrix = matrix;
+        boolean[][] canReachP = new boolean[m][n];
+        boolean[][] canReachA = new boolean[m][n];
+
+        for (int i = 0; i < m; i++) {
+            dfs(i, 0, canReachP);
+            dfs(i, n - 1, canReachA);
+        }
+        for (int i = 0; i < n; i++) {
+            dfs(0, i, canReachP);
+            dfs(m - 1, i, canReachA);
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canReachP[i][j] && canReachA[i][j]) {
+                    List<Integer> temp=new ArrayList<>();
+                    temp.add(i);
+                    temp.add(j);
+                    res.add(temp);
+                }
+            }
+        }
+
+        return res;
+    }
+    private void dfs(int r, int c, boolean[][] canReach) {
+        if (canReach[r][c]) {
+            return;
+        }
+        canReach[r][c] = true;
+        for (int[] d : direction) {
+            int nextR = d[0] + r;
+            int nextC = d[1] + c;
+            if (nextR < 0 || nextR >= m || nextC < 0 || nextC >= n
+                    || matrix[r][c] > matrix[nextR][nextC]) {
+
+                continue;
+            }
+            dfs(nextR, nextC, canReach);
+        }
+    }
+}
+```
 ## 七、动态规划
 ### 1. 爬楼梯
 
@@ -4589,6 +4817,7 @@ class Solution {
 }
 ```
 ## 七、图
+超出了我的能力范围，题做的超级艰难。
 ### 1. 判断是否为二分图
 
 https://leetcode-cn.com/problems/is-graph-bipartite/
@@ -4620,6 +4849,129 @@ class Solution {
         }
         return true;
     }
+}
+```
+### 2. 课程安排的合法性
+
+https://leetcode-cn.com/problems/course-schedule/
+
+#### 思路
+先遍历一次图，获得每个课程的入度(被指次数)，也就是需要的前驱课程的数量。  
+对于入度为0的课程，他们不需要任何前驱，所以可以从这些课程作为起点，开始向后遍历，把他们指向的课程入度都-1，然后判断这些课程是否入度会变为0，如果变为0说明这些课程是可以满足需求的，故可以继续入队列作为条件向下判断。  
+最后看是否所有课程都满足需求。
+#### 代码
+```Java
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] in=new int[numCourses];
+        for(int i=0;i<prerequisites.length;i++)
+        {
+            in[prerequisites[i][0]]++;
+        }
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(in[i]==0) queue.addLast(i);
+        }
+        while(!queue.isEmpty())
+        {
+            int safe=queue.remove();
+            numCourses--;
+            for(int i=0;i<prerequisites.length;i++)
+            {
+                if(prerequisites[i][1]==safe)
+                {
+                    in[prerequisites[i][0]]--;
+                    if(in[prerequisites[i][0]]==0)
+                        queue.add(prerequisites[i][0]);
+                }
+            }
+        }
+        return numCourses == 0;
+    }
+}
+```
+### 3. 课程安排的顺序
+
+https://leetcode-cn.com/problems/course-schedule-ii/
+
+#### 思路
+与上一题一致，对于入度为0的课程就是可以学习的课程，所以只需要保存我们队列中的顺序即可。
+#### 代码
+```Java
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] res=new int[numCourses];
+        int rescount=0;
+        int[] in=new int[numCourses];
+        for(int i=0;i<prerequisites.length;i++)
+        {
+            in[prerequisites[i][0]]++;
+        }
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(in[i]==0) 
+            {
+                queue.addLast(i);
+                res[rescount++]=i;
+            }
+        }
+        while(!queue.isEmpty())
+        {
+            int safe=queue.remove();
+            numCourses--;
+            for(int i=0;i<prerequisites.length;i++)
+            {
+                if(prerequisites[i][1]==safe)
+                {
+                    in[prerequisites[i][0]]--;
+                    if(in[prerequisites[i][0]]==0)
+                    {
+                        queue.add(prerequisites[i][0]);
+                        res[rescount++]=prerequisites[i][0];
+                    }
+                }
+            }
+        }
+        if(numCourses==0)
+            return res;
+        return new int[0];
+    }
+}
+```
+### 4. 冗余连接
+
+https://leetcode-cn.com/problems/redundant-connection/
+
+#### 思路
+利用并查集，保存每个边的通路，寻找父节点，最后如果找到父节点相同的两个点，这条边就是多余的。
+#### 代码
+```Java
+class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] father = new int[edges.length+1];		//并查集
+        for ( int i = 1; i < father.length; i++ ) 
+            father[i] = i;	//初始化并查集
+        for (int[] edge : edges) {
+        	int fIndex1 = findFather(father, edge[0]);	//找到顶点的组先
+        	int fIndex2 = findFather(father, edge[1]);
+        	if ( fIndex1 != fIndex2 ) {	
+                //如果祖先不同，说明不是多余的边
+        		father[fIndex1] = fIndex2;
+        	} else {	
+                //祖先相同，说明是多余的边
+        		return new int[]{edge[0],edge[1]};
+        	}
+		}
+        return new int[2];
+    }
+	public int findFather( int[] father, int index ) {	//路径压缩
+		if ( index == father[index] ) return index;
+		else {
+			int temp = findFather(father, father[index]);
+			father[index] = temp;
+			return temp;
+		}
+	}
 }
 ```
 ## 八、位运算
