@@ -172,10 +172,13 @@ slide:
   parallaxBackgroundHorizontal: null
   parallaxBackgroundVertical: null
 
-# QR_code:
-# - itemlist:
-#     img:
-#     text:
+QR_code:
+- itemlist:
+    img: https://s2.ax1x.com/2019/08/23/mBYJjf.png
+    text: 支付宝打赏
+- itemlist:
+    img: https://s2.ax1x.com/2019/08/23/mBY83t.png
+    text: 微信打赏
 
 # adv:
 # enable: false
