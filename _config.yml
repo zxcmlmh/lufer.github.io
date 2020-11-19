@@ -79,7 +79,11 @@ theme: melody2
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
+<<<<<<< Updated upstream
   repo: git@github.com:luferl/luferl.github.io.git
+=======
+  repo: https://github.com/luferl/luferl.github.io.git
+>>>>>>> Stashed changes
   branch: master
 
 
