@@ -1,11 +1,8 @@
 ---
-title: 'C#开发手记------录音功能的简洁实现'
-url: 125.html
-id: 125
-categories:
-  - C#
+title: C Sharp开发手记--录音功能的简洁实现
+categories: C Sharp
 date: 2016-05-30 22:00:51
-tags: [C#]
+tags: [C Sharp]
 ---
 
 系统级的API提供了非常简单的录音功能实现方式，将声音录制为wave格式

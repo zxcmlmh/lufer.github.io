@@ -239,7 +239,7 @@ valine:
 # ---------------
 since: 2016
 
-# footer_custom_text:
+footer_custom_text: hitokoto
 
 ICP:
   enable: false
@@ -288,3 +288,6 @@ google_adsense:
   js: //pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
   client: ca-pub-4875670030192242
   enable_page_level_ads: true
+
+# controls the sidebar showing or hidden in different pages
+sidebar_display: index # all/index/post/index-none/post-none/hidden

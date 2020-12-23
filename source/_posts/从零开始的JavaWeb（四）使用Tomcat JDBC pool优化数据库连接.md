@@ -1,11 +1,8 @@
 ---
 title: 从零开始的JavaWeb（四）使用Tomcat JDBC pool优化数据库连接
-url: 637.html
-id: 637
-categories:
-  - Java
+categories: Java
 date: 2018-04-28 21:58:42
-tags: [JavaWeb]
+tags: [Java,后端]
 ---
 
 如果每次对数据库的访问都建立连接，在高并发情况下数据库会拒绝连接：too many connections 如果使用Tomcat JDBC Pool，则由Tomcat对连接池进行维护，对于超出限制的连接可以进行等待，防止连接过多 

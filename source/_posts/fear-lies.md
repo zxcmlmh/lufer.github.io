@@ -1,9 +1,6 @@
 ---
 title: Fear Lies
-url: 43.html
-id: 43
-categories:
-  - Thought
+categories: Thought
 date: 2016-01-07 21:10:40
 tags:
 ---

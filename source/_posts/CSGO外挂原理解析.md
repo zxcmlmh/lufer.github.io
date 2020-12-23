@@ -1,8 +1,8 @@
 ---
 title: CSGO外挂原理解析
 date: 2018-12-18 20:33:22
-tags: [C++]
-categories: Game
+tags: [C++,Game]
+categories: C++
 ---
 
 >目录

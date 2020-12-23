@@ -1,11 +1,8 @@
 ---
 title: 从零开始的JavaWeb（五）JQuery常用操作
-url: 639.html
-id: 639
-categories:
-  - Java
+categories: Java
 date: 2018-04-28 22:23:35
-tags: [JavaWeb]
+tags: [Java,后端]
 ---
 
 1、动态添加元素

@@ -2,7 +2,7 @@
 title: 《深入理解JVM》部分要点总结
 date: 2019-08-08 19:56:38
 categories: Java
-tags: [Java,JVM]
+tags: [Java,JVM,读书笔记]
 ---
 # 第二章&nbsp;&nbsp;Java内存区域与内存溢出异常
 ## 一、运行时数据区域

@@ -2,7 +2,7 @@
 title: Hexo+VsCode 在IDE中完成博客的一切操作
 date: 2018-06-09 14:27:30
 categories: 前端
-tags: [Hexo]
+tags: [Hexo,前端]
 ---
 # 插件安装
 在VSCode的插件库中搜索Hexo，安装VSCode-Hexo，安装完成之后重启VSCode  

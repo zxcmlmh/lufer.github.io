@@ -1,7 +1,8 @@
 ---
 title: NextCloud私有云搭建指南
 date: 2019-05-07 00:39:48
-tags:
+categories: Linux
+tags: [Linux]
 ---
 
 # 目录：

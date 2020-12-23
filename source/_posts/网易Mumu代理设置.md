@@ -1,8 +1,8 @@
 ---
 title: 网易Mumu代理设置
 date: 2019-07-21 09:35:56
-tags: [Share]
-categories: Others
+tags: [Mumu,日常折腾]
+categories: 日常折腾
 ---
 最近要用Mumu模拟器，但是有设置代理的需要
 

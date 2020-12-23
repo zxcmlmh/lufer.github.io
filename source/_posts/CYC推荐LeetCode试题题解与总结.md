@@ -2,7 +2,7 @@
 title: CYC推荐LeetCode试题题解与总结
 date: 2019-08-12 19:38:54
 tags: [Java,算法,数据结构]
-categories: [Java]
+categories: 算法
 ---
 本篇文章主要记录来自CYC所推荐的200+LeetCode经典题目解题思路与题解。
 

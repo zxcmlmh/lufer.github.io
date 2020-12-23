@@ -1,11 +1,8 @@
 ---
-title: 'C#开发手记------Form间通信功能的简单实现'
-url: 132.html
-id: 132
-categories:
-  - C#
+title: C Sharp开发手记--Form间通信功能的简单实现
+categories: C Sharp
 date: 2016-05-30 22:13:51
-tags: [C#]
+tags: [C Sharp]
 ---
 
 Form2，向Form1发送消息 //0x0444为自定义进程间通信代码。

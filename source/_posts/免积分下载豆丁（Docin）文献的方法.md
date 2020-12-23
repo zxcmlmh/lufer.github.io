@@ -1,11 +1,8 @@
 ---
 title: 免积分下载豆丁（Docin）文献的方法
-url: 424.html
-id: 424
-categories:
-  - Others
+categories: 日常折腾
 date: 2017-02-24 02:29:22
-tags:
+tags: [日常折腾]
 ---
 
 首先注册一个豆丁账号，并将要下载的文献收藏到书房  

@@ -2,7 +2,7 @@
 title: AntDesign数据驱动流程
 date: 2018-11-15 15:49:00
 categories: 前端
-tags: [React]
+tags: [React,前端]
 ---
 AntDesign Pro的数据驱动流程一共涉及三个部分：页面，Model，APi
 

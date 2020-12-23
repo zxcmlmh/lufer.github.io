@@ -1,8 +1,8 @@
 ---
 title: leetcode题解-数据库部分
 date: 2018-06-29 18:27:39
-tags: LeetCode
-categories: LeetCode
+tags: [LeetCode]
+categories: 算法
 ---
 # 175. 组合两个表
 ## 题目

@@ -1,9 +1,6 @@
 ---
 title: CSGO 这可能是唯一一个我能玩一辈子的游戏
-url: 440.html
-id: 440
-categories:
-  - Game
+categories: thought
 date: 2017-03-26 17:45:56
 tags:
 ---

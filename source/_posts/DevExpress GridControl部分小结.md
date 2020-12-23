@@ -1,11 +1,8 @@
 ---
 title: DevExpress GridControl部分小结
-url: 412.html
-id: 412
-categories:
-  - C#
+categories: C Sharp
 date: 2017-02-05 10:30:47
-tags: [C#]
+tags: [C Sharp]
 ---
 
 **获取数据源与回写数据源：**

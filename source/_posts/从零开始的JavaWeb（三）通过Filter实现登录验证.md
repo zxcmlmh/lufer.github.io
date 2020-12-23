@@ -1,11 +1,8 @@
 ---
 title: 从零开始的JavaWeb（三）通过Filter实现登录验证
-url: 627.html
-id: 627
-categories:
-  - Java
+categories: Java
 date: 2018-04-20 23:55:03
-tags: [JavaWeb]
+tags: [Java,后端]
 ---
 
 通过Filter验证缓存的session，从而验证当前用户的登录状态。 web.xml中对Filter进行注册

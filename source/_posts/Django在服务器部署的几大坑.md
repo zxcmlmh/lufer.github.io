@@ -1,11 +1,8 @@
 ---
 title: Django在服务器部署的几大坑
-url: 583.html
-id: 583
-categories:
-  - Python
+categories: Python
 date: 2017-12-28 00:56:56
-tags: [Python]
+tags: [Python,后端]
 ---
 
 1. 静态资源获取

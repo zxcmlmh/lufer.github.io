@@ -1,11 +1,8 @@
 ---
 title: Django 项目初始化坑
-url: 605.html
-id: 605
-categories:
-  - Python
+categories: Python
 date: 2018-01-19 19:02:48
-tags: [Python]
+tags: [Python,后端]
 ---
 
 1. PIP的安装

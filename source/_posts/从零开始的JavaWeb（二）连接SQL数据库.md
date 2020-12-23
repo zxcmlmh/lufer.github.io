@@ -1,11 +1,8 @@
 ---
 title: 从零开始的JavaWeb（二）连接SQL数据库
-url: 625.html
-id: 625
-categories:
-  - Java
+categories: Java
 date: 2018-04-20 23:45:13
-tags: [JavaWeb]
+tags: [Java,后端]
 ---
 
 1、引入sql的jar包

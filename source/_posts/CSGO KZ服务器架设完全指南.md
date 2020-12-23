@@ -1,11 +1,8 @@
 ---
 title: CSGO KZ服务器架设完全指南
-url: 330.html
-id: 330
-categories:
-  - Game
+categories: Linux
 date: 2016-09-01 13:59:17
-tags:
+tags: [Linux,Game]
 ---
 
 推荐使用Linux，无脑一键，使用Windows会遇到KZTimer插件无法启用等问题 

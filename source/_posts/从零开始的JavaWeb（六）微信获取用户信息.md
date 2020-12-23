@@ -1,11 +1,8 @@
 ---
 title: 从零开始的JavaWeb（六）微信获取用户信息
-url: 641.html
-id: 641
-categories:
-  - Java
+categories: Java
 date: 2018-04-28 22:28:53
-tags: [JavaWeb]
+tags: [Java,后端]
 ---
 
 1、构造LoginService类，作为授权的起始页面，引导用户访问该servlet

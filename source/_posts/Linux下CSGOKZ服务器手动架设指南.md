@@ -1,8 +1,8 @@
 ---
 title: Linux下CSGO KZ服务器手动架设指南
 date: 2018-06-18 13:58:40
-categories: Game
-tags:
+categories: Linux
+tags: [Linux,Game]
 ---
 # 前言
 最近想搭CSGO KZ服务器，却发现以前的一件安装脚本已经无法下载了，而网上很少能看见Linux版本的KZ服务器假设教程，参考Steam社区文档，进行了一波尝试

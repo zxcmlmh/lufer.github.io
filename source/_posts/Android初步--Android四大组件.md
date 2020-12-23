@@ -1,9 +1,6 @@
 ---
 title: Android初步--Android四大组件
-url: 85.html
-id: 85
-categories:
-  - Android
+categories: Android
 date: 2016-03-30 14:55:32
 tags: [Android]
 ---
