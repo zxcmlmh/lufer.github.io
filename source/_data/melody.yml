@@ -232,7 +232,7 @@ valine:
   pageSize: 10 # comment list page size
   avatar: mm # gravatar style https://valine.js.org/#/avatar
   lang: zh-cn # i18n: zh-cn/en
-  placeholder: 随便聊聊 # valine comment input placeholder(like: Please leave your footprints )
+  placeholder: 早8点-晚11点会自动发送邮件提醒 # valine comment input placeholder(like: Please leave your footprints )
   guest_info: nick,mail #valine comment header inf
 
 # Footer Settings
@@ -269,6 +269,10 @@ links:
   Github: https://github.com/luferl
   Bilibili: https://space.bilibili.com/4469978
   Steam: https://steamcommunity.com/id/luferL
+
+  # http://esportnosave.cn/
+# https://logikmeister.github.io/
+
 
 # Follow Me Button
 # follow:
