@@ -81,7 +81,7 @@ mathjax:
 # KaTeX
 # ---------------
 katex:
-  enable: false
+  enable: true
   cdn:
     css: https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css
 
@@ -93,7 +93,7 @@ fireworks: true
 # ---------------
 baidu_analytics: e2cd7e52254704223bd3b9c0461bc06e
 
-google_analytics:
+google_analytics: G-T5L2KPFS29
 
 # Tencent_analytics ID
 tencent_analytics:
@@ -290,4 +290,4 @@ google_adsense:
   enable_page_level_ads: true
 
 # controls the sidebar showing or hidden in different pages
-sidebar_display: index # all/index/post/index-none/post-none/hidden
+sidebar_display: all # all/index/post/index-none/post-none/hidden
