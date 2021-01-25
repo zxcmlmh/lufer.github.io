@@ -1,8 +1,8 @@
 ---
 title: DevExpress GridControl部分小结
-categories: C Sharp
+categories: .NET
 date: 2017-02-05 10:30:47
-tags: [C Sharp]
+tags: [.NET]
 ---
 
 **获取数据源与回写数据源：**

@@ -1,8 +1,8 @@
 ---
 title: C Sharp开发手记--通过传参的方式连接数据库
-categories: C Sharp
+categories: .NET
 date: 2016-05-31 22:51:46
-tags: [C Sharp]
+tags: [.NET]
 ---
 
 通过传参的方式与数据库进行连接，可以很好的解决字符串过长，字符串中包含“或‘等问题
