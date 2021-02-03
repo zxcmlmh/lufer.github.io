@@ -70,7 +70,7 @@ Select IFNULL((SELECT Salary FROM Employee group by Salary order by Salary desc 
 # 177. 第N高的薪水
 ## 题目
 编写一个 SQL 查询，获取 `Employee` 表中第 n 高的薪水（Salary）。
-
+```
 +----+--------+
 | Id | Salary |
 +----+--------+
@@ -78,14 +78,15 @@ Select IFNULL((SELECT Salary FROM Employee group by Salary order by Salary desc 
 | 2  | 200    |
 | 3  | 300    |
 +----+--------+
-
+```
 例如上述 `Employee` 表，n = 2 时，应返回第二高的薪水 `200`。如果不存在第 n 高的薪水，那么查询应返回 `null`。
-
+```
 +------------------------+
 | getNthHighestSalary(2) |
 +------------------------+
 | 200                    |
 +------------------------+
+```
 ## 题解
 第N高只需要偏移量设定为N-1即可，定义变量m=N-1进行计算
 ```sql
