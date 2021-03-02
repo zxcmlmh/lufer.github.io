@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="邮箱MX与主域名CNAME解析冲突的解决方案"><meta name="keywords" content="日常折腾,DNS"><meta name="author" content="Lufer"><meta name="copyright" content="Lufer"><title>邮箱MX与主域名CNAME解析冲突的解决方案 | Lufer</title><link rel="shortcut icon" href="https://s2.ax1x.com/2019/08/07/eI1NJH.png"><link rel="stylesheet" href="/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2cd7e52254704223bd3b9c0461bc06e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script src="https://www.googletagmanager.com/gtag/js?id=G-T5L2KPFS29"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-T5L2KPFS29');</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"D3K0O2R6F2","apiKey":"4e808ae377111360493e99d31970584c","indexName":"BLOG_LUFER","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.3.0'
+} </script><meta name="generator" content="Hexo 5.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-text"> 起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-text"> 解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text"> 解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dns%E6%8F%90%E4%BE%9B%E5%95%86%E9%80%89%E6%8B%A9"><span class="toc-text"> DNS提供商选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%96%BD%E4%BD%BF%E7%94%A8cloudflare"><span class="toc-text"> 实施（使用Cloudflare）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95"><span class="toc-text"> 注册登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BBdns"><span class="toc-text"> 转移DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%A7%A3%E6%9E%90"><span class="toc-text"> 添加解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE301%E8%BD%AC%E5%8F%91"><span class="toc-text"> 设置301转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEssl"><span class="toc-text"> 设置SSL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text"> 结语</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://s2.ax1x.com/2019/08/07/eI1UWd.jpg"></div><div class="author-info__name text-center">Lufer</div><div class="author-info__description text-center">新的一天开始啦</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">30</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">大佬们</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.yuque.com/grace-gu">Grace</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://1ogisk.cn/">Logik</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://legume.ltd">豆哥</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://esportnosave.cn/">EsportsNoSave</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://s2.ax1x.com/2019/08/07/eI1dSA.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Lufer</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/tags">标签</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">邮箱MX与主域名CNAME解析冲突的解决方案</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-02-01</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%97%A5%E5%B8%B8%E6%8A%98%E8%85%BE/">日常折腾</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">613</span><span class="post-meta__separator">|</span><span>阅读时长: 1 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="起因"><a class="markdownIt-Anchor" href="#起因"></a> 起因</h1>
+<p>  因为我启用了@lufer.cc的域名邮箱，所以DNS解析记录要添加一个值为@的MX记录，但这样就会与我想解析的@记录产生冲突，导致<code>lufer.cc</code>域名无法正常访问。</p>
+<h1 id="解决"><a class="markdownIt-Anchor" href="#解决"></a> 解决</h1>
+<h2 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h2>
+<p>  解决方案有两种，一种是把@记录进行301转发，另一种是使用一些DNS服务商提供的解决方案。我采用了第一种，第二种对不同的DNS服务商而言不太一样，例如Cloudflare是CNAME Flattening，对于cloudxns是link记录。</p>
+<h2 id="dns提供商选择"><a class="markdownIt-Anchor" href="#dns提供商选择"></a> DNS提供商选择</h2>
+<p>  这里首先有一个前提，就是国内的DNS解析服务商在网站未备案的时候是不提供301转发服务的，我试过了阿里云，DNSpod，H3DNS均不行。而我在github的CNAME写的是<code>coder.lufer.cc</code>，我需要把www的解析也转发到这个域名，所以实际上我<code>www.lufer.cc</code>也是无法访问的。</p>
+<p>  所以我最后选择了Cloudflare。</p>
+<h2 id="实施使用cloudflare"><a class="markdownIt-Anchor" href="#实施使用cloudflare"></a> 实施（使用Cloudflare）</h2>
+<h3 id="注册登录"><a class="markdownIt-Anchor" href="#注册登录"></a> 注册登录</h3>
+<p>  不多说了，注册选免费方案，添加自己的域名。</p>
+<h3 id="转移dns"><a class="markdownIt-Anchor" href="#转移dns"></a> 转移DNS</h3>
+<p>  因为我域名在阿里云，要在阿里云把DNS解析转移到Cloudflare。</p>
+<p>  先在阿里云的DNS修改处改成Cloudflare提供的DNS</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ym2irV"><img src="https://s3.ax1x.com/2021/02/02/ym2irV.png" alt="Cloudflare的DNS" /></a></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ymgKHS"><img src="https://s3.ax1x.com/2021/02/02/ymgKHS.png" alt="把阿里云修改成对应的DNS" /></a></p>
+<p>  DNS解析服务器修改之后可能需要一段时间才能同步，但不影响进行后续步骤。</p>
+<h3 id="添加解析"><a class="markdownIt-Anchor" href="#添加解析"></a> 添加解析</h3>
+<p>  在Cloudflare按照之前的需求添加DNS解析。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ymRKYQ"><img src="https://s3.ax1x.com/2021/02/02/ymRKYQ.png" alt="DNS解析记录" /></a></p>
+<h3 id="设置301转发"><a class="markdownIt-Anchor" href="#设置301转发"></a> 设置301转发</h3>
+<p>  在<code>页面规则</code>下面添加两条301转发，如下图所示。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ymRtTU"><img src="https://s3.ax1x.com/2021/02/02/ymRtTU.png" alt="添加页面转发" /></a></p>
+<p>  页面规则的具体添加方式如下图所示，注意上下两个域名最后分别要添加<code>/*</code>和<code>$1</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ymfMMn"><img src="https://s3.ax1x.com/2021/02/02/ymfMMn.png" alt="页面规则编辑" /></a></p>
+<p>  在设置转发之后，还要为设置了转发的域名添加A记录，才能进行解析，地址可以随便写,因为实际上进行了转发，不会解析到该IP。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ymhhp4"><img src="https://s3.ax1x.com/2021/02/02/ymhhp4.png" alt="域名对应A记录" /></a></p>
+<h3 id="设置ssl"><a class="markdownIt-Anchor" href="#设置ssl"></a> 设置SSL</h3>
+<p>  在转移到Cloudflare之后，我发现我连<code>coder.lufer.cc</code>都无法访问了，具体出错信息是<code>“网站将您重定向次数过多”</code>。</p>
+<p>  解决方法是在<code>SSL/TLS</code>的菜单页中，默认的加密方式为<code>完全</code>，我们将它更改为<code>完全（严格）</code>即可。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/ym4wE6"><img src="https://s3.ax1x.com/2021/02/02/ym4wE6.png" alt="SSL/TLS设置" /></a></p>
+<h1 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语</h1>
+<p>  至此完成了域名解析的转移和301转发的设置，域名均可正常访问，邮箱也可正常收发邮件。<br />
+  本来想把整个域名都转走的，奈何阿里云的域名太便宜了。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Lufer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://coder.lufer.cc/2021/02/01/邮箱MX与主域名CNAME解析冲突的解决方案/">https://coder.lufer.cc/2021/02/01/邮箱MX与主域名CNAME解析冲突的解决方案/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://coder.lufer.cc">Lufer</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%97%A5%E5%B8%B8%E6%8A%98%E8%85%BE/">日常折腾</a><a class="post-meta__tags" href="/tags/DNS/">DNS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2021/02/14/%E5%B0%8F%E7%B1%B3AC2100%E8%B7%AF%E7%94%B1%E5%99%A8%E5%88%B7%E5%85%A5Padavan%E5%9B%BA%E4%BB%B6/"><i class="fa fa-chevron-left">  </i><span>小米AC2100路由器刷入Padavan固件</span></a></div><div class="next-post pull-right"><a href="/2020/12/30/%E7%83%9F%E5%8F%B6%E7%94%9F%E4%BA%A7%E4%B8%8E%E5%88%9D%E5%8A%A0%E5%B7%A5/"><span>烟叶生产与初加工</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'VqMxq8YhQKdt87hjlDYA4UDq-MdYXbMMI',
+  appKey:'jMbPNFw1782lMDtEz6mIwhx4',
+  placeholder:'早8点-晚11点会自动发送邮件提醒',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://s2.ax1x.com/2019/08/07/eI1dSA.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2021 By Lufer</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.0"></script><script src="/js/fancybox.js?version=1.9.0"></script><script src="/js/sidebar.js?version=1.9.0"></script><script src="/js/copy.js?version=1.9.0"></script><script src="/js/fireworks.js?version=1.9.0"></script><script src="/js/transition.js?version=1.9.0"></script><script src="/js/scroll.js?version=1.9.0"></script><script src="/js/head.js?version=1.9.0"></script><script src="/js/search/algolia.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script src="/js/katex.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="SpingBoot常见注解说明"><meta name="keywords" content="Spring Boot,Java"><meta name="author" content="Lufer"><meta name="copyright" content="Lufer"><title>SpingBoot常见注解说明 | Lufer</title><link rel="shortcut icon" href="https://s2.ax1x.com/2019/08/07/eI1NJH.png"><link rel="stylesheet" href="/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2cd7e52254704223bd3b9c0461bc06e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script src="https://www.googletagmanager.com/gtag/js?id=G-T5L2KPFS29"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-T5L2KPFS29');</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"D3K0O2R6F2","apiKey":"4e808ae377111360493e99d31970584c","indexName":"BLOG_LUFER","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.3.0'
+} </script><meta name="generator" content="Hexo 5.3.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bean%E7%B1%BB"><span class="toc-text"> Bean类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#service"><span class="toc-text"> @Service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#controller"><span class="toc-text"> @Controller</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#repository"><span class="toc-text"> @Repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#component"><span class="toc-text"> @Component</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#response%E7%B1%BB"><span class="toc-text"> Response类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#requestmapping"><span class="toc-text"> @RequestMapping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#responsebody"><span class="toc-text"> @ResponseBody</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#restcontroller"><span class="toc-text"> @RestController</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lombok%E7%B1%BB"><span class="toc-text"> Lombok类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gettersetter"><span class="toc-text"> @Getter&#x2F;@Setter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data"><span class="toc-text"> @Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cleanup"><span class="toc-text"> @Cleanup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#equalsandhashcode"><span class="toc-text"> @EqualsAndHashCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#allargsconstructor"><span class="toc-text"> @AllArgsConstructor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#noargsconstructor"><span class="toc-text"> @NoArgsConstructor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#builder"><span class="toc-text"> @Builder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nonnull"><span class="toc-text"> @NonNull</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%B1%BB"><span class="toc-text"> 异常处理类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#controlleradvice"><span class="toc-text"> @ControllerAdvice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exceptionhandler"><span class="toc-text"> @ExceptionHandler</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text"> 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#autowired"><span class="toc-text"> @Autowired</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD"><span class="toc-text"> 未完待续</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://s2.ax1x.com/2019/08/07/eI1UWd.jpg"></div><div class="author-info__name text-center">Lufer</div><div class="author-info__description text-center">新的一天开始啦</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">30</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">大佬们</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.yuque.com/grace-gu">Grace</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://1ogisk.cn/">Logik</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://legume.ltd">豆哥</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://esportnosave.cn/">EsportsNoSave</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://s2.ax1x.com/2019/08/07/eI1dSA.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Lufer</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/tags">标签</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">SpingBoot常见注解说明</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-06-07</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Java/">Java</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">841</span><span class="post-meta__separator">|</span><span>阅读时长: 3 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><ul>
+<li><a href="#Bean%E7%B1%BB">Bean类</a>
+<ul>
+<li><a href="#Service">@Service</a></li>
+<li><a href="#Controller">@Controller</a></li>
+<li><a href="#Repository">@Repository</a></li>
+<li><a href="#Component">@Component</a></li>
+</ul>
+</li>
+<li><a href="#Response%E7%B1%BB">Response类</a>
+<ul>
+<li><a href="#RequestMapping">@RequestMapping</a></li>
+<li><a href="#ResponseBody">@ResponseBody</a></li>
+<li><a href="#RestController">@RestController</a></li>
+<li><a href="#Component">@Component</a></li>
+</ul>
+</li>
+<li><a href="#Lombok%E7%B1%BB">Lombok类</a>
+<ul>
+<li><a href="#@Getter/@Setter">@@Getter/@Setter</a></li>
+<li><a href="#Data">@Data</a></li>
+<li><a href="#Cleanup">@Cleanup</a></li>
+<li><a href="#EqualsAndHashCode">@EqualsAndHashCode</a></li>
+<li><a href="#AllArgsConstructor">@AllArgsConstructor</a></li>
+<li><a href="#NoArgsConstructor">@NoArgsConstructor</a></li>
+<li><a href="#Builder">@Builder</a></li>
+<li><a href="#NonNull">@NonNull</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%B1%BB">异常处理类</a>
+<ul>
+<li><a href="#ControllerAdvice">@ControllerAdvice</a></li>
+<li><a href="#ExceptionHandler">@ExceptionHandler</a></li>
+<li><a href="#RestController">@RestController</a></li>
+<li><a href="#Component">@Component</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E4%BB%96">其他</a>
+<ul>
+<li><a href="#Autowired">@Autowired</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="bean类"><a class="markdownIt-Anchor" href="#bean类"></a> Bean类</h1>
+<h2 id="service"><a class="markdownIt-Anchor" href="#service"></a> @Service</h2>
+<p>注解在类上，表示这是一个业务层bean</p>
+<h2 id="controller"><a class="markdownIt-Anchor" href="#controller"></a> @Controller</h2>
+<p>注解在类上，表示这是一个控制层bean,可以解析return 的jsp,html页面，并且跳转到相应页面</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value=&quot;/gouploadimg&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">goUploadImg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//跳转到 templates 目录下的 uploadimg.html</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;uploadimg&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="repository"><a class="markdownIt-Anchor" href="#repository"></a> @Repository</h2>
+<p>注解在类上，表示这是一个数据访问层bean</p>
+<h2 id="component"><a class="markdownIt-Anchor" href="#component"></a> @Component</h2>
+<p>注解在类上，表示通用bean</p>
+<h1 id="response类"><a class="markdownIt-Anchor" href="#response类"></a> Response类</h1>
+<h2 id="requestmapping"><a class="markdownIt-Anchor" href="#requestmapping"></a> @RequestMapping</h2>
+<p>用于进行路径映射</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//对test路径进行映射，其下方函数用于对路径test的请求进行处理</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span> </span><br><span class="line"><span class="comment">//其默认参数为value，即不指定时，参数当做value处理，上一行等价于</span></span><br><span class="line"><span class="meta">@RequestMapping(value=&quot;/test&quot;)</span></span><br><span class="line"><span class="comment">//method:指定请求的method类型， GET、POST、PUT、DELETE等</span></span><br><span class="line"><span class="meta">@RequestMapping(value=&quot;/test&quot;, method=RequestMethod.GET)</span></span><br><span class="line"><span class="comment">//consumes:指定处理请求的提交内容类型（Content-Type），例如application/json,text/html</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/test&quot;, method=RequestMethod.POST,consumes=&quot;application/json&quot;)</span></span><br><span class="line"><span class="comment">//produces:指定返回的内容类型，但仅当请求头中的(Accept)类型也是该类型时才处理请求</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/test&quot;, method=RequestMethod.GET,produces=&quot;application/json&quot;)</span></span><br><span class="line"><span class="comment">//params:指定request中必须包含某些参数值时，才让该方法处理</span></span><br><span class="line"><span class="comment">//仅处理请求中包含了名为“myParam”，值为“myValue”的请求</span></span><br><span class="line"> <span class="meta">@RequestMapping(value = &quot;/test&quot;, method = RequestMethod.GET, params=&quot;myParam=myValue&quot;)</span></span><br><span class="line"><span class="comment">//headers:指定request中必须包含某些指定的header值，才能让该方法处理请求</span></span><br><span class="line"><span class="comment">//仅处理request的header中包含了指定“Refer”请求头和对应值为“http://www.ifeng.com/”的请求；</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/test&quot;, method = RequestMethod.GET, headers=&quot;Referer=http://www.ifeng.com/&quot;)</span></span><br></pre></td></tr></table></figure>
+<h2 id="responsebody"><a class="markdownIt-Anchor" href="#responsebody"></a> @ResponseBody</h2>
+<p>加在controller函数的前面，可以将返回的对象自动转换为json字符串。</p>
+<h2 id="restcontroller"><a class="markdownIt-Anchor" href="#restcontroller"></a> @RestController</h2>
+<p>相当于@ResponseBody和@Controller的结合</p>
+<h1 id="lombok类"><a class="markdownIt-Anchor" href="#lombok类"></a> Lombok类</h1>
+<p>lombok是一个注解种类，可以自动生成一些方法，从而减少开发复杂度</p>
+<h2 id="gettersetter"><a class="markdownIt-Anchor" href="#gettersetter"></a> @Getter/@Setter</h2>
+<p>可以用@Getter/@Setter注释任何字段（当然也可以注释到类上的），lombok会自动生成默认的getter/setter方法。</p>
+<h2 id="data"><a class="markdownIt-Anchor" href="#data"></a> @Data</h2>
+<p>相当于@Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode这5个注解的合集。<br />
+可自动生成类的Get和Set等方法。</p>
+<h2 id="cleanup"><a class="markdownIt-Anchor" href="#cleanup"></a> @Cleanup</h2>
+<p>可以加在IO变量声明之前，这样会在使用后自动释放IO变量。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Cleanup</span> InputStream in = <span class="keyword">new</span> FileInputStream(path);</span><br></pre></td></tr></table></figure>
+<h2 id="equalsandhashcode"><a class="markdownIt-Anchor" href="#equalsandhashcode"></a> @EqualsAndHashCode</h2>
+<p>此注解会生成equals(Object other) 和 hashCode()方法。</p>
+<h2 id="allargsconstructor"><a class="markdownIt-Anchor" href="#allargsconstructor"></a> @AllArgsConstructor</h2>
+<p>为类生成包含所有参数的构造函数</p>
+<h2 id="noargsconstructor"><a class="markdownIt-Anchor" href="#noargsconstructor"></a> @NoArgsConstructor</h2>
+<p>为类生成无参数的构造函数</p>
+<h2 id="builder"><a class="markdownIt-Anchor" href="#builder"></a> @Builder</h2>
+<p>建筑者模式，是现在比较推崇的一种构建值对象的方式。<br />
+会为类生成各种构造函数</p>
+<h2 id="nonnull"><a class="markdownIt-Anchor" href="#nonnull"></a> @NonNull</h2>
+<p>注解在参数上 如果该参数为null 会throw new NullPointerException(参数名)</p>
+<h1 id="异常处理类"><a class="markdownIt-Anchor" href="#异常处理类"></a> 异常处理类</h1>
+<h2 id="controlleradvice"><a class="markdownIt-Anchor" href="#controlleradvice"></a> @ControllerAdvice</h2>
+<p>被ControllerAdvice注解的类会被认为是用来进行全局异常处理的类。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalExceptionHandler</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="exceptionhandler"><a class="markdownIt-Anchor" href="#exceptionhandler"></a> @ExceptionHandler</h2>
+<p>用于确认被其注释的方法所要处理的异常类型</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalExceptionHandler</span> </span>&#123;</span><br><span class="line">    <span class="comment">//接管运行时异常，进行处理</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(RuntimeException.class)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function">String <span class="title">handleException</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Exception Deal!&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h1>
+<h2 id="autowired"><a class="markdownIt-Anchor" href="#autowired"></a> @Autowired</h2>
+<p>自动填充，可以通过Autowired引入需要新建的对象，就无需每次调用时新建。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span>  LocaleMessageSourceUtil localeMessageSourceUtil;</span><br></pre></td></tr></table></figure>
+<p>就相当于</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span>  LocaleMessageSourceUtil localeMessageSourceUtil=<span class="keyword">new</span> LocaleMessageSourceUtil();</span><br></pre></td></tr></table></figure>
+<h1 id="未完待续"><a class="markdownIt-Anchor" href="#未完待续"></a> 未完待续</h1>
+<p>以后遇到啥补充啥</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Lufer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://coder.lufer.cc/2018/06/07/SpingBoot常见注解说明/">https://coder.lufer.cc/2018/06/07/SpingBoot常见注解说明/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://coder.lufer.cc">Lufer</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring-Boot/">Spring Boot</a><a class="post-meta__tags" href="/tags/Java/">Java</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/06/09/%E5%9C%A8IDE%E4%B8%AD%E5%AE%8C%E6%88%90%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E5%88%87%E6%93%8D%E4%BD%9C/"><i class="fa fa-chevron-left">  </i><span>Hexo+VsCode 在IDE中完成博客的一切操作</span></a></div><div class="next-post pull-right"><a href="/2018/06/07/Sping%20Boot%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E4%B8%8E%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81/"><span>Spring Boot自定义异常处理与返回状态</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'VqMxq8YhQKdt87hjlDYA4UDq-MdYXbMMI',
+  appKey:'jMbPNFw1782lMDtEz6mIwhx4',
+  placeholder:'早8点-晚11点会自动发送邮件提醒',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://s2.ax1x.com/2019/08/07/eI1dSA.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2021 By Lufer</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.0"></script><script src="/js/fancybox.js?version=1.9.0"></script><script src="/js/sidebar.js?version=1.9.0"></script><script src="/js/copy.js?version=1.9.0"></script><script src="/js/fireworks.js?version=1.9.0"></script><script src="/js/transition.js?version=1.9.0"></script><script src="/js/scroll.js?version=1.9.0"></script><script src="/js/head.js?version=1.9.0"></script><script src="/js/search/algolia.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script src="/js/katex.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
