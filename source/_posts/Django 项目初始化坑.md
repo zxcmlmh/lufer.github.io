@@ -16,12 +16,12 @@ tags: [Python,后端]
 ```
 2. Mysql-Python
 
-下载exe安装
-http://www.codegood.com/archives/129
+&emsp;&emsp;下载exe安装  
+&emsp;&emsp;`http://www.codegood.com/archives/129`
 
 3. 递归报错"RuntimeError: maximum recursion depth exceeded in cmp" 
 
-找到python\\Lib\\fuctools.py 将
+&emsp;&emsp;找到`python\Lib\fuctools.py`将
 ```python
 convert = {  
     '\_\_lt\_\_': \[('\_\_gt\_\_', lambda self, other: other < self),  

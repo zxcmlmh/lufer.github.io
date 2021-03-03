@@ -5,12 +5,12 @@ categories: Linux
 tags: [Linux,Game]
 ---
 # 前言
-最近想搭CSGO KZ服务器，却发现以前的一件安装脚本已经无法下载了，而网上很少能看见Linux版本的KZ服务器假设教程，参考Steam社区文档，进行了一波尝试
+&emsp;&emsp;最近想搭CSGO KZ服务器，却发现以前的一件安装脚本已经无法下载了，而网上很少能看见Linux版本的KZ服务器假设教程，参考Steam社区文档，进行了一波尝试。
 
 >https://steamcommunity.com/sharedfiles/filedetails/?id=855147229
 
 # 前期准备
-申请服务器，选择远程工具和FTP工具
+&emsp;&emsp;购买服务器，选择远程工具和FTP工具。
 
 # 安装依赖
 ## Ubuntu
@@ -60,34 +60,34 @@ wget https://linuxgsm.com/dl/linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgs
 
 # 下载MetaMod&SourceMod
 
-https://www.sourcemm.net/downloads.php?branch=stable
+&emsp;&emsp;https://www.sourcemm.net/downloads.php?branch=stable
 
-选择Linux保存
+&emsp;&emsp;选择Linux保存。
 
-http://www.sourcemod.net/downloads.php?branch=stable
+&emsp;&emsp;http://www.sourcemod.net/downloads.php?branch=stable
 
-选择Linux保存
+&emsp;&emsp;选择Linux保存。
 
-解压两个压缩包，包含addons,cfg两个文件夹，合并两个文件夹,上传至服务器serverfiles/csgo下
+&emsp;&emsp;解压两个压缩包，包含addons,cfg两个文件夹，合并两个文件夹,上传至服务器serverfiles/csgo下。
 
 # 下载KzTimer
 
-https://bitbucket.org/kztimerglobalteam/kztimerglobal/downloads/
+&emsp;&emsp;https://bitbucket.org/kztimerglobalteam/kztimerglobal/downloads/
 
-下载Full Zip,解压后复制到csgo文件夹下
+&emsp;&emsp;下载Full Zip,解压后复制到csgo文件夹下。
 
 # 服务器配置
 ## 添加管理员
 
-打开csgo\addons\sourcemod\configs\admins_simple.ini
+&emsp;&emsp;打开`csgo\addons\sourcemod\configs\admins_simple.ini`。
 
-在末尾添加"SteamID" "Z"
+&emsp;&emsp;在末尾添加`"SteamID" "Z"`。
 
-SteamID可以访问steamid.io获取
+&emsp;&emsp;SteamID可以访问`https://steamid.io`获取。
 
->"STEAM_0:0:123123123" "Z"
+&emsp;&emsp;`"STEAM_0:0:123123123" "Z"`
 ## KzTimer配置
-打开同目录下databases.cfg，在最后一个花括号前添加这些内容:
+&emsp;&emsp;打开同目录下databases.cfg，在最后一个花括号前添加这些内容:
 ```
 "kztimer"
     {
@@ -100,33 +100,33 @@ SteamID可以访问steamid.io获取
 ```
 ## Steam令牌设置
 
-前往https://steamcommunity.com/dev/managegameservers
+&emsp;&emsp;前往`https://steamcommunity.com/dev/managegameservers`
 
-游戏的APPID为730，生成令牌，将令牌复制。
+&emsp;&emsp;游戏的APPID为730，生成令牌，将令牌复制。
 
-打开csgo\cfg\csgoserver.cfg
+&emsp;&emsp;打开`csgo\cfg\csgoserver.cfg`
 
-在最后添加一行
+&emsp;&emsp;在最后添加一行：
 
-sv_setsteamaccount  "令牌"
+&emsp;&emsp;`sv_setsteamaccount  "令牌"`
 
 # 服务器命令
 
 1. 启动服务器
 
-./csgoserver start
+&emsp;&emsp;`./csgoserver start`
 
 2. 关闭服务器
 
-./csgoserver stop
+&emsp;&emsp;`./csgoserver stop`
 
 3. 重启服务器
 
-./csgoserver restart
+&emsp;&emsp;`./csgoserver restart`
 
 4. 查看控制台
 
-./csgoserver console
+&emsp;&emsp;`./csgoserver console`
 
 
 

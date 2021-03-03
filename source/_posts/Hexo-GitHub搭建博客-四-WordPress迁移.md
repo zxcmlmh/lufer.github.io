@@ -5,13 +5,13 @@ categories: 前端
 tags: [Github,Hexo]
 ---
 ## WordPress导出
->WordPress 仪表盘->工具->导出->所有内容
+&emsp;&emsp;`WordPress 仪表盘->工具->导出->所有内容`
 
-会导出一个xml文件，假设保存在D:\1.xml
+&emsp;&emsp;会导出一个xml文件，假设保存在D:\1.xml。
 
 ## Hexo导入
-
->npm install hexo-migrator-wordpress --save  
->hexo migrate wordpress D:\1.xml
-
-大功告成
+```
+npm install hexo-migrator-wordpress --save  
+hexo migrate wordpress D:\1.xml
+```
+&emsp;&emsp;大功告成。

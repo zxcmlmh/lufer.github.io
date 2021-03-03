@@ -4,7 +4,7 @@ date: 2018-06-07 18:54:42
 categories: Java
 tags: [Spring Boot,Java]
 ---
-本文目的：集成Spring Boot的异常处理类，进行自定义的全局异常处理，并自定义返回的HTTP状态码。
+&emsp;&emsp;本文目的：集成Spring Boot的异常处理类，进行自定义的全局异常处理，并自定义返回的HTTP状态码。
 
 >目录
 * [新建异常类型](#新建异常类型)
@@ -13,7 +13,7 @@ tags: [Spring Boot,Java]
 
 # 新建异常类型
 
-新建一个BusinessException并继承自RuntimeException
+&emsp;&emsp;新建一个BusinessException并继承自RuntimeException。
 
 ```Java
 public class BusinessException extends RuntimeException {
@@ -23,7 +23,7 @@ public class BusinessException extends RuntimeException {
     }
 ```
 # 结果处理类
-建立一个结果处理类，对异常进行一些封装，从而获得一个格式化的返回结果。
+&emsp;&emsp;建立一个结果处理类，对异常进行一些封装，从而获得一个格式化的返回结果。
 ```Java
 @Builder
 @AllArgsConstructor
@@ -45,7 +45,7 @@ public class DefaultErrorResult  {
 ```
 
 # 接管全局异常处理
-建立ExceptionHandler类，通过@ControllerAdvice注解，接管全局的异常处理
+&emsp;&emsp;建立ExceptionHandler类，通过@ControllerAdvice注解，接管全局的异常处理。
 ```Java
 @ControllerAdvice
 public class GlobalExceptionHandler  {

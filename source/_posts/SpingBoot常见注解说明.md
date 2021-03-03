@@ -34,9 +34,9 @@ toc: true
     
 # Bean类
 ## @Service
-注解在类上，表示这是一个业务层bean
+&emsp;&emsp;注解在类上，表示这是一个业务层bean。
 ## @Controller
-注解在类上，表示这是一个控制层bean,可以解析return 的jsp,html页面，并且跳转到相应页面
+&emsp;&emsp;注解在类上，表示这是一个控制层bean,可以解析返回的jsp,html页面，并且跳转到相应页面。
 ```Java
 @Controller
 public class TestController {
@@ -47,13 +47,13 @@ public class TestController {
 }
 ```
 ## @Repository
-注解在类上，表示这是一个数据访问层bean
+&emsp;&emsp;注解在类上，表示这是一个数据访问层bean。
 ## @Component
-注解在类上，表示通用bean
+&emsp;&emsp;注解在类上，表示通用bean。
 
 # Response类
 ## @RequestMapping
-用于进行路径映射
+&emsp;&emsp;用于进行路径映射。
 ```Java
 //对test路径进行映射，其下方函数用于对路径test的请求进行处理
 @RequestMapping("/test") 
@@ -73,44 +73,44 @@ public class TestController {
 @RequestMapping(value = "/test", method = RequestMethod.GET, headers="Referer=http://www.ifeng.com/")
 ```
 ## @ResponseBody
-加在controller函数的前面，可以将返回的对象自动转换为json字符串。
+&emsp;&emsp;加在controller函数的前面，可以将返回的对象自动转换为json字符串。
 ## @RestController
-相当于@ResponseBody和@Controller的结合
+&emsp;&emsp;相当于@ResponseBody和@Controller的结合。
 
 # Lombok类
-lombok是一个注解种类，可以自动生成一些方法，从而减少开发复杂度
+&emsp;&emsp;lombok是一个注解种类，可以自动生成一些方法，从而减少开发复杂度。
 ## @Getter/@Setter
-可以用@Getter/@Setter注释任何字段（当然也可以注释到类上的），lombok会自动生成默认的getter/setter方法。
+&emsp;&emsp;可以用@Getter/@Setter注释任何字段（当然也可以注释到类上的），lombok会自动生成默认的getter/setter方法。
 ## @Data
-相当于@Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode这5个注解的合集。  
-可自动生成类的Get和Set等方法。
+&emsp;&emsp;相当于`@Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode`这5个注解的合集。  
+&emsp;&emsp;可自动生成类的Get和Set等方法。
 ## @Cleanup
-可以加在IO变量声明之前，这样会在使用后自动释放IO变量。
+&emsp;&emsp;可以加在IO变量声明之前，这样会在使用后自动释放IO变量。
 ```Java
  @Cleanup InputStream in = new FileInputStream(path);
  ```
 ## @EqualsAndHashCode
-此注解会生成equals(Object other) 和 hashCode()方法。
+&emsp;&emsp;此注解会生成equals(Object other) 和 hashCode()方法。
 ## @AllArgsConstructor
-为类生成包含所有参数的构造函数
+&emsp;&emsp;为类生成包含所有参数的构造函数。
 ## @NoArgsConstructor
-为类生成无参数的构造函数
+&emsp;&emsp;为类生成无参数的构造函数。
 ## @Builder
-建筑者模式，是现在比较推崇的一种构建值对象的方式。  
-会为类生成各种构造函数
+&emsp;&emsp;建筑者模式，是现在比较推崇的一种构建值对象的方式。  
+&emsp;&emsp;会为类生成各种构造函数。
 ## @NonNull
-注解在参数上 如果该参数为null 会throw new NullPointerException(参数名)
+&emsp;&emsp;注解在参数上 如果该参数为null 会throw new NullPointerException(参数名)。
 
 # 异常处理类
 ## @ControllerAdvice
-被ControllerAdvice注解的类会被认为是用来进行全局异常处理的类。
+&emsp;&emsp;被ControllerAdvice注解的类会被认为是用来进行全局异常处理的类。
 ```Java
 @ControllerAdvice
 public class GlobalExceptionHandler {
 }
 ```
 ## @ExceptionHandler
-用于确认被其注释的方法所要处理的异常类型
+&emsp;&emsp;用于确认被其注释的方法所要处理的异常类型。
 ```Java
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -124,15 +124,12 @@ public class GlobalExceptionHandler {
 ```
 # 其他
 ## @Autowired
-自动填充，可以通过Autowired引入需要新建的对象，就无需每次调用时新建。
+&emsp;&emsp;自动填充，可以通过Autowired引入需要新建的对象，就无需每次调用时新建。
 ```Java
 @Autowired
 private  LocaleMessageSourceUtil localeMessageSourceUtil;
 ```
-就相当于
+&emsp;&emsp;就相当于：
 ```Java
 private  LocaleMessageSourceUtil localeMessageSourceUtil=new LocaleMessageSourceUtil();
 ```
-
-# 未完待续
-以后遇到啥补充啥

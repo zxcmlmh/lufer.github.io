@@ -5,28 +5,29 @@ tags: [Github,Hexo]
 categories: 前端
 ---
 
-使用Valine作为评论插件
+&emsp;&emsp;使用Valine作为评论插件。
 
 # 部署LeanCloud
 
-点击下方链接注册
->https://leancloud.cn/dashboard/login.html#/signup
+&emsp;&emsp;点击下方链接注册。
 
-注册后登陆，在控制台点击“创建新应用”，填写应用名称，点击创建
+&emsp;&emsp;`https://leancloud.cn/dashboard/login.html#/signup`
 
-点击云引擎->设置
+&emsp;&emsp;注册后登陆，在控制台点击`创建新应用`，填写应用名称，点击创建。
 
-代码库部分填入
+&emsp;&emsp;点击`云引擎`->`设置`。
 
->https://github.com/panjunwen/Valine-Admin.git
+&emsp;&emsp;代码库部分填入：
 
-Deploy Key不用管，直接点保存。
+&emsp;&emsp;`https://github.com/panjunwen/Valine-Admin.git`
 
-点击云引擎->部署
+&emsp;&emsp;Deploy Key不用管，直接点保存。
 
-部署目标->生产环境，分支或版本号填写 master，点击部署。
+&emsp;&emsp;点击`云引擎`->`部署`。
 
-云引擎->设置->自定义环境变量，填写如下环境变量
+&emsp;&emsp;`部署目标`->`生产环境`，分支或版本号填写`master`，点击部署。
+
+&emsp;&emsp;`云引擎`->`设置`->`自定义环境变量`，填写如下环境变量：
 
 |变量名|变量值|变量说明|
 |----|----|----|
@@ -39,24 +40,24 @@ Deploy Key不用管，直接点保存。
 |SENDER_NAME|Lufer|发件人昵称|
 |SENDER_EMAIL|Lufercc@163.com|发件人邮箱号|
 
-点击保存即可。这里注意，网易邮箱的SMTP密码要在邮箱里单独设置。
+&emsp;&emsp;点击保存即可。这里注意，网易邮箱的SMTP密码要在邮箱里单独设置。
 
-在下方设置Web主机域名，这样就可以通过设置的域名访问后台管理页。
+&emsp;&emsp;在下方设置Web主机域名，这样就可以通过设置的域名访问后台管理页。
 
-点击存储->_User
+&emsp;&emsp;点击`存储`->`User`。
 
-点击Username和Password两列，编辑单元格，填入用户名密码，用于登录后台管理页。
+&emsp;&emsp;点击Username和Password两列，编辑单元格，填入用户名密码，用于登录后台管理页。
 
 
-设置->安全中心->Web安全域名，填上你的域名，注意http,https区分填写。
+&emsp;&emsp;`设置`->`安全中心`->`Web安全域名`，填上你的域名，注意http,https区分填写。
 
-设置->应用Key，记下来APPID和App Key，在下一个步骤会用到。
+&emsp;&emsp;`设置`->`应用Key`，记下来APPID和App Key，在下一个步骤会用到。
 
-至此LeanCloud设置完成，点击云引擎->实例->小齿轮点击重启即可。
+&emsp;&emsp;至此LeanCloud设置完成，点击`云引擎`->`实例`->`小齿轮`点击重启即可。
 
 ## 修改Yilia
 
-\yilia\\_config.yml,添加以下内容
+&emsp;&emsp;`\yilia\_config.yml`,添加以下内容:
 ```
 #6、Valine https://valine.js.org
 valine: 
@@ -70,9 +71,9 @@ valine:
  pageSize: 15 #评论分页
 ```
 
-\yilia\layout\\_partial\article.ejs,添加对valine的支持
+&emsp;&emsp;`\yilia\layout\_partial\article.ejs`,添加对valine的支持
 
-在各种if之间插入以下代码。
+&emsp;&emsp;在各种if之间插入以下代码。
 ```
 <% if (theme.valine && theme.valine.appid && theme.valine.appkey){ %>
   <section id="comments" class="comments">
@@ -88,7 +89,7 @@ valine:
   </section>
 <% } %>
 ```
-在\yilia\layout\\_partial\post\下创建valine.ejs,填入以下内容
+&emsp;&emsp;`在\yilia\layout\_partial\post\下创建valine.ejs`,填入以下内容:
 ```javascript
 <div id="vcomment" class="comment"></div>
 <script src="//cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>

@@ -32,7 +32,7 @@ if theme.google_analytics
 $code-background = rgba(101,196,235,0.2)
 ```
 
-本文所做修改已打包至`hexo-theme-melody-lufer`，可通过`npm install hexo-theme-melody-lufer`来进行安装。
+&emsp;&emsp;本文所做修改已打包至`hexo-theme-melody-lufer`，可通过`npm install hexo-theme-melody-lufer`来进行安装。
 
-使用此包注意要修改`_config.yml`中的`theme`为`theme: melody-lufer`。
-把主题配置文件名由`_config.melody.yml`改为`_config.melody-lufer.yml`
+&emsp;&emsp;使用此包注意要修改`_config.yml`中的`theme`为`theme: melody-lufer`。  
+&emsp;&emsp;把主题配置文件名由`_config.melody.yml`改为`_config.melody-lufer.yml`
