@@ -5,7 +5,10 @@ date: 2016-05-31 23:03:53
 tags: [.NET]
 ---
 
-配置文件是程序常用的一种设置存储方式，多为ini格式 系统提供了非常简单的读写函数，分别是 读：GetPrivateProfileString 写：WritePrivateProfileString 读取用法：
+&emsp;&emsp;配置文件是程序常用的一种设置存储方式，多为ini格式 系统提供了非常简单的读写函数，分别是:  
+&emsp;&emsp;读：GetPrivateProfileString  
+&emsp;&emsp;写：WritePrivateProfileString  
+&emsp;&emsp;读取用法：
 
 ```cs
 GetPrivateProfileString(lpApplicationName, lpKeyName, lpDefault,lpReturnedString, nSize, lpFileName)

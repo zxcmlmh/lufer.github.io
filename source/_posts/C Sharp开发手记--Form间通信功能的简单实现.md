@@ -5,7 +5,7 @@ date: 2016-05-30 22:13:51
 tags: [.NET]
 ---
 
-Form2，向Form1发送消息 //0x0444为自定义进程间通信代码。
+&emsp;&emsp;Form2，向Form1发送消息 `0x0444`为自定义进程间通信代码。
 ```Cs
 private IntPtr ip = IntPtr.Zero;
 [DllImport("user32")]

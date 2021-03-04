@@ -7,9 +7,9 @@ tags: [Android]
 
 1.Activity布局的绑定。
 
-onCreate()方法中提供了以下函数，用于进行xml文件布局的绑定。
+&emsp;&emsp;onCreate()方法中提供了以下函数，用于进行xml文件布局的绑定。
 
->setContentView(R.layout.activity_main);
+&emsp;&emsp;`setContentView(R.layout.activity_main);`
 
 2.Activity的切换
 ```

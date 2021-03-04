@@ -5,7 +5,7 @@ categories: PHP
 tags: [PHP,Bat]
 ---
 # 创建文件
-建立前端网页，把请求发到PHP后端，然后拼一下内容，操作文件
+&emsp;&emsp;建立前端网页，把请求发到PHP后端，然后拼一下内容，操作文件。
 ```php
 //设置一下页面超时时间，不然等全套操作完成就超时了
 set_time_limit(100);
@@ -36,11 +36,11 @@ fwrite($newfile, $filestream);
 fclose($newfile);
 ```
 # 调用Hexo与Git进行自动部署和备份
-用批处理文件调用Hexo命令，以push.bat为例，PHP中先调用push.bat
+&emsp;&emsp;用批处理文件调用Hexo命令，以push.bat为例，PHP中先调用push.bat。
 ```php
 exec("start push.bat")
 ```
-批处理文件
+&emsp;&emsp;批处理文件
 ```bash
 ::切换当前工作目录到Hexo目录下
 set current_dir=D:\htdocs\Blog
@@ -76,7 +76,7 @@ call hexo d -g > deploy.txt 2>&1
 call "C:\Program Files (x86)\Git\bin\sh.exe" --login -i <list.txt
 exit
 ```
-list.txt命令内容
+&emsp;&emsp;list.txt命令内容：
 ```text
 git add -A .
 git commit -m "backup"
@@ -84,18 +84,18 @@ git push origin backup
 ```
 # 坑
 ## 环境变量
-exec中调用的bat文件，读取不到系统的环境变量，需要在批处理文件中手动设定环境变量。
+&emsp;&emsp;exec中调用的bat文件，读取不到系统的环境变量，需要在批处理文件中手动设定环境变量。
 
-打开cmd输入set，会输出所有的环境变量，在bat里面进行set
+&emsp;&emsp;打开cmd输入set，会输出所有的环境变量，在bat里面进行set
 
-主要设定PATH和USERNAME，USERPROFILE等，不然git会找不到config
+&emsp;&emsp;主要设定PATH和USERNAME，USERPROFILE等，不然git会找不到config
 
 ## Git Config
-exec中调用git，可能会存在读取不到用户config的问题，可以在项目的.git目录下修改config文件，手动制定用户
+&emsp;&emsp;exec中调用git，可能会存在读取不到用户config的问题，可以在项目的.git目录下修改config文件，手动指定用户。
 ```text
 [user]
     name=name
     email=email@email.com
 ```
 ## Git连接方式
-一定要用SSH，用HTTPS会需要输入密码，然而exec是在后台执行的，根本没有输入密码的机会！！！！
+&emsp;&emsp;一定要用SSH，用HTTPS会需要输入密码，然而exec是在后台执行的，根本没有输入密码的机会！！！！

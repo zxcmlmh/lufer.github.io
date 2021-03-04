@@ -5,11 +5,11 @@ date: 2018-04-20 23:45:13
 tags: [Java,后端]
 ---
 
-1、引入sql的jar包
-
->mysql-connector-java-5.1.45-bin.jar
-
-2、建立连接,注意此处需要catch异常
+&emsp;&emsp;1、引入sql的jar包
+```
+mysql-connector-java-5.1.45-bin.jar
+```
+&emsp;&emsp;2、建立连接,注意此处需要catch异常
 
 ```java
 Connection connection = null;

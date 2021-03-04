@@ -7,13 +7,13 @@ tags: [React,前端]
 ## 前期准备
 ### 环境配置
 
->1、安装Node.js  
-2、Clone项目  
-3、本地NPM INSTALL完成相关组件的自动安装  
+1. 安装Node.js  
+2. Clone项目  
+3. 本地NPM INSTALL完成相关组件的自动安装  
 
 ## 新建页面
 
-项目组织结构
+&emsp;&emsp;项目组织结构：
 
 ```
 .
@@ -37,9 +37,9 @@ tags: [React,前端]
 
 ### 创建文件
 
-与routes文件夹下按照喜好的组织结构建立js文件
+&emsp;&emsp;与routes文件夹下按照喜好的组织结构建立js文件。
 
-本例中建立文件夹Tutorial，并建立demo1.js与demo2.js两个页面
+&emsp;&emsp;本例中建立文件夹Tutorial，并建立demo1.js与demo2.js两个页面。
 
 ```
 .
@@ -52,9 +52,9 @@ tags: [React,前端]
 
 ### 设定菜单
 
-在common/menu下，托管了项目所有的左边栏菜单
+&emsp;&emsp;在common/menu下，托管了项目所有的左边栏菜单。
 
-菜单以Json数组形式存在，如下是一个完整的菜单项
+&emsp;&emsp;菜单以Json数组形式存在，如下是一个完整的菜单项。
 ```Json
 {
     name: 'dashboard',          #菜单名
@@ -69,7 +69,7 @@ tags: [React,前端]
     ],
 },
 ```
-我们在其中添加一个菜单项
+&emsp;&emsp;我们在其中添加一个菜单项。
 ```Json
 {
     name: 'AntD-Tutorial',      
@@ -87,21 +87,17 @@ tags: [React,前端]
     ],       
 },
 ```
-此时可以看到，菜单项中出现了两个新菜单
-
-{% asset_img tutorial1.jpg %} 
-
 ### 关联菜单与页面
 
-在菜单页中，我们将两个子菜单分别指向了
->/tutorial/demo1  
->/tutorial/demo2
+&emsp;&emsp;在菜单页中，我们将两个子菜单分别指向了：  
+&emsp;&emsp;`/tutorial/demo1`  
+&emsp;&emsp;`/tutorial/demo2`
 
-接下来需要接管该路径，指向对应的js文件
+&emsp;&emsp;接下来需要接管该路径，指向对应的js文件。
 
-修改/common/router.js
+&emsp;&emsp;修改`/common/router.js`。
 
-在routerConfig项中添加如下所示路径，即可绑定地址与页面
+&emsp;&emsp;在routerConfig项中添加如下所示路径，即可绑定地址与页面。
 
 ```JavaScript
 '/tutorial/demo1': {
@@ -114,9 +110,9 @@ tags: [React,前端]
 
 ## 页面1-原生开发
 
-在demo1，我们将介绍AntDesign架构的原生开发方式，也借此来理解AntDesign的页面生命周期与数据驱动流程。
+&emsp;&emsp;在demo1，我们将介绍AntDesign架构的原生开发方式，也借此来理解AntDesign的页面生命周期与数据驱动流程。
 
-我们建立一个十分简单的空白页面demo1，并逐步丰富内容来实现最终功能
+&emsp;&emsp;我们建立一个十分简单的空白页面demo1，并逐步丰富内容来实现最终功能
 
 ```JS
 import React, { Component, Fragment } from 'react';
@@ -135,21 +131,21 @@ export default class demo1 extends Component {
 }
 ```
 
-AntDesign提供了十分丰富的标准页面，例如表单页，列表页，详情页等，我们这里手动实现一次列表页。
+&emsp;&emsp;AntDesign提供了十分丰富的标准页面，例如表单页，列表页，详情页等，我们这里手动实现一次列表页。
 
-既然是数据驱动，所以我们从数据开始，像页面倒推实现过程。
+&emsp;&emsp;既然是数据驱动，所以我们从数据开始，像页面倒推实现过程。
 
 ### 向后端发起请求
 
-所有向后端发起的请求，均托管于servvices/api.js中
+&emsp;&emsp;所有向后端发起的请求，均托管于`servvices/api.js`中。
 
-我们在其中实现一个请求函数
+&emsp;&emsp;我们在其中实现一个请求函数。
 
-这里强调一下，既然是前后端分离开发，所以各部分人员可以各司其职，并不需要相互制约，只要制定了前后端的数据格式，并且双方均遵守，即可各自分离开发，在最后阶段进行联调即可。
+&emsp;&emsp;这里强调一下，既然是前后端分离开发，所以各部分人员可以各司其职，并不需要相互制约，只要制定了前后端的数据格式，并且双方均遵守，即可各自分离开发，在最后阶段进行联调即可。
 
-为了实现分离开发，前端可以在自行开发阶段对请求自动进行返回。
+&emsp;&emsp;为了实现分离开发，前端可以在自行开发阶段对请求自动进行返回。
 
-此时我们实现如下所示的一个请求函数
+&emsp;&emsp;此时我们实现如下所示的一个请求函数：
 
 
 ```JS
@@ -158,14 +154,13 @@ export async function GetDataFromBackStage() {
 }
 ```
 
-此处可见，我们向api/fake_get_data发起了一个请求。
+&emsp;&emsp;此处可见，我们向api/fake_get_data发起了一个请求。
 
-前端提供了一个mock工具，RoadHog，用于拦截请求，返回数据，从而让前端开发不再依赖于后端。
+&emsp;&emsp;前端提供了一个mock工具，RoadHog，用于拦截请求，返回数据，从而让前端开发不再依赖于后端。
 
-我们在.roadhogrc.mock.js中对该请求进行一个拦截并模拟了一组返回值。
+&emsp;&emsp;我们在.roadhogrc.mock.js中对该请求进行一个拦截并模拟了一组返回值。
 
-其语法是
->请求方式 请求路径:{返回值}
+&emsp;&emsp;其语法是`请求方式 请求路径:{返回值}`。
 
 ```JS
 'GET /api/fake_get_data': {
@@ -214,7 +209,7 @@ export async function GetDataFromBackStage() {
   },
 ```
 
-这样在api中发送请求时，roadhog就可以先将请求拦截下，从而方便前端开发，而在进行联调时，仅需更改api中的请求函数，即可与后端进行测试，例如可改成如下代码段。
+&emsp;&emsp;这样在api中发送请求时，roadhog就可以先将请求拦截下，从而方便前端开发，而在进行联调时，仅需更改api中的请求函数，即可与后端进行测试，例如可改成如下代码段。
 
 ```JS
 export async function DataSearch(params) {
@@ -231,11 +226,11 @@ export async function DataSearch(params) {
 
 ### 调用请求发起函数
 
-现在我们有了前后端交互的最后一步，即发起请求的函数，那么我们再向前一步，实现调用该函数的函数。
+&emsp;&emsp;现在我们有了前后端交互的最后一步，即发起请求的函数，那么我们再向前一步，实现调用该函数的函数。
 
-model层托管了所有的数据服务，我们在Model下新建一个tutorialModel.js，来实现View层与API层的连接
+&emsp;&emsp;model层托管了所有的数据服务，我们在Model下新建一个tutorialModel.js，来实现View层与API层的连接。
 
-先放上全部代码，再进行解释
+&emsp;&emsp;先放上全部代码，再进行解释。
 ```JS
 import { GetDataFromBackStage } from '../services/api';    #从api中引入我们定义的请求函数
 
@@ -269,17 +264,17 @@ export default {
 
 ```
 
-至此就完成了数据的获取与保存，在下一步则是进行页面View层的更新
+&emsp;&emsp;至此就完成了数据的获取与保存，在下一步则是进行页面View层的更新。
 
 ### 更新页面
 
-在最后一步，我们完成请求的发起与结果的获取，回到我们的demo.js
+&emsp;&emsp;在最后一步，我们完成请求的发起与结果的获取，回到我们的demo.js。
 
-我们以按照DashBoard下面的该表格为例，实现一个表格页面
+&emsp;&emsp;我们以按照DashBoard下面的该表格为例，实现一个表格页面。
 
 ![](https://i.loli.net/2019/08/07/ChdFbAEi9xTVBRX.jpg)
 
-调用该组件，我们仅需在render中添加一个table标签，然后绑定各项数据源即可，查看示例页的实现，可见其table参数如下
+&emsp;&emsp;调用该组件，我们仅需在render中添加一个table标签，然后绑定各项数据源即可，查看示例页的实现，可见其table参数如下：
 ```JS
 <Table
   rowKey={record => record.index}
@@ -292,9 +287,9 @@ export default {
     }}
 />
 ```
-我们所要修改的也就是其columns和DataSource了
+&emsp;&emsp;我们所要修改的也就是其columns和DataSource了。
 
-首先，在componentDidMount中，通过dispatch方法，发起请求，来触发前几步中所实现的逐项函数，这里才是这些函数的调用起点
+&emsp;&emsp;首先，在componentDidMount中，通过dispatch方法，发起请求，来触发前几步中所实现的逐项函数，这里才是这些函数的调用起点。
 
 ```JS
   componentDidMount() {
@@ -305,7 +300,7 @@ export default {
   }
 ```
 
-通过connect，将model和这个页面的component连接起来，从而可以在页面中调用model保存下来的数值
+&emsp;&emsp;通过connect，将model和这个页面的component连接起来，从而可以在页面中调用model保存下来的数值。
 
 ```JS
 @connect(({ tutorialModel}) => ({
@@ -314,14 +309,14 @@ export default {
 
 ```
 
-注意，@connect要写在component定义的前面
+&emsp;&emsp;注意，@connect要写在component定义的前面。
 
-获取到的数据是保存在props中的，我们先把数据解构出来，方面后面调用
+&emsp;&emsp;获取到的数据是保存在props中的，我们先把数据解构出来，方面后面调用。
 ```JS
 const { tutorialModel }=this.props;
 const { data }=tutorialModel;
 ```
-在定义一下表格的各列信息
+&emsp;&emsp;再定义一下表格的各列信息。
 ```JS
 const columns = [
       {
@@ -346,7 +341,7 @@ const columns = [
       },
     ];
 ```
-最后在配置一下Table的各项数据源
+&emsp;&emsp;最后在配置一下Table的各项数据源。
 ```JS
 <Table
           rowKey="dataid"
@@ -359,11 +354,11 @@ const columns = [
             }}
         />
 ```
-完成，运行效果如图
+&emsp;&emsp;完成，运行效果如图：
 
 ![](https://i.loli.net/2019/08/07/IAWpl6m8Ys7kZzX.jpg)
 
-页面完整代码如下
+&emsp;&emsp;页面完整代码如下。
 ```JS
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -426,7 +421,7 @@ export default class demo1 extends Component {
 }
 ```
 
-最后注意，要修改一下router，将我们定义的model传给页面，否则会找不到数据
+&emsp;&emsp;最后注意，要修改一下router，将我们定义的model传给页面，否则会找不到数据。
 ```JS
 '/tutorial/demo1': {
   component: dynamicWrapper(app, ['tutorialModel'], () => import('../routes/Tutorial/demo1')),
@@ -435,27 +430,26 @@ export default class demo1 extends Component {
 
 
 ## 页面2-快速移植
-在页面2，我们将演示如何快速的将一个现有页面完成移植
-我们要实现的目标页面如下图所示
+&emsp;&emsp;在页面2，我们将演示如何快速的将一个现有页面完成移植。
+
+&emsp;&emsp;我们要实现的目标页面如下图所示：
 
 ![](https://i.loli.net/2019/08/07/zgY51FiN8he4WqO.jpg)
 
 ### 静态文件移植
-相关json文件，js文件，css文件等静态文件，全部放在public目录下
-
-{% asset_img tutorial5.jpg %} 
+&emsp;&emsp;相关json文件，js文件，css文件等静态文件，全部放在public目录下
 
 ### 静态文件引入
 
-JS文件，在index.ejs中进行引入
+&emsp;&emsp;JS文件，在index.ejs中进行引入。
 
 ![](https://i.loli.net/2019/08/07/wTRKvFLrd6OqzCG.jpg)
 
-CSS文件，在同级目录下，建立demo2.less文件
+&emsp;&emsp;CSS文件，在同级目录下，建立demo2.less文件。
 
-将页面中自定义的css样式复制其中，注意这里的css命名不能带“-”
+&emsp;&emsp;将页面中自定义的css样式复制其中，注意这里的css命名不能带“-”。
 
-通过@import的方式，引入现成的静态CSS文件，代码如下
+&emsp;&emsp;通过@import的方式，引入现成的静态CSS文件，代码如下：
 
 ```JS
 @import '/css/commons.min.css';
@@ -503,9 +497,9 @@ CSS文件，在同级目录下，建立demo2.less文件
 ```
 ### 页面实现
 
-将原页面的HTML代码，全部放在render的return中，这里注意，所有的style需要改为json数组的形式进行实现，不能写成HTML的形式,而通过className方式引入的css样式可以正常使用
+&emsp;&emsp;将原页面的HTML代码，全部放在render的return中，这里注意，所有的style需要改为json数组的形式进行实现，不能写成HTML的形式,而通过className方式引入的css样式可以正常使用。
 
-代码节选如下
+&emsp;&emsp;代码节选如下：
 
 ```JS
  render() {
@@ -536,17 +530,17 @@ CSS文件，在同级目录下，建立demo2.less文件
   }
 ```
 
-完成页面移植，效果如下图
+&emsp;&emsp;完成页面移植，效果如下图：
 
 ![](https://i.loli.net/2019/08/07/fboKDguXcMOYFxE.jpg)
 
-当然，这其中还需要做一些元素位置，部分js代码的微调。
+&emsp;&emsp;当然，这其中还需要做一些元素位置，部分js代码的微调。
 
 ### JS代码
 
-如果页面有JS代码需要实现，只需写在componentDidMount中即可，以D3拓扑图为例
+&emsp;&emsp;如果页面有JS代码需要实现，只需写在componentDidMount中即可，以D3拓扑图为例。
 
-代码节选如下
+&emsp;&emsp;代码节选如下：
 ```JS
  componentDidMount() {
 
@@ -579,20 +573,20 @@ CSS文件，在同级目录下，建立demo2.less文件
 
 ```
 
-其运行结果如下图，图标资源没有修改路径，所以没有加载，但功能均正常
+&emsp;&emsp;其运行结果如下图，图标资源没有修改路径，所以没有加载，但功能均正常。
 
 ![](https://i.loli.net/2019/08/07/PchmW98Q4RYGxrb.jpg)
 
-此页面在Dashboard/helloworld下可以看见源码
+&emsp;&emsp;此页面在Dashboard/helloworld下可以看见源码。
 
 
 ## 最后-数据调用
 
-如果你需要用该框架获取数据，在用自己的JS逻辑来实现页面
+&emsp;&emsp;如果你需要用该框架获取数据，在用自己的JS逻辑来实现页面。
 
-在数据获取阶段，需要参考第一部分的原生开发方式，在model，api，和页面中完成数据获取阶段，随后数据就被保存在了props中
+&emsp;&emsp;在数据获取阶段，需要参考第一部分的原生开发方式，在model，api，和页面中完成数据获取阶段，随后数据就被保存在了props中。
 
-接下来如果想实现自己的逻辑，我在这里以echarts为例，部分代码如下
+&emsp;&emsp;接下来如果想实现自己的逻辑，我在这里以echarts为例，部分代码如下：
 
 ```JS
   componentDidMount() {

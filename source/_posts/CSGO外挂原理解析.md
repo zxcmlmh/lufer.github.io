@@ -20,14 +20,14 @@ categories: C++
 
 # 简介
 
-本文介绍的工作原理有：自瞄(Aimbot),自动开枪(Trigger),透视(Glow Hack),更改皮肤(Skin Changger),连跳(Bunny)
+&emsp;&emsp;本文介绍的工作原理有：自瞄(Aimbot),自动开枪(Trigger),透视(Glow Hack),更改皮肤(Skin Changger),连跳(Bunny)
 
-外挂为External的外挂，独立运行
+&emsp;&emsp;外挂为External的外挂，独立运行
 
-项目源码：https://github.com/denizdeni/DeniZeus  
-运行需要VC环境，VS编译如果跑不起来，改一下运行平台
+&emsp;&emsp;项目源码：https://github.com/denizdeni/DeniZeus  
+&emsp;&emsp;运行需要VC环境，VS编译如果跑不起来，改一下运行平台
 
-Build一定要选x86,不然会找不到panorama.dll
+&emsp;&emsp;Build一定要选x86,不然会找不到panorama.dll
 
 ```
 项目目录结构
@@ -41,7 +41,7 @@ Build一定要选x86,不然会找不到panorama.dll
 
 # 工具类
 
-Memory工具类内容比较少，我们先从工具类开始看起
+&emsp;&emsp;Memory工具类内容比较少，我们先从工具类开始看起
 ```C++
 class NBQMemory
 {
@@ -163,13 +163,13 @@ public:
 ```
 # 准备工作
 
-OK，说完了工具类，我们回到main.cpp，按照加载流程介绍工作原理。
+&emsp;&emsp;OK，说完了工具类，我们回到main.cpp，按照加载流程介绍工作原理。
 
-开始前的准备工作:获取CSGO内存中各主要部分在内存地址的偏移量。  
-网络版详见 https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json  
-如果想要自行获取，我会在文章最后面介绍获取方法  
+&emsp;&emsp;开始前的准备工作:获取CSGO内存中各主要部分在内存地址的偏移量。  
+&emsp;&emsp;网络版详见 https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json  
+&emsp;&emsp;如果想要自行获取，我会在文章最后面介绍获取方法  
 
-有了偏移量，我们先把JSON读取之后实例化
+&emsp;&emsp;有了偏移量，我们先把JSON读取之后实例化
 ```Json
 dwGlowObjectManager = netvars["signatures"]["dwGlowObjectManager"];
 dwlocalPlayer = netvars["signatures"]["dwLocalPlayer"];
@@ -195,28 +195,28 @@ m_hActiveWeapon = netvars["netvars"]["m_hActiveWeapon"];
 m_hMyWeapons = netvars["netvars"]["m_hMyWeapons"];
 CrosshairId = netvars["netvars"]["m_iCrosshairId"];
 ```
-下面开始Hack In
+&emsp;&emsp;下面开始Hack In
 
-首先获取CSGO.exe
+&emsp;&emsp;首先获取CSGO.exe
 ```C++
 dwPID = mem.GetProcessIdByProcessName("csgo.exe");
 ```
-获取PID之后，通过PID获取client_panorama.dll和engine.dll的内存地址
+&emsp;&emsp;获取PID之后，通过PID获取client_panorama.dll和engine.dll的内存地址
 ```C++
 dwClient = mem.GetModuleBaseAddress(dwPID, "client_panorama.dll");
 dwEngine = mem.GetModuleBaseAddress(dwPID, "engine.dll");
 ```
-拿到这两个地址后，就可以开始读取数据了。
+&emsp;&emsp;拿到这两个地址后，就可以开始读取数据了。
 
 # 透视
 
-首先我们来看透视功能,透视功能主要的原理就是先获取所有人的位置，然后把人物模型颜色改变，再重新写回内存。
+&emsp;&emsp;首先我们来看透视功能,透视功能主要的原理就是先获取所有人的位置，然后把人物模型颜色改变，再重新写回内存。
 
-所以首先还是获取人物
+&emsp;&emsp;所以首先还是获取人物
 
-当然这个人物分为自己+剩下的63人
+&emsp;&emsp;当然这个人物分为自己+剩下的63人
 
-先获取自己
+&emsp;&emsp;先获取自己：
 ```C++
 //获取自己的队伍
 DWORD localTeam = mem.ReadMemory<DWORD>(csgo, localPlayer + iTeamNum);
@@ -228,7 +228,7 @@ Players[0].Pos.x += VecView.x;
 Players[0].Pos.y += VecView.y;
 Players[0].Pos.z += VecView.z;
 ```
-指定敌我队伍
+&emsp;&emsp;指定敌我队伍
 ```C++
 if (localTeam == 3) {
     enemyteam = 0x2;
@@ -237,9 +237,9 @@ else {
     enemyteam = 0x3;
 }
 ```
-再获取剩下的63人
+&emsp;&emsp;再获取剩下的63人
 ```C++
-//这里没搞懂，i<63的话岂不是获取不到第64个人，感觉这里是个BUG,应该是i<64
+//这里没搞懂，i<63的话岂不是获取不到第63个人，感觉这里是个BUG,应该是i<64
 for (int i = 1; i < 63; i++) {
     //从client的地址便宜entityList的大小，到存放玩家数据的地址，然后每个角色占0x10的空间，往后遍历开始拿每个角色的首地址
     DWORD player = mem.ReadMemory<int>(csgo, client + entityList + ((i - 1) * 0x10));
@@ -269,7 +269,7 @@ for (int i = 1; i < 63; i++) {
     }
 }
 ```
-OK，这样我们就拿到了剩余玩家的数据，我们只需要把玩家模型重新画一下就可以了
+&emsp;&emsp;OK，这样我们就拿到了剩余玩家的数据，我们只需要把玩家模型重新画一下就可以了
 ```C++
 for (int i = 1; i < 63; i++) {
     if (Players[i].Team == enemyteam) {
@@ -294,13 +294,13 @@ void glowPlayer(HANDLE csgo, DWORD client, GlowBase entity,DWORD entityadr, int 
     mem.WriteMemory<GlowBase>(csgo, entityadr + 0x4, entity);
 }
 ```
-至此我们就完成了透视功能，游戏内的角色将会显示如下图
+&emsp;&emsp;至此我们就完成了透视功能，游戏内的角色将会显示如下图：
 
 ![](https://s2.ax1x.com/2019/08/07/e4vUEQ.png)
 
 # 自瞄
 
-自瞄肯定不能瞄太远不是，所以首先要获取离自己最近的敌人
+&emsp;&emsp;自瞄肯定不能瞄太远不是，所以首先要获取离自己最近的敌人。
 ```C++
 float CloseEnt()
 {
@@ -321,14 +321,14 @@ float CloseEnt()
 	return iIndex;
 }
 ```
-但是你也不能说你正瞄着这个人呢，突然背后来个更近的，你就180°拉枪吧，所以还要加一个判断，如果上一个正在打的人没死，是不会转视角的
+&emsp;&emsp;但是你也不能说你正瞄着这个人呢，突然背后来个更近的，你就180°拉枪吧，所以还要加一个判断，如果上一个正在打的人没死，是不会转视角的。
 ```C++
 Ind = CloseEnt();
 if (Players[lasttarget].Spotted && (Players[lasttarget].Team == enemyteam) && !Players[lasttarget].Dormant && Players[lasttarget].Health > 0) {
     Ind = lasttarget;
 }
 ```
-这样我们保证Ind中获得了一个合理的敌人的编号，然后我们开始转视角
+&emsp;&emsp;这样我们保证Ind中获得了一个合理的敌人的编号，然后我们开始转视角。
 ```C++
 if (Ind != -1) {
     Vector localAngles;
@@ -407,7 +407,7 @@ void Smooth(float x, float y, float *src, float *back, Vector flLocalAngles, flo
 ```
 # 自动扳机
 
-原理上很简单，瞄在人身上了就开枪
+&emsp;&emsp;原理上很简单，瞄在人身上了就开枪。
 ```C++
 //获取准星所指向的玩家ID，如果没有就返回null
 int crosshairoffset = mem.ReadMemory<int>(csgo, localPlayer + CrosshairId);
@@ -435,14 +435,14 @@ if (isopenedtrigger) {
 }
 ```
 
-自瞄+自动扳机的效果就是
+&emsp;&emsp;自瞄+自动扳机的效果就是
 
 ![](https://s2.ax1x.com/2019/08/07/e4vaNj.gif)
 
 
 # 连跳
 
-连跳更简单，落地就起跳即可
+&emsp;&emsp;连跳更简单，落地就起跳即可。
 ```C++
 while (true) {
     int flags = mem.ReadMemory<int>(csgo, localPlayer + fFlags);
@@ -457,7 +457,7 @@ while (true) {
 ```
 # 更换皮肤
 
-这个没啥好说的，指定皮肤ID，写进内存就完事了
+&emsp;&emsp;这个没啥好说的，指定皮肤ID，写进内存就完事了。
 ```C++
 mem.WriteMemory<int>(csgo, weaponEntity + m_iItemIDHigh, itemIDHigh);
 mem.WriteMemory<DWORD>(csgo, weaponEntity + m_nFallbackPaintKit, fallbackPaint);
@@ -466,62 +466,63 @@ mem.WriteMemory<float>(csgo, weaponEntity + m_flFallbackWear, fallbackWear);
 
 # 陀螺
 
-这份源码中没有提到Anti aim
+&emsp;&emsp;这份源码中没有提到Anti aim
 
-我简要介绍一下陀螺的工作原理。
+&emsp;&emsp;我简要介绍一下陀螺的工作原理。
 
-陀螺一共可以分为3种：
+&emsp;&emsp;陀螺一共可以分为3种：
 
-1、常规反自瞄：把你的人物转起来，可以左右转可以上下转可以加起来，这样对面就不太好瞄准了。
+1. 常规反自瞄  
+&emsp;&emsp;把你的人物转起来，可以左右转可以上下转可以加起来，这样对面就不太好瞄准了。
+2. 假模型反自瞄  
+&emsp;&emsp;通过发送延迟的数据包，让服务器收到一个和你实际位置不一样的假模型，再加载给其他玩家，这样其他玩家在打你的时候就不会收到伤害判定。
+3. 角度反自瞄  
+&emsp;&emsp;把你的角色角度设置到一个超级高的值，这样你的hitbox虽然会跟着转，但是你的角色模型却不会，从而导致了你的hitbox和你角色的分离，这样即便对方打到了你的角色，由于没有打到hitbox，依然不会产生伤害判定。
 
-2、假模型反自瞄：通过发送延迟的数据包，让服务器收到一个和你实际位置不一样的假模型，再加载给其他玩家，这样其他玩家在打你的时候就不会收到伤害判定。
-
-3、角度反自瞄：把你的角色角度设置到一个超级高的值，这样你的hitbox虽然会跟着转，但是你的角色模型却不会，从而导致了你的hitbox和你角色的分离，这样即便对方打到了你的角色，由于没有打到hitbox，依然不会产生伤害判定。
-
-我再简要介绍一下假模型的Anti aim原理：
-人物模型的头部是有角度的，我们为了不让对方打到头，就要疯狂的转。
+&emsp;&emsp;我再简要介绍一下假模型的Anti aim原理：  
+&emsp;&emsp;人物模型的头部是有角度的，我们为了不让对方打到头，就要疯狂的转。
 
 ![](https://s2.ax1x.com/2019/08/07/e4vJu8.jpg)  
 
-获取当前的viewangle，然后开始疯狂改变，不管是+90还是+180还是+多少，反正就是转
+&emsp;&emsp;获取当前的viewangle，然后开始疯狂改变，不管是+90还是+180还是+多少，反正就是转。
 
-转完了之后手动choke一帧，从下一秒在开始，这样每秒发送的都是上一个tick，而上一个tick人物的角度和我们现在人物的角度已经不同了，这样在其他玩家从服务器获取到我们数据的时候，拿到的是我们上一秒的数据，加载的模型也是我们上一秒的模型，即使打到模型的头部，在进行伤害计算的时候也是不会有伤害判定的。
+&emsp;&emsp;转完了之后手动choke一帧，从下一秒在开始，这样每秒发送的都是上一个tick，而上一个tick人物的角度和我们现在人物的角度已经不同了，这样在其他玩家从服务器获取到我们数据的时候，拿到的是我们上一秒的数据，加载的模型也是我们上一秒的模型，即使打到模型的头部，在进行伤害计算的时候也是不会有伤害判定的。
 
-转起来之后该如何走路：
+&emsp;&emsp;转起来之后该如何走路：
 
-在按下WASD之后，根据我们每秒的旋转角度，计算如果想要往相应方向前进，需要的真正位移，然后把位移写入内存，这个功能叫 move fix。
+&emsp;&emsp;在按下WASD之后，根据我们每秒的旋转角度，计算如果想要往相应方向前进，需要的真正位移，然后把位移写入内存，这个功能叫 move fix。
 
-转之后的视角：
+&emsp;&emsp;转之后的视角：
 
-一种解决方式是把角色摄像机移位，改成第三人称视角，这样我们的视角就不会受到旋转的影响。
+&emsp;&emsp;一种解决方式是把角色摄像机移位，改成第三人称视角，这样我们的视角就不会受到旋转的影响。
 
 ![](https://s2.ax1x.com/2019/08/07/e4vtHg.jpg)
 
-但是如果不改角色摄像机，第一人称看起来仍然是不转的，这个是如何办到的其实我还没搞搞懂，有大佬如果知道的话可以告诉我一下。
+&emsp;&emsp;但是如果不改角色摄像机，第一人称看起来仍然是不转的，这个是如何办到的其实我还没搞搞懂，有大佬如果知道的话可以告诉我一下。
 
 # 偏移量获取
 
-首先还是通过外部工具注入clinet.dll,或者说client_panorama.dll
+&emsp;&emsp;首先还是通过外部工具注入clinet.dll,或者说client_panorama.dll
 
-然后可以尝试搜索关键字，如果能找到关键字的话，偏移量就好找的多。
+&emsp;&emsp;然后可以尝试搜索关键字，如果能找到关键字的话，偏移量就好找的多。
 
-例如下图，找到了m_hActiveWeapon之后，上面的0D70就是对应的偏移量  
+&emsp;&emsp;例如下图，找到了m_hActiveWeapon之后，上面的0D70就是对应的偏移量  
 
 
 ![](https://s2.ax1x.com/2019/08/07/e4vYDS.jpg 
 
-当然不是所有的偏移量都有关键字，对于没有关键字的偏移量就需要不断改变条件，查找产生了变化的值，这部分的工作量还是很大的。
+&emsp;&emsp;当然不是所有的偏移量都有关键字，对于没有关键字的偏移量就需要不断改变条件，查找产生了变化的值，这部分的工作量还是很大的。
 
-例如获取准星所瞄到的用户，在准星没有瞄到人的时候是在内存中是一个占据了4个地址的0，即
+&emsp;&emsp;例如获取准星所瞄到的用户，在准星没有瞄到人的时候是在内存中是一个占据了4个地址的0，即：
 ```
 00000000
 00000000
 00000000
 00000000
 ```
-当你的准星瞄到角色身上时，这部分值就会发生变化，这里变成什么我就不太清楚了，而且同一时间变化的值会很多，所以要不断地测试各种情况，然后逐一排除，最后才能获得真正的偏移量
+&emsp;&emsp;当你的准星瞄到角色身上时，这部分值就会发生变化，这里变成什么我就不太清楚了，而且同一时间变化的值会很多，所以要不断地测试各种情况，然后逐一排除，最后才能获得真正的偏移量。
 
-最后分享一个offset链接，会自动更新offset的地址
+&emsp;&emsp;最后分享一个offset链接，会自动更新offset的地址
 
 
 https://www.unknowncheats.me/forum/counterstrike-global-offensive/103220-global-offensive-structs-offsets.html

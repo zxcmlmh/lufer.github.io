@@ -5,14 +5,24 @@ date: 2017-02-24 02:29:22
 tags: [日常折腾]
 ---
 
-首先注册一个豆丁账号，并将要下载的文献收藏到书房  
+&emsp;&emsp;首先注册一个豆丁账号，并将要下载的文献收藏到书房
+
 ![](https://s2.ax1x.com/2019/08/07/e4xJR1.png)   
-打开手机APP，并下载之前保存的文献  
+
+&emsp;&emsp;打开手机APP，并下载之前保存的文献  
+
 ![](https://s2.ax1x.com/2019/08/07/e4x0de.png)  
+
 ![](https://s2.ax1x.com/2019/08/07/e4xUsK.png)   
-随后使用一款能够查看隐藏文件的文件浏览器（以ES文件浏览器为例）  
+
+&emsp;&emsp;随后使用一款能够查看隐藏文件的文件浏览器（以ES文件浏览器为例）
+
 ![](https://s2.ax1x.com/2019/08/07/e4xNM6.png)
-打开路径SDcard/DocIn/BookReader/.cloud/USERDOWNLOAD/，可以找到一个没有拓展名的文件  
+
+&emsp;&emsp;打开路径SDcard/DocIn/BookReader/.cloud/USERDOWNLOAD/，可以找到一个没有拓展名的文件  
+
 ![](https://s2.ax1x.com/2019/08/07/e4xYxx.png)
-随后我们将其发送到电脑上，并添加.pdf的拓展名，大功告成  
+
+&emsp;&emsp;随后我们将其发送到电脑上，并添加.pdf的拓展名，大功告成  
+
 ![](https://s2.ax1x.com/2019/08/07/e4xwZD.jpg)

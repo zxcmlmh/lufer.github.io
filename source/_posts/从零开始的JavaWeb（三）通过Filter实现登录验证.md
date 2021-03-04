@@ -5,7 +5,7 @@ date: 2018-04-20 23:55:03
 tags: [Java,后端]
 ---
 
-通过Filter验证缓存的session，从而验证当前用户的登录状态。 web.xml中对Filter进行注册
+&emsp;&emsp;通过Filter验证缓存的session，从而验证当前用户的登录状态。 web.xml中对Filter进行注册。
 ```java
   //Filter名字与Class文件映射
     loginFilter
@@ -14,14 +14,14 @@ tags: [Java,后端]
     loginFilter
     * 
 ```
-写入session可通过如下操作进行
+&emsp;&emsp;写入session可通过如下操作进行。
 ```java
 //Sevlet中的request是HTTPRequest，直接可以getSession()
 HttpSession session=request.getSession();
 //设置session的Key,Value
 session.setAttribute("Username", username);
 ```
-Filter代码
+&emsp;&emsp;Filter代码。
 ```java
 //Filter中的是SevletRequest，需要先转换为HttpServletRequest才有getSession方法
 HttpServletRequest httpRequest=(HttpServletRequest)request;

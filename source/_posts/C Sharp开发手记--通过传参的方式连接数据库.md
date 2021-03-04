@@ -5,7 +5,7 @@ date: 2016-05-31 22:51:46
 tags: [.NET]
 ---
 
-通过传参的方式与数据库进行连接，可以很好的解决字符串过长，字符串中包含“或‘等问题
+&emsp;&emsp;通过传参的方式与数据库进行连接，可以很好的解决字符串`过长`，字符串中`包含或`等问题
 ```cs
 //构建SQL连接
 SqlConnection myconnection = new SqlConnection("//ur sql connection string here");

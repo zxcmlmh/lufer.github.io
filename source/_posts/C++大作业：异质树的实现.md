@@ -5,7 +5,7 @@ date: 2017-12-28 00:59:25
 tags: [C++]
 ---
 
-设计了基类是Person，派生类是Teacher，Student的三个类，并构造一棵树，代码还有点问题在删除节点的时候，删除节点之后子节点如何并到上层节点，当时时间比较紧迫没有细弄就直接全部删除了。
+&emsp;&emsp;设计了基类是Person，派生类是Teacher，Student的三个类，并构造一棵树，代码还有点问题在删除节点的时候，删除节点之后子节点如何并到上层节点，当时时间比较紧迫没有细弄就直接全部删除了。
 
 ```cs
 #include #include #include #include using namespace std;

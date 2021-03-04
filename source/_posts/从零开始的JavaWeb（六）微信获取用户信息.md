@@ -5,7 +5,7 @@ date: 2018-04-28 22:28:53
 tags: [Java,后端]
 ---
 
-1、构造LoginService类，作为授权的起始页面，引导用户访问该servlet
+&emsp;&emsp;1、构造LoginService类，作为授权的起始页面，引导用户访问该servlet。
 ```java
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//构造回调页面链接，Request.getServerName()来获取当前域名
@@ -22,7 +22,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		response.sendRedirect(reurl);	        
 	}
 ```
-2、如果用户同意授权，将会跳转至定义的回调页面，并附带参数Code
+&emsp;&emsp;2、如果用户同意授权，将会跳转至定义的回调页面，并附带参数Code。
 ```java
 String code=request.getParameter("code");
 String access_token = ""; 
