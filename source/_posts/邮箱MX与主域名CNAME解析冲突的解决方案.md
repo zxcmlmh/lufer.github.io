@@ -26,9 +26,9 @@ categories: 日常折腾
 
 &emsp;&emsp;先在阿里云的DNS修改处改成Cloudflare提供的DNS
 
-[![Cloudflare的DNS](https://s3.ax1x.com/2021/02/02/ym2irV.png)](https://imgchr.com/i/ym2irV)
+![Cloudflare的DNS](http://pic.lufer.cc/images/2021/03/05/ym2irV.png)
 
-[![把阿里云修改成对应的DNS](https://s3.ax1x.com/2021/02/02/ymgKHS.png)](https://imgchr.com/i/ymgKHS)
+![把阿里云修改成对应的DNS](http://pic.lufer.cc/images/2021/03/05/ymgKHS.png)
 
 &emsp;&emsp;DNS解析服务器修改之后可能需要一段时间才能同步，但不影响进行后续步骤。
 
@@ -36,21 +36,21 @@ categories: 日常折腾
 
 &emsp;&emsp;在Cloudflare按照之前的需求添加DNS解析。
 
-[![DNS解析记录](https://s3.ax1x.com/2021/02/02/ymRKYQ.png)](https://imgchr.com/i/ymRKYQ)
+![DNS解析记录](http://pic.lufer.cc/images/2021/03/05/ymRKYQ.png)
 
 ### 设置301转发
 
 &emsp;&emsp;在`页面规则`下面添加两条301转发，如下图所示。
 
-[![添加页面转发](https://s3.ax1x.com/2021/02/02/ymRtTU.png)](https://imgchr.com/i/ymRtTU)
+![添加页面转发](http://pic.lufer.cc/images/2021/03/05/ymRtTU.png)
 
 &emsp;&emsp;页面规则的具体添加方式如下图所示，注意上下两个域名最后分别要添加`/*`和`$1`。
 
-[![页面规则编辑](https://s3.ax1x.com/2021/02/02/ymfMMn.png)](https://imgchr.com/i/ymfMMn)
+![页面规则编辑](http://pic.lufer.cc/images/2021/03/05/ymfMMn.png)
 
 &emsp;&emsp;在设置转发之后，还要为设置了转发的域名添加A记录，才能进行解析，地址可以随便写,因为实际上进行了转发，不会解析到该IP。
 
-[![域名对应A记录](https://s3.ax1x.com/2021/02/02/ymhhp4.png)](https://imgchr.com/i/ymhhp4)
+![域名对应A记录](http://pic.lufer.cc/images/2021/03/05/ymhhp4.png)
 
 ### 设置SSL
 
@@ -58,7 +58,7 @@ categories: 日常折腾
 
 &emsp;&emsp;解决方法是在`SSL/TLS`的菜单页中，默认的加密方式为`完全`，我们将它更改为`完全（严格）`即可。
 
-[![SSL/TLS设置](https://s3.ax1x.com/2021/02/02/ym4wE6.png)](https://imgchr.com/i/ym4wE6)
+![SSL/TLS设置](http://pic.lufer.cc/images/2021/03/05/ym4wE6.png)
 
 # 结语
 

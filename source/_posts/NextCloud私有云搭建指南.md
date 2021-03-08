@@ -32,7 +32,7 @@ sudo snap install nextcloud
 
 &emsp;&emsp;第一次登陆网站会提示创建管理员账号密码，设置成功后即完成初步设置。
 
-![](https://s2.ax1x.com/2019/08/07/e4zjjP.png)
+![](http://pic.lufer.cc/images/2021/03/05/e4zjjP.png)
 
 # 离线下载实现
 
@@ -46,7 +46,7 @@ wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/dou
 ```
 &emsp;&emsp;运行脚本后，你可以安装、升级Aria2。
 
-![](https://s2.ax1x.com/2019/08/07/e4zXct.png) 
+![](http://pic.lufer.cc/images/2021/03/05/e4zXct.png) 
 
 ### 配置Aria2
 
@@ -77,4 +77,4 @@ seed-time=0
 
 &emsp;&emsp;随后便可使用ocDownloader进行离线下载
 
-![](https://s2.ax1x.com/2019/08/07/e4zhX6.png) 
+![](http://pic.lufer.cc/images/2021/03/05/e4zhX6.png) 

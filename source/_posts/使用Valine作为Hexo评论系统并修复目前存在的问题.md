@@ -54,7 +54,7 @@ LeanCloud的免费版目前每天强制休眠6小时，但是休眠只影响邮�
 ## 邮件中无法点击链接
 &emsp;&emsp;在收到回复邮件的时候，邮件中的蓝色链接部分无法点击。
 
-[![](https://s3.ax1x.com/2020/12/21/rwPH1J.png)](https://imgchr.com/i/rwPH1J)
+![](http://pic.lufer.cc/images/2021/03/05/rwPH1J.png)
 
 &emsp;&emsp;原因是在邮件的HTML代码中，herf标签没有带HTTP头，把代码中的链接部分根据实际需要添加HTTP或者HTTPS即可，示例如下：
 
@@ -70,11 +70,11 @@ LeanCloud的免费版目前每天强制休眠6小时，但是休眠只影响邮�
 
 &emsp;&emsp;官方的公告如图
 
-[![](https://s3.ax1x.com/2020/12/21/rwFDzQ.png)](https://imgchr.com/i/rwFDzQ)
+![](http://pic.lufer.cc/images/2021/03/05/rwFDzQ.png)
 
 &emsp;&emsp;在休眠后LeanCloud会在试图唤醒时报错。
 
-[![](https://s3.ax1x.com/2020/12/21/rwklT0.png)](https://imgchr.com/i/rwklT0)
+![](http://pic.lufer.cc/images/2021/03/05/rwklT0.png)
 
 &emsp;&emsp;这里我采用了Flexiston的方案，链接如下
 
@@ -82,4 +82,4 @@ LeanCloud的免费版目前每天强制休眠6小时，但是休眠只影响邮�
 
 &emsp;&emsp;主要原理是利用Github Action自动访问管理网页来通过外部唤醒LeanCloud，唤醒之后自动任务就可以继续执行了。
 
-[![](https://s3.ax1x.com/2020/12/21/rwABuj.png)](https://imgchr.com/i/rwABuj)
+![](http://pic.lufer.cc/images/2021/03/05/rwABuj.png)

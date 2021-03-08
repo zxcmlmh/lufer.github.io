@@ -6,7 +6,7 @@
     <!-- <meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' /> -->
     <meta name='viewport' content='user-scalable=0' />
     <meta name="viewport" content="width=device-width" />
-        <title>jQuery.eraser, a plugin that makes an image erasable (touch & mouse)</title>
+        <title>刮就完事了</title>
 
     <style type="text/css">
     * {
@@ -98,7 +98,7 @@
             if (r != null) return unescape(r[2]); return null; //返回参数值
       }
       var id = getUrlParam('id');
-      var img_url = "https://raw.githubusercontent.com/luferl/imgstorage/master/res/"+id+"-1.jpg";
+      var img_url = "http://pic.lufer.cc/images/wipeimgres/"+id+"-1.jpg";
       // 创建对象
       var img = new Image();
       // 改变图片的src
@@ -108,8 +108,8 @@
         console.log(img.width);
         var iwidth=img.width;
         var iheight=img.height;
-        $("#contain").append("<img id='robot' height='"+iheight+"' width='"+iwidth+"'  src='https://raw.githubusercontent.com/luferl/imgstorage/master/res/"+id+"-2.jpg' />");
-        $("#contain").append("<img id='redux' height='"+iheight+"' width='"+iwidth+"'  src='https://raw.githubusercontent.com/luferl/imgstorage/master/res/"+id+"-1.jpg' />");
+        $("#contain").append("<img id='robot' height='"+iheight+"' width='"+iwidth+"'  src='http://pic.lufer.cc/images/wipeimgres/"+id+"-2.jpg' />");
+        $("#contain").append("<img id='redux' height='"+iheight+"' width='"+iwidth+"'  src='http://pic.lufer.cc/images/wipeimgres/"+id+"-1.jpg' />");
         $(function(){
         $('#redux').eraser({
           progressFunction: function(p) {

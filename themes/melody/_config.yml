@@ -23,7 +23,7 @@ menu:
 
 # Favicon
 # ---------------
-favicon: https://s2.ax1x.com/2019/08/07/eI1NJH.png
+favicon: http://pic.lufer.cc/images/2021/03/05/eI1NJH.png
 
 # PWA
 # See https://github.com/JLHwung/hexo-offline
@@ -129,9 +129,9 @@ cdn:
 
 # Post info settings
 # ---------------
-avatar: https://s2.ax1x.com/2019/08/07/eI1UWd.jpg
+avatar: http://pic.lufer.cc/images/2021/03/05/eI1UWd.jpg
 
-top_img: https://s2.ax1x.com/2019/08/07/eI1dSA.jpg # false or url of img
+top_img: http://pic.lufer.cc/images/2021/03/05/eI1dSA.jpg # false or url of img
 
 post_meta:
   date_type: created # created or updated
