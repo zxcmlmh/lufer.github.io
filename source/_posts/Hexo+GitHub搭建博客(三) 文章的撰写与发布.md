@@ -17,7 +17,7 @@ tags: [Github,Hexo]
 
 &emsp;&emsp;可以装个Visual Studio Code，因为它支持Markdown的自动渲染，就可以看见目标页面长啥样啦，就像下图一样。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4xbQ0.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4xbQ0.png)
 
 ## 建立第一篇文章
 

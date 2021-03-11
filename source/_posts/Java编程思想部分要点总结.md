@@ -238,7 +238,7 @@ Class ClassName<A,B,C>() {}
 5. 基类会劫持接口，使得实现接口后就不能再接受其他类。
 
 # 第十七章&nbsp;&nbsp;容器深入研究
-![](http://pic.lufer.cc/images/2021/03/05/eTh5zF.gif)
+![](https://pic.lufer.cc/images/2021/03/05/eTh5zF.gif)
 ## 一、SET
 &emsp;&emsp;如果没有其他限制，则应该使用HashSet，因为HashSet在速度上进行了优化。  
 &emsp;&emsp;必须为类创建equals方法，在使用HashSet或LinkedHashSet时还要实现hasCode方法。  

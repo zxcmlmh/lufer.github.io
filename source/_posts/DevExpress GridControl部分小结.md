@@ -25,12 +25,12 @@ myset.AcceptChanges();          //本次更新的数据保存修改
 ### 列间计算
 &emsp;&emsp;设置列的`UnboundExpression`属性，并将`UnboundType`设置为`Integer`。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4x9r8.jpg)
+![](https://pic.lufer.cc/images/2021/03/05/e4x9r8.jpg)
 
 ### 行间计算
 &emsp;&emsp;将需要累和的列的SummaryItem中的SummaryType设置为Sum，随后在DisplayFormat中设置为想要的格式，并确保勾选Show Footer即可。  
 
-![](http://pic.lufer.cc/images/2021/03/05/e4xpKf.jpg) 
+![](https://pic.lufer.cc/images/2021/03/05/e4xpKf.jpg) 
 
 &emsp;&emsp;获取Footer中的累计值。
 ```C#

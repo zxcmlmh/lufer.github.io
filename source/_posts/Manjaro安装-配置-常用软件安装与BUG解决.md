@@ -19,31 +19,31 @@ categories: Linux
 
 &emsp;&emsp;刻录完成后重启，选BootDevice，引导成功则进入初始界面，选择时区，语言等，选择Boot。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4zw60.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4zw60.png)
 
 &emsp;&emsp;启动后会有一个体验版本的Manjaro，让你在未安装时即可使用Manjaro，体验一番。
 
 &emsp;&emsp;点击Install，开始安装。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4ztYj.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4ztYj.png)
  
 &emsp;&emsp;设置键盘。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4zYkQ.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4zYkQ.png)
 
 &emsp;&emsp;设置分区，这里要注意，如果是从Windows空闲磁盘中划出空间安装，则分区不能超过4个，否则将会无法继续安装。如果少于4个，选择替换分区安装。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4zdlq.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4zdlq.png)
 
 &emsp;&emsp;如果不要之前的系统，需要抹除磁盘，直接替换C盘是无法识别原有文件的。
 
 &emsp;&emsp;随后设置用户名密码，就可以安装了。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4zNfs.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4zNfs.png)
 
 &emsp;&emsp;最好断网安装，不然可能会卡在90%+的地方！！！
 
-![](http://pic.lufer.cc/images/2021/03/05/e4zapn.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4zapn.png)
 
 # 初始化配置
 

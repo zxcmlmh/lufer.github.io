@@ -7,7 +7,7 @@ tags: [Java,JVM,读书笔记]
 # 第二章&nbsp;&nbsp;Java内存区域与内存溢出异常
 ## 一、运行时数据区域
 
-![](http://pic.lufer.cc/images/2021/03/05/e7J4lF.png)
+![](https://pic.lufer.cc/images/2021/03/05/e7J4lF.png)
 
 ### 1.方法区(Non-Heap/永久代)
 &emsp;&emsp;方法区是个线程共享的内存区域，主要存储：已被JVM加载的类信息，常量，静态变量，即使编译器编译后的代码。  
@@ -158,7 +158,7 @@ tags: [Java,JVM,读书笔记]
 ### 4.动态对象年龄判定
 &emsp;&emsp;如果Survivor中相同年龄的所有对象大小的综合大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代。
 ### 5.空间分配担保
-![](http://pic.lufer.cc/images/2021/03/05/e7RzjJ.png)
+![](https://pic.lufer.cc/images/2021/03/05/e7RzjJ.png)
 
 &emsp;&emsp;JDK 6以后，在老年代连续空间大于新生代对象总大小或者历次晋升平均大小时进行MinorGC，否则进行FullGC
 # 第五章&nbsp;&nbsp;VM调优
@@ -309,7 +309,7 @@ JVM使用monitorenter和monitorexit来支持同步的加锁与释放。
 &emsp;&emsp;类由加载它的类加载器和这个类本身一同确立起在JVM中的唯一性，必须来源于同一个加载器的同样的类在相等。
 ### 2.双亲委派模型
 
-![](http://pic.lufer.cc/images/2021/03/05/eHXHw6.png)
+![](https://pic.lufer.cc/images/2021/03/05/eHXHw6.png)
 
 &emsp;&emsp;启动类加载器：使用C++实现(HotSpot)，主要加载`Java_Home/lib`,无法手动引用，如需委派，需要在ClassLoader中返回null。  
 &emsp;&emsp;扩展类加载器：主要加载`Java_Home/lib/ext`。  
@@ -321,7 +321,7 @@ JVM使用monitorenter和monitorexit来支持同步的加锁与释放。
 ## 一、栈帧
 &emsp;&emsp;栈帧是VM栈中的栈元素，是一种数据结构，存储了方法的局部变量表，操作数栈等信息，具体结构如下图所示。
 
-![](http://pic.lufer.cc/images/2021/03/05/eHxQWF.png)
+![](https://pic.lufer.cc/images/2021/03/05/eHxQWF.png)
 
 ### 1.局部变量表
 &emsp;&emsp;用于存放方法内的局部变量，最小单位为slot，slot的具体大小是可变的。  
@@ -349,7 +349,7 @@ JVM使用monitorenter和monitorexit来支持同步的加锁与释放。
 ### 2.工作模式
 &emsp;&emsp;所有变量都存储在主内存中，每条线程都有自己的工作内存，工作内存中保存了主内存的拷贝。  
 &emsp;&emsp;线程对变量的所有操作都必须在工作内存中进行。
-![](http://pic.lufer.cc/images/2021/03/05/eb9T3T.png)
+![](https://pic.lufer.cc/images/2021/03/05/eb9T3T.png)
 ### 3.交互操作
 
 1. lock:作用与主内存，把变量标记为一条线程独占的状态

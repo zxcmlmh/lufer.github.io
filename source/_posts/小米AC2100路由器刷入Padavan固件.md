@@ -16,7 +16,7 @@ categories: 日常折腾
 ## 1. 开启Telnet
 &emsp;&emsp;`控制面板-程序-启用或关闭Windows功能`，启用`Telnet客户端`。
 
-![启用Telnet](http://pic.lufer.cc/images/2021/03/05/ysxi7j.png)
+![启用Telnet](https://pic.lufer.cc/images/2021/03/05/ysxi7j.png)
 
 ## 2. 关闭防火墙和杀毒软件
 &emsp;&emsp;关闭WindowsDefender防火墙和杀毒软件（如果有）。
@@ -35,7 +35,7 @@ categories: 日常折腾
 ## 4. 路由器降级
 &emsp;&emsp;由于路由器新版本固件封掉了刷机漏洞，直接刷是刷不进去的，会向下面这样抛异常（图片来自网络，我自己忘了截图了）。
 
-![高版本固件异常图](http://pic.lufer.cc/images/2021/03/05/ysxgv8.png)
+![高版本固件异常图](https://pic.lufer.cc/images/2021/03/05/ysxgv8.png)
 
 &emsp;&emsp;所以要先刷固件回到低版本，下载链接放在下面。  
 &emsp;&emsp;链接：https://pan.baidu.com/s/16AxC6AGIiIOBq9b96xAS-w 提取码：eb84。 
@@ -50,7 +50,7 @@ categories: 日常折腾
 ## 1. 路由器降级
 &emsp;&emsp;首先到路由器设置页面，在手动升级里面选择之前下载的低版本刷机包，随后会自动刷入并重启。
 
-![手动降级固件](http://pic.lufer.cc/images/2021/03/05/ysxbvT.png)
+![手动降级固件](https://pic.lufer.cc/images/2021/03/05/ysxbvT.png)
 
 ## 2. 修改DHCP
 &emsp;&emsp;在成功降级后，进入路由器设置页面，将路由器的地址设置为`192.168.31.1`。
@@ -66,18 +66,18 @@ categories: 日常折腾
 
 ## 6. 刷入Breed
 &emsp;&emsp;双击打开`一键开启telnet.bat`（不用管理员运行）。
-![解锁工具](http://pic.lufer.cc/images/2021/03/05/yszaR0.png)
+![解锁工具](https://pic.lufer.cc/images/2021/03/05/yszaR0.png)
 
 &emsp;&emsp;按回车，会打开测试PPPOE数据包的窗口
 
-![成功监测到数据包](http://pic.lufer.cc/images/2021/03/05/yszdzV.png)
+![成功监测到数据包](https://pic.lufer.cc/images/2021/03/05/yszdzV.png)
 
 &emsp;&emsp;如果这里抛异常，路由器要降级固件。  
 &emsp;&emsp;如果没有异常，返回第一个窗口按y，注意要输入小写。
 
 &emsp;&emsp;随后会打开反弹shell窗口，等到提示`connect to [192.168.31.177] from (UNKNOWN) [192.168.31.1] 31290` 就代表反弹成功。
 
-![反弹成功](http://pic.lufer.cc/images/2021/03/05/yszRRx.png)
+![反弹成功](https://pic.lufer.cc/images/2021/03/05/yszRRx.png)
 
 &emsp;&emsp;这时打开`开启telnet命令.txt`,复制其中的内容，也就是下面这行
 
@@ -85,7 +85,7 @@ categories: 日常折腾
 
 &emsp;&emsp;粘贴到窗口中，按ctrl+V是无效的，点右键即可粘贴，如果不行就在标题栏点右键粘贴，随后回车，出现如下图提示即代表Telnet解锁成功。
 
-![解锁Telnet](http://pic.lufer.cc/images/2021/03/05/yySSeg.png)
+![解锁Telnet](https://pic.lufer.cc/images/2021/03/05/yySSeg.png)
 
 &emsp;&emsp;随后打开命令提示符，粘贴如下代码运行，请逐个粘贴运行。
 
@@ -95,7 +95,7 @@ categories: 日常折腾
 
 &emsp;&emsp;如果出现如下图的提示，则代表Breed刷入成功了，此时路由器会自动重启。
 
-![Breed刷入成功](http://pic.lufer.cc/images/2021/03/05/yySmmF.png)
+![Breed刷入成功](https://pic.lufer.cc/images/2021/03/05/yySmmF.png)
 
 ## 7. 刷入Padavan
 

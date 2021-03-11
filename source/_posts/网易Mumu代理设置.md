@@ -32,4 +32,4 @@ categories: 日常折腾
 3. 填写本机IP，HTTP监听端口，在例外规则中填写10.0.2.2
 4. 保存退出，正常工作
 
-![](http://pic.lufer.cc/images/2021/03/05/e5SJu6.png)
+![](https://pic.lufer.cc/images/2021/03/05/e5SJu6.png)

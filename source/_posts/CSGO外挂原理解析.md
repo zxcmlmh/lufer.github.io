@@ -296,7 +296,7 @@ void glowPlayer(HANDLE csgo, DWORD client, GlowBase entity,DWORD entityadr, int 
 ```
 &emsp;&emsp;至此我们就完成了透视功能，游戏内的角色将会显示如下图：
 
-![](http://pic.lufer.cc/images/2021/03/05/e4vUEQ.png)
+![](https://pic.lufer.cc/images/2021/03/05/e4vUEQ.png)
 
 # 自瞄
 
@@ -437,7 +437,7 @@ if (isopenedtrigger) {
 
 &emsp;&emsp;自瞄+自动扳机的效果就是
 
-![](http://pic.lufer.cc/images/2021/03/05/e4vaNj.gif)
+![](https://pic.lufer.cc/images/2021/03/05/e4vaNj.gif)
 
 
 # 连跳
@@ -482,7 +482,7 @@ mem.WriteMemory<float>(csgo, weaponEntity + m_flFallbackWear, fallbackWear);
 &emsp;&emsp;我再简要介绍一下假模型的Anti aim原理：  
 &emsp;&emsp;人物模型的头部是有角度的，我们为了不让对方打到头，就要疯狂的转。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4vJu8.jpg)  
+![](https://pic.lufer.cc/images/2021/03/05/e4vJu8.jpg)  
 
 &emsp;&emsp;获取当前的viewangle，然后开始疯狂改变，不管是+90还是+180还是+多少，反正就是转。
 
@@ -496,7 +496,7 @@ mem.WriteMemory<float>(csgo, weaponEntity + m_flFallbackWear, fallbackWear);
 
 &emsp;&emsp;一种解决方式是把角色摄像机移位，改成第三人称视角，这样我们的视角就不会受到旋转的影响。
 
-![](http://pic.lufer.cc/images/2021/03/05/e4vtHg.jpg)
+![](https://pic.lufer.cc/images/2021/03/05/e4vtHg.jpg)
 
 &emsp;&emsp;但是如果不改角色摄像机，第一人称看起来仍然是不转的，这个是如何办到的其实我还没搞搞懂，有大佬如果知道的话可以告诉我一下。
 
@@ -509,7 +509,7 @@ mem.WriteMemory<float>(csgo, weaponEntity + m_flFallbackWear, fallbackWear);
 &emsp;&emsp;例如下图，找到了m_hActiveWeapon之后，上面的0D70就是对应的偏移量  
 
 
-![](http://pic.lufer.cc/images/2021/03/05/e4vYDS.jpg 
+![](https://pic.lufer.cc/images/2021/03/05/e4vYDS.jpg 
 
 &emsp;&emsp;当然不是所有的偏移量都有关键字，对于没有关键字的偏移量就需要不断改变条件，查找产生了变化的值，这部分的工作量还是很大的。
 
